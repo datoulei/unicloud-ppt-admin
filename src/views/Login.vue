@@ -6,7 +6,12 @@
       <div class="body">
         <a-tabs>
           <a-tab-pane key="internet" tab="互联网">
-            <a-form-model class="form" ref="internetForm" :model="internetForm">
+            <a-form-model
+              class="form"
+              ref="internetForm"
+              :model="internetForm"
+              :rules="internetRules"
+            >
               <a-form-model-item prop="username">
                 <a-input
                   v-model="internetForm.username"
@@ -21,13 +26,25 @@
                 ></a-input>
               </a-form-model-item>
               <a-form-model-item>
-                <a-button type="primary" block>登录</a-button>
+                <a-button
+                  :loading="loading"
+                  type="primary"
+                  block
+                  @click="handleSubmit('internet')"
+                >
+                  登录
+                </a-button>
               </a-form-model-item>
             </a-form-model>
           </a-tab-pane>
           <a-tab-pane key="local" tab="局域网">
-            <a-form-model class="form" ref="localForm" :model="localForm">
-              <a-form-model-item prop="username">
+            <a-form-model
+              class="form"
+              ref="localForm"
+              :model="localForm"
+              :rules="localRules"
+            >
+              <a-form-model-item prop="ip">
                 <a-input
                   v-model="localForm.ip"
                   placeholder="请输入群晖IP"
@@ -40,7 +57,14 @@
                 ></a-input>
               </a-form-model-item>
               <a-form-model-item>
-                <a-button type="primary" block>登录</a-button>
+                <a-button
+                  :loading="loading"
+                  type="primary"
+                  block
+                  @click="handleSubmit('local')"
+                >
+                  登录
+                </a-button>
               </a-form-model-item>
             </a-form-model>
           </a-tab-pane>
@@ -56,29 +80,49 @@ import { ipcRenderer } from 'electron';
 export default {
   data() {
     return {
+      loading: false,
       internetForm: {
         username: '',
         password: '',
+        type: 1,
       },
       localForm: {
         ip: '',
         code: '',
       },
+      internetRules: {
+        username: [{ required: true, trigger: 'blur' }],
+        password: [{ required: true, trigger: 'blur' }],
+      },
+      localRules: {
+        ip: [{ required: true, trigger: 'blur' }],
+        code: [{ required: true, trigger: 'blur' }],
+      },
     };
   },
   methods: {
-    async handleSubmit() {
+    async handleSubmit(type) {
+      this.loading = true;
       try {
-        const form = await this.form.validateFields();
-        const { token } = await this.$http.post('/auth/login', {
-          ...form,
-          type: 2,
-        });
+        switch (type) {
+          case 'internet':
+            await this.$refs.internetForm.validate();
+            await this.$axios.post('/auth/login', this.internetForm);
+            break;
+          case 'local':
+            await this.$refs.localForm.validate();
+            await this.$axios.post(
+              `http://${this.localForm.ip}:3000/admin/login`,
+              { code: this.localForm.code },
+            );
+            break;
+          default:
+            break;
+        }
         await this.$message.success('登录成功！', 1);
-        ipcRenderer.sendSync('login', token);
-      } catch (error) {
-        console.log(error);
-      }
+        // ipcRenderer.sendSync('login', token);
+      } catch (error) {}
+      this.loading = false;
     },
     handleClose() {
       ipcRenderer.send('window', 'close');
@@ -116,9 +160,7 @@ export default {
       cursor: pointer;
     }
     .body {
-      .form {
-        width: 200px;
-      }
+      width: 200px;
       .title {
         font-size: 24px;
         font-weight: 500;

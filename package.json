@@ -17,6 +17,7 @@
     "ant-design-vue": "^1.6.4",
     "core-js": "^3.6.5",
     "flex.css": "^1.1.7",
+    "lodash": "^4.17.19",
     "nedb": "^1.8.0",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11",

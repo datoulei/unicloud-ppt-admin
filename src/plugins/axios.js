@@ -2,6 +2,8 @@
 
 import Vue from "vue";
 import axios from "axios";
+import _ from 'lodash';
+import { message } from 'ant-design-vue'
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -9,7 +11,7 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
+  baseURL: process.env.VUE_APP_BASE_URL || process.env.apiUrl || ""
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 };
@@ -30,10 +32,18 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    console.log("response", response)
     // Do something with response data
     return response;
   },
   function (error) {
+    if (error.response) {
+      const msg = _.get(error, 'response.data.message')
+      console.log("message", msg)
+      message.error(msg)
+    } else {
+      message.error('网络异常，请检查')
+    }
     // Do something with response error
     return Promise.reject(error);
   }
