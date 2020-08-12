@@ -30,5 +30,6 @@ export default {
 .ant-layout-content {
   margin-top: 48px;
   padding: 24px 48px;
+  min-height: calc(100vh - 48px);
 }
 </style>
