@@ -9,7 +9,6 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    redirect: '/login',
     component: Home
   },
   {
@@ -33,5 +32,37 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  let isLogin = false;
+  const loginType = Vue.ls.get('loginType');
+  const token = Vue.ls.get('token');
+  const code = Vue.ls.get('code');
+  switch (loginType) {
+    case 'internet':
+      isLogin = !!token;
+      break;
+    case 'local':
+      isLogin = !!code;
+      break;
+    default:
+      break;
+  }
+  if (!isLogin) {
+    // 未登录
+    if (to.path !== '/login') {
+      next('/login');
+    } else {
+      next();
+    }
+  } else {
+    // 已登录
+    if (to.path === '/login') {
+      next('/')
+    } else {
+      next();
+    }
+  }
+})
 
 export default router;

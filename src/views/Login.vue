@@ -103,11 +103,14 @@ export default {
   methods: {
     async handleSubmit(type) {
       this.loading = true;
+      let res;
       try {
         switch (type) {
           case 'internet':
             await this.$refs.internetForm.validate();
-            await this.$axios.post('/auth/login', this.internetForm);
+            res = await this.$axios.post('/auth/login', this.internetForm);
+            this.$ls.set('loginType', 'internet');
+            this.$ls.set('token', res.token);
             break;
           case 'local':
             await this.$refs.localForm.validate();
@@ -115,20 +118,19 @@ export default {
               `http://${this.localForm.ip}:3000/admin/login`,
               { code: this.localForm.code },
             );
+            this.$ls.set('loginType', 'local');
+            this.$ls.set('code', this.localForm.code);
             break;
           default:
             break;
         }
         await this.$message.success('登录成功！', 1);
-        // ipcRenderer.sendSync('login', token);
+        await ipcRenderer.invoke('channel', { type: 'login' });
       } catch (error) {}
       this.loading = false;
     },
     handleClose() {
-      ipcRenderer.send('window', 'close');
-    },
-    openURL(url) {
-      this.$electron.remote.shell.openExternal(url);
+      ipcRenderer.invoke('channel', { type: 'quit' });
     },
   },
 };

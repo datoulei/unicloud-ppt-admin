@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -14,17 +14,35 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } }
 ]);
 
-function createWindow() {
+function createWindow(type = 'main') {
   // Create the browser window.
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
-    }
-  });
+  switch (type) {
+    case 'login':
+      win = new BrowserWindow({
+        frame: false,
+        width: 800,
+        height: 600,
+        webPreferences: {
+          // Use pluginOptions.nodeIntegration, leave this alone
+          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+          nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+        }
+      });
+      break;
+
+    default:
+      win = new BrowserWindow({
+        frame: false,
+        width: 800,
+        height: 600,
+        webPreferences: {
+          // Use pluginOptions.nodeIntegration, leave this alone
+          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+          nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+        }
+      });
+      break;
+  }
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -45,9 +63,9 @@ function createWindow() {
 app.on("window-all-closed", () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  // if (process.platform !== "darwin") {
+  app.quit();
+  // }
 });
 
 app.on("activate", () => {
@@ -87,3 +105,28 @@ if (isDevelopment) {
     });
   }
 }
+
+// 主进程监听
+ipcMain.handle('channel', (event, { type, data }) => {
+  console.log("主进程监听，type：%s， data: %o", type, data)
+  switch (type) {
+    case 'quit':
+      if (win && win.closable) {
+        win.close()
+      }
+      return { code: 1 }
+    case 'login':
+      // 关闭当前窗口，打开主窗口
+      if (win) {
+        win.hide()
+        win.reload()
+        setTimeout(() => {
+          win.show()
+        }, 1000);
+      }
+      return { code: 1 }
+    default:
+      console.log('未知操作：', type)
+      break;
+  }
+})

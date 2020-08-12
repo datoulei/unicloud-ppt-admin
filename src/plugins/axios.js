@@ -32,9 +32,8 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
-    console.log("response", response)
     // Do something with response data
-    return response;
+    return response.data;
   },
   function (error) {
     if (error.response) {
