@@ -4,6 +4,8 @@ import 'flex.css';
 import "./plugins/axios";
 import "./plugins/antd";
 import "./plugins/ls";
+import "./plugins/ipcRenderer";
+import './common.less'
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";

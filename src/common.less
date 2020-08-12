@@ -1,0 +1,32 @@
+.loop (@index) when (@index > 0) {
+  .m-t-@{index} {
+    margin-top: 1px * @index;
+  }
+  .m-r-@{index} {
+    margin-right: 1px * @index;
+  }
+  .m-b-@{index} {
+    margin-bottom: 1px * @index;
+  }
+  .m-l-@{index} {
+    margin-left: 1px * @index;
+  }
+  .p-t-@{index} {
+    padding-top: 1px * @index;
+  }
+  .p-r-@{index} {
+    padding-right: 1px * @index;
+  }
+  .p-b-@{index} {
+    padding-bottom: 1px * @index;
+  }
+  .p-l-@{index} {
+    padding-left: 1px * @index;
+  }
+  .loop(@index - 1)
+}
+.loop(200);
+
+.pointer {
+  cursor: pointer;
+}

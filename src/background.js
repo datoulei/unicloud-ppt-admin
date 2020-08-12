@@ -110,6 +110,18 @@ if (isDevelopment) {
 ipcMain.handle('channel', (event, { type, data }) => {
   console.log("主进程监听，type：%s， data: %o", type, data)
   switch (type) {
+    case 'minimize':
+      if (win && !win.isMinimized()) {
+        win.minimize();
+      }
+      return { code: 1 }
+    case 'maximize':
+      if (win && !win.isMaximized()) {
+        win.maximize();
+      } else {
+        win.unmaximize();
+      }
+      return { code: 1 }
     case 'quit':
       if (win && win.closable) {
         win.close()
