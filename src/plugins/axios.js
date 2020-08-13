@@ -20,6 +20,13 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function (config) {
+    const loginType = Vue.ls.get('loginType')
+    const token = Vue.ls.get('token')
+    if (loginType === 'internet') {
+      Object.assign(config.headers, {
+        'Authorization': `Bearer ${token}`
+      })
+    }
     // Do something before request is sent
     return config;
   },
