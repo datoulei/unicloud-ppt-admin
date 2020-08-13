@@ -33,9 +33,9 @@ export default {
   },
   methods: {
     handleHome() {
-      const historySize = window.history.length;
-      if (historySize > 1) {
-        this.$router.go((historySize - 1) * -1);
+      const routeName = this.$route.name;
+      if (routeName !== 'Home') {
+        this.$router.replace({ name: routeName });
       }
     },
     handleBack() {

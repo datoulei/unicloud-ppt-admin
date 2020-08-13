@@ -22,12 +22,13 @@
           </div>
         </div>
       </div>
-      <a-button type="primary">管理</a-button>
+      <a-button type="primary" @click="handleSelect">管理</a-button>
     </div>
   </a-card>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   props: {
     activity: {
@@ -47,6 +48,13 @@ export default {
     },
     endTime() {
       return this.$moment(this.activity.endTime).format('HH:mm');
+    },
+  },
+  methods: {
+    ...mapActions('activity', ['selectActivity']),
+    handleSelect() {
+      this.selectActivity(this.activity);
+      this.$router.push({ name: 'Activity', params: { id: this.activity.id } });
     },
   },
 };

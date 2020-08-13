@@ -11,38 +11,24 @@ let win;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
-  { scheme: "app", privileges: { secure: true, standard: true } }
+  { scheme: "uniecloud", privileges: { secure: true, standard: true } }
 ]);
 
 function createWindow(type = 'main') {
   // Create the browser window.
-  switch (type) {
-    case 'login':
-      win = new BrowserWindow({
-        frame: false,
-        width: 800,
-        height: 600,
-        webPreferences: {
-          // Use pluginOptions.nodeIntegration, leave this alone
-          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-          nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
-        }
-      });
-      break;
 
-    default:
-      win = new BrowserWindow({
-        frame: false,
-        width: 800,
-        height: 600,
-        webPreferences: {
-          // Use pluginOptions.nodeIntegration, leave this alone
-          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-          nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
-        }
-      });
-      break;
-  }
+  win = new BrowserWindow({
+    frame: false,
+    minWidth: 1000,
+    width: 1000,
+    minHeight: 670,
+    height: 670,
+    webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+    }
+  });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

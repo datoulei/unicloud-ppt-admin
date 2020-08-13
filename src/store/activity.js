@@ -51,9 +51,9 @@ export default {
         // 局域网模式
         await Vue.axios.delete(`/activities/${id}`)
       }
-    }
-  },
-  selectActivity({ commit }, activity) {
-    commit('SET_SELECTED', activity)
+    },
+    selectActivity({ commit }, activity) {
+      commit('SET_SELECTED', activity)
+    },
   },
 }
