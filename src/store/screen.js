@@ -3,11 +3,17 @@ import Vue from "vue";
 export default {
   namespaced: true,
   state: {
-    screens: []
+    screens: [],
+    selected: null
   },
   mutations: {
     SET_SCREENS(state, list) {
       state.screens = list
+      return state
+    },
+    SET_SELECTED(state, selected) {
+      state.selected = selected
+      return state
     }
   },
   actions: {
@@ -26,5 +32,8 @@ export default {
     async createScreen({ state, commit }, data) { },
     async updateScreen({ state, commit }, params) { },
     async deleteScreen({ state, commit }, id) { },
+    selectScreen({ state, commit }, screen) {
+      commit('SET_SELECTED', screen)
+    }
   },
 }
