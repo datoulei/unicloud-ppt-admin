@@ -29,9 +29,24 @@ export default {
         // 局域网模式
       }
     },
-    async createMainSchedule({ state, commit }, data) { },
-    async updateMainSchedule({ state, commit }, params) { },
-    async deleteMainSchedule({ state, commit }, id) { },
+    async createMainSchedule({ rootState, commit }, data) {
+      const screen = rootState.screen.selected
+      if (rootState.loginType === 'internet') {
+        await Vue.axios.post(`/screens/${screen.id}/schedules`, data)
+      }
+    },
+    async updateMainSchedule({ rootState, commit }, data) {
+      const screen = rootState.screen.selected
+      if (rootState.loginType === 'internet') {
+        await Vue.axios.put(`/screens/${screen.id}/schedules/${data.id}`, data)
+      }
+    },
+    async deleteMainSchedule({ rootState, commit }, id) {
+      const screen = rootState.screen.selected
+      if (rootState.loginType === 'internet') {
+        await Vue.axios.delete(`/screens/${screen.id}/schedules/${id}`)
+      }
+    },
     selectMainSchedule({ state, commit }, mainSchedule) {
       commit('SET_SELECTED', mainSchedule)
     },

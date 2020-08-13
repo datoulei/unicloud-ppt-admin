@@ -28,11 +28,32 @@ export default {
         // 局域网模式
       }
     },
-    async createActivity({ state, commit }, data) { },
-    async updateActivity({ state, commit }, params) { },
-    async deleteActivity({ state, commit }, id) { },
-    selectActivity({ commit }, activity) {
-      commit('SET_SELECTED', activity)
+    async createActivity({ rootState, commit }, data) {
+      if (rootState.loginType === 'internet') {
+        // 互联网模式
+      } else {
+        // 局域网模式
+        await Vue.axios.post('/activities', data)
+      }
     },
+    async updateActivity({ rootState, commit }, data) {
+      if (rootState.loginType === 'internet') {
+        // 互联网模式
+      } else {
+        // 局域网模式
+        await Vue.axios.put(`/activities/${data.id}`, data)
+      }
+    },
+    async deleteActivity({ rootState, commit }, id) {
+      if (rootState.loginType === 'internet') {
+        // 互联网模式
+      } else {
+        // 局域网模式
+        await Vue.axios.delete(`/activities/${id}`)
+      }
+    }
+  },
+  selectActivity({ commit }, activity) {
+    commit('SET_SELECTED', activity)
   },
 }
