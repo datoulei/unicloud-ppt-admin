@@ -1,3 +1,5 @@
+@import './ant-design-vars.less';
+
 .loop (@index) when (@index > 0) {
   .m-t-@{index} {
     margin-top: 1px * @index;
@@ -23,10 +25,24 @@
   .p-l-@{index} {
     padding-left: 1px * @index;
   }
-  .loop(@index - 1)
+  .w-@{index} {
+    width: 1px * @index;
+  }
+  .h-@{index} {
+    height: 1px * @index;
+  }
+  .loop(@index - 1);
 }
 .loop(200);
 
+p {
+  margin: 0;
+}
+
 .pointer {
   cursor: pointer;
+}
+
+.text-primary {
+  color: @primary-color;
 }

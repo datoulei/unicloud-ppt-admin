@@ -13,8 +13,8 @@
     </a-button-group>
     <span flex-box="1" />
     <span class="mode">
-      <span v-if="mode === 'internet'">互联网模式</span>
-      <span v-else-if="mode === 'local'">局域网模式</span>
+      <span v-if="loginType === 'internet'">互联网模式</span>
+      <span v-else-if="loginType === 'local'">局域网模式</span>
     </span>
     <div class="action-bar m-l-16 p-l-16" flex="cross:center">
       <a-icon type="minus" class="pointer" @click="handleMinimize" />
@@ -25,15 +25,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'Header',
-  data() {
-    return {
-      mode: null,
-    };
-  },
-  created() {
-    this.mode = this.$ls.get('loginType');
+  computed: {
+    ...mapState(['loginType']),
   },
   methods: {
     handleHome() {
