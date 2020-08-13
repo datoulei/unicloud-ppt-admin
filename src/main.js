@@ -4,6 +4,7 @@ import 'flex.css';
 import "./plugins/axios";
 import "./plugins/antd";
 import "./plugins/ls";
+import "./plugins/moment";
 import "./plugins/ipcRenderer";
 import './common.less'
 import App from "./App.vue";
