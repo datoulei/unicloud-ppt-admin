@@ -50,13 +50,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(['activites']),
+    ...mapState('activity', ['activites']),
   },
   created() {
     this.handleSearch();
   },
   methods: {
-    ...mapActions(['getActivities']),
+    ...mapActions('activity', ['getActivities']),
     handleSelect(val) {
       this.conditions.status = val;
       this.handleSearch();
