@@ -54,7 +54,10 @@ export default {
     ...mapActions('activity', ['selectActivity']),
     handleSelect() {
       this.selectActivity(this.activity);
-      this.$router.push({ name: 'Activity', params: { id: this.activity.id } });
+      this.$router.push({
+        name: 'Activity',
+        params: { activityId: this.activity.id },
+      });
     },
   },
 };

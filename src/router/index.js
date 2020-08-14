@@ -3,7 +3,8 @@ import VueRouter from "vue-router";
 import BaseLayout from "@/layout/BaseLayout";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import Activity from "../views/Acitivity.vue"
+import Activity from "../views/Activity.vue"
+import ScreenForm from "../views/ScreenForm.vue"
 
 Vue.use(VueRouter);
 
@@ -18,10 +19,15 @@ const routes = [
         component: Home
       },
       {
-        path: '/activity/:id',
+        path: '/activity/:activityId',
         name: 'Activity',
         component: Activity
       },
+      {
+        path: '/activity/:activityId/screen/create',
+        name: 'CreateScreen',
+        component: ScreenForm
+      }
     ]
   },
   {

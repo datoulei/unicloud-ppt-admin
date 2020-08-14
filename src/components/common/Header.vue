@@ -35,14 +35,14 @@ export default {
     handleHome() {
       const routeName = this.$route.name;
       if (routeName !== 'Home') {
-        this.$router.replace({ name: routeName });
+        this.$router.replace({ name: 'Home' });
       }
     },
     handleBack() {
-      window.history.back();
+      this.$router.go(-1);
     },
     handleForward() {
-      window.history.forward();
+      this.$router.go(1);
     },
     handleMinimize() {
       this.$ipcRenderer.invoke('channel', { type: 'minimize' });

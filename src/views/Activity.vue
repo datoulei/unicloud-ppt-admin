@@ -8,7 +8,9 @@
       </div>
     </div>
     <div class="card m-t-24">
-      <a-button type="primary" icon="plus">创建屏幕</a-button>
+      <a-button type="primary" icon="plus" @click="handleCreate"
+        >创建屏幕</a-button
+      >
       <template v-for="date in sortDates">
         <ScreenPanel :key="date" :date="date" :screens="group[date]" />
       </template>
@@ -37,9 +39,6 @@ export default {
         ],
       }).list,
     };
-  },
-  created() {
-    console.log(this.group);
   },
   computed: {
     ...mapState('activity', ['selected']),
@@ -73,6 +72,11 @@ export default {
     },
     sortDates() {
       return this.$lodash.sortBy(this.$lodash.keys(this.group));
+    },
+  },
+  methods: {
+    handleCreate() {
+      this.$router.push({ name: 'CreateScreen' });
     },
   },
 };
