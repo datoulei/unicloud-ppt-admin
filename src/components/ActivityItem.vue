@@ -1,6 +1,9 @@
 <template>
   <a-card>
-    <div class="activity-item" flex="cross:center">
+    <div
+      :class="['activity-item', activity.status === 3 && 'finished']"
+      flex="cross:center"
+    >
       <div class="content" flex-box="1">
         <div>
           <span class="title">{{ activity.name }}</span>
@@ -10,7 +13,7 @@
           <span v-else-if="activity.status === 2" class="status">进行中</span>
           <span v-else-if="activity.status === 3" class="status">已结束</span>
         </div>
-        <div class="date-box m-t-10" flex>
+        <div class="date-box m-t-16" flex>
           <div class="start">
             <p class="date">{{ startDate }}</p>
             <p class="time">{{ startTime }}</p>
@@ -23,12 +26,20 @@
         </div>
       </div>
       <a-button type="primary" @click="handleSelect">管理</a-button>
+      <a-button
+        v-if="loginType === 'local' && activity.status === 3"
+        class="m-l-10"
+        type="primary"
+        @click="handleDelete"
+      >
+        删除
+      </a-button>
     </div>
   </a-card>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
   props: {
     activity: {
@@ -37,6 +48,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(['loginType']),
     startDate() {
       return this.$moment(this.activity.startTime).format('YYYY年MM月DD日');
     },
@@ -51,12 +63,25 @@ export default {
     },
   },
   methods: {
-    ...mapActions('activity', ['selectActivity']),
+    ...mapActions('activity', ['selectActivity', 'deleteActivity']),
     handleSelect() {
       this.selectActivity(this.activity);
       this.$router.push({
         name: 'Activity',
         params: { activityId: this.activity.id },
+      });
+    },
+    handleDelete() {
+      this.$confirm({
+        title: '删除提示',
+        content:
+          '删除活动会连带删除该活动下的所有分享和素材，且无法恢复，请确认是否删除该活动?',
+        onOk: () => {
+          return this.deleteActivity(this.activity.id).then(() => {
+            this.$message.success();
+            return Promise.resolve();
+          });
+        },
       });
     },
   },
@@ -91,11 +116,25 @@ export default {
   }
 }
 .date-box {
+  .date {
+    font-size: 14px;
+  }
   .line {
     margin: 10px 20px 0;
     height: 2px;
     background: #999;
     width: 15px;
+  }
+  .time {
+    color: #333;
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+.finished {
+  .title,
+  .date-box .time {
+    color: #999;
   }
 }
 </style>

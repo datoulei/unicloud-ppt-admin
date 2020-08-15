@@ -20,13 +20,18 @@
       />
     </div>
     <a-list
+      class="m-t-12"
       itemLayout="vertical"
       :dataSource="activites"
       :loading="loading"
       :split="false"
       rowKey="id"
     >
-      <a-list-item slot="renderItem" slot-scope="item">
+      <a-list-item
+        :class="['p-t-4', 'p-b-4', item.status === 3 && 'finished']"
+        slot="renderItem"
+        slot-scope="item"
+      >
         <ActivityItem :activity="item" />
       </a-list-item>
     </a-list>
@@ -71,3 +76,9 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.finished.ant-list-item > .ant-card {
+  background: #f9f9f9;
+}
+</style>
