@@ -21,47 +21,30 @@ function isLogin() {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let loginWin;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "uniecloud", privileges: { secure: true, standard: true } }
 ]);
 
-async function createWindow(type = 'main') {
+function createWindow() {
   // Create the browser window.
 
-  const mainWindowConfig = {
+  win = new BrowserWindow({
     frame: false,
     minWidth: 1000,
     width: 1000,
     minHeight: 670,
     height: 670,
+    show: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      additionalArguments: ['main-window']
     }
-  }
-
-  const loginWindowConfig = {
-    frame: false,
-    width: 756,
-    height: 448,
-    resizable: false,
-    webPreferences: {
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
-    }
-  }
-
-  try {
-    await isLogin()
-    win = new BrowserWindow(mainWindowConfig);
-  } catch (error) {
-    win = new BrowserWindow(loginWindowConfig);
-  }
-
+  });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -75,6 +58,37 @@ async function createWindow(type = 'main') {
 
   win.on("closed", () => {
     win = null;
+  });
+}
+
+function createLoginWindow() {
+  // Create the browser window.
+
+  loginWin = new BrowserWindow({
+    frame: false,
+    width: 756,
+    height: 448,
+    resizable: false,
+    webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      additionalArguments: ['login-window']
+    }
+  });
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    loginWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    if (!process.env.IS_TEST) loginWin.webContents.openDevTools();
+  } else {
+    createProtocol("app");
+    // Load the index.html when not in development
+    loginWin.loadURL("app://./index.html");
+  }
+
+  loginWin.on("closed", () => {
+    loginWin = null;
   });
 }
 
@@ -129,6 +143,13 @@ if (isDevelopment) {
 ipcMain.handle('channel', (event, { type, data }) => {
   console.log("主进程监听，type：%s， data: %o", type, data)
   switch (type) {
+    case 'init':
+      if (data.isLogin) {
+        win.show()
+      } else {
+        createLoginWindow();
+      }
+      return { code: 1 }
     case 'minimize':
       if (win && !win.isMinimized()) {
         win.minimize();
@@ -148,11 +169,12 @@ ipcMain.handle('channel', (event, { type, data }) => {
       return { code: 1 }
     case 'login':
       // 关闭当前窗口，打开主窗口
+      if (loginWin) {
+        loginWin.close()
+      }
       if (win) {
-        win.close()
-        setTimeout(() => {
-          createWindow();
-        }, 1000);
+        win.reload()
+        win.show()
       }
       return { code: 1 }
     default:
