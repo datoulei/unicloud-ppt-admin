@@ -7,42 +7,32 @@
         <span class="m-l-32">PPT数量：{{ screen.pptCount }}</span>
       </div>
     </div>
-    <div class="body">
-      <a-row>
-        <a-col :span="6" class="main:center">
-          <div class="pointer" flex="dir:top cross:center" @click="handleCopy">
-            <img src="/images/icon_copy.png" alt="" class="icon" />
-            <span class="label m-t-8">复制登录码</span>
-          </div>
-        </a-col>
-        <a-col :span="6" class="main:center">
-          <div
-            class="pointer"
-            flex="dir:top cross:center"
-            @click="handleDetail"
-          >
-            <img src="/images/icon_copy.png" alt="" class="icon" />
-            <span class="label m-t-8">管理日程</span>
-          </div>
-        </a-col>
-        <a-col :span="6" class="main:center">
-          <div class="pointer" flex="dir:top cross:center" @click="handleEdit">
-            <img src="/images/icon_edit.png" alt="" class="icon" />
-            <span class="label m-t-8">编辑</span>
-          </div>
-        </a-col>
-        <a-col :span="6" class="main:center">
-          <div
-            class="pointer"
-            flex="dir:top cross:center"
-            @click="handleDelete"
-          >
-            <img src="/images/icon_delete.png" alt="" class="icon" />
-            <span class="label m-t-8">删除</span>
-          </div>
-        </a-col>
-      </a-row>
-    </div>
+    <a-row class="body" type="flex" align="middle">
+      <a-col :span="6" class="main:center">
+        <div class="pointer" flex="dir:top cross:center" @click="handleCopy">
+          <img src="/images/icon_copy.png" alt="" class="icon" />
+          <span class="label m-t-8">复制登录码</span>
+        </div>
+      </a-col>
+      <a-col :span="6" class="main:center">
+        <div class="pointer" flex="dir:top cross:center" @click="handleDetail">
+          <img src="/images/icon_copy.png" alt="" class="icon" />
+          <span class="label m-t-8">管理日程</span>
+        </div>
+      </a-col>
+      <a-col :span="6" class="main:center">
+        <div class="pointer" flex="dir:top cross:center" @click="handleEdit">
+          <img src="/images/icon_edit.png" alt="" class="icon" />
+          <span class="label m-t-8">编辑</span>
+        </div>
+      </a-col>
+      <a-col :span="6" class="main:center">
+        <div class="pointer" flex="dir:top cross:center" @click="handleDelete">
+          <img src="/images/icon_delete.png" alt="" class="icon" />
+          <span class="label m-t-8">删除</span>
+        </div>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -93,14 +83,13 @@ export default {
 
 <style lang="less" scoped>
 .screen-item {
-  height: 174px;
   background: #ffffff;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   .header {
-    height: 82px;
+    height: 104px;
     box-sizing: border-box;
-    padding: 16px 24px;
+    padding: 24px;
     background-color: #f60f0f;
     color: #fff;
     .title {
@@ -108,12 +97,12 @@ export default {
       font-weight: 500;
     }
     .sub-title {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 400;
     }
   }
   .body {
-    padding: 16px;
+    height: 104px;
     .icon {
       width: 32px;
       height: 32px;

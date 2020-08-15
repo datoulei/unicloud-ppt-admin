@@ -1,21 +1,19 @@
 <template>
-  <div class="screen-panel p-t-24 p-b-24">
-    <div class="panel-header" flex="cross:center">
-      <div class="date p-l-12">
+  <div class="screen-panel p-t-24">
+    <div class="panel-header">
+      <div class="date" flex="cross:center">
         <a-icon
           type="clock-circle"
-          :style="{ fontSize: '16px', color: '#f60f0f' }"
+          :style="{ fontSize: '16px', color: '#B8B8B8' }"
         ></a-icon>
         <span class="m-l-8">{{ $moment(date).format('YYYY年MM月DD日') }}</span>
       </div>
-      <span flex-box="1"></span>
-      <img src="/images/icon_down.png" class="button" @click="show = !show" />
     </div>
     <div v-show="show" class="list">
       <a-list
         class="m-t-16"
         :dataSource="screens"
-        :grid="{ gutter: 24, column: 3 }"
+        :grid="{ gutter: 16, column: 2 }"
         :split="false"
       >
         <a-list-item slot="renderItem" slot-scope="item">
@@ -51,24 +49,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.screen-panel + .screen-panel {
-  border-top: 1px solid #eee;
-}
-.list {
-  margin-bottom: -8px;
-}
 .date {
-  width: 278px;
-  height: 36px;
-  background: linear-gradient(
-    270deg,
-    rgba(255, 233, 233, 0) 0%,
-    rgba(255, 233, 233, 1) 100%
-  );
-  border-left: 4px solid #f60f0f;
-  line-height: 36px;
   font-size: 18px;
-  color: #f60f0f;
+  color: #333;
+  font-family: PingFangTC-Semibold, PingFangTC;
+  font-weight: 600;
 }
 .button {
   width: 24px;

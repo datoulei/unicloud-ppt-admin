@@ -1,16 +1,16 @@
 <template>
   <div class="page">
     <div class="card activity" flex="cross:center">
-      <img src="/images/icon_calendar.png" class="calendar m-r-16" />
+      <div class="line"></div>
       <div>
         <p class="name">{{ name }}</p>
         <p class="date m-t-12">活动时间：{{ startDate }} - {{ endDate }}</p>
       </div>
     </div>
-    <div class="card m-t-24">
-      <a-button type="primary" icon="plus" @click="handleCreate"
-        >创建屏幕</a-button
-      >
+    <div class="m-t-24">
+      <a-button type="primary" icon="plus" @click="handleCreate">
+        创建屏幕
+      </a-button>
       <template v-for="date in sortDates">
         <ScreenPanel :key="date" :date="date" :screens="group[date]" />
       </template>
@@ -88,7 +88,13 @@ export default {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
   padding: 32px;
   &.activity {
-    border-left: 4px solid #f60f0f;
+    line-height: 1;
+    .line {
+      height: 52px;
+      width: 4px;
+      background-color: #f60f0f;
+      margin-right: 24px;
+    }
     .calendar {
       width: 48px;
       height: 48px;
