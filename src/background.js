@@ -4,6 +4,19 @@ import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
+import { User } from './db'
+
+function isLogin() {
+  return new Promise((resolve, reject) => {
+    User.findOne({}, (err, user) => {
+      if (user) {
+        resolve(user);
+      } else {
+        reject();
+      }
+    })
+  })
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -14,10 +27,10 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "uniecloud", privileges: { secure: true, standard: true } }
 ]);
 
-function createWindow(type = 'main') {
+async function createWindow(type = 'main') {
   // Create the browser window.
 
-  win = new BrowserWindow({
+  const mainWindowConfig = {
     frame: false,
     minWidth: 1000,
     width: 1000,
@@ -28,7 +41,27 @@ function createWindow(type = 'main') {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
     }
-  });
+  }
+
+  const loginWindowConfig = {
+    frame: false,
+    width: 756,
+    height: 448,
+    resizable: false,
+    webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+    }
+  }
+
+  try {
+    await isLogin()
+    win = new BrowserWindow(mainWindowConfig);
+  } catch (error) {
+    win = new BrowserWindow(loginWindowConfig);
+  }
+
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -116,10 +149,9 @@ ipcMain.handle('channel', (event, { type, data }) => {
     case 'login':
       // 关闭当前窗口，打开主窗口
       if (win) {
-        win.hide()
-        win.reload()
+        win.close()
         setTimeout(() => {
-          win.show()
+          createWindow();
         }, 1000);
       }
       return { code: 1 }
