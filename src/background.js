@@ -163,6 +163,9 @@ ipcMain.handle('channel', (event, { type, data }) => {
       }
       return { code: 1 }
     case 'quit':
+      if (loginWin && loginWin.closable) {
+        loginWin.close()
+      }
       if (win && win.closable) {
         win.close()
       }
@@ -176,6 +179,12 @@ ipcMain.handle('channel', (event, { type, data }) => {
         win.reload()
         win.show()
       }
+      return { code: 1 }
+    case 'logout':
+      if (win) {
+        win.hide()
+      }
+      createLoginWindow();
       return { code: 1 }
     default:
       console.log('未知操作：', type)
