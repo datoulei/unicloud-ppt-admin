@@ -3,6 +3,8 @@ import Vuex from "vuex";
 
 import activity from './activity'
 import screen from './screen'
+import mainSchedule from './main-schedule'
+import subSchedule from './sub-schedule'
 
 Vue.use(Vuex);
 
@@ -12,6 +14,8 @@ export default new Vuex.Store({
   },
   modules: {
     activity,
-    screen
+    screen,
+    mainSchedule,
+    subSchedule
   }
 });

@@ -4,6 +4,7 @@ import BaseLayout from "@/layout/BaseLayout";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Activity from "../views/Activity.vue"
+import Screen from "../views/Screen.vue"
 import ScreenForm from "../views/ScreenForm.vue"
 
 Vue.use(VueRouter);
@@ -27,6 +28,11 @@ const routes = [
         path: '/activity/:activityId/screen/create',
         name: 'CreateScreen',
         component: ScreenForm
+      },
+      {
+        path: '/activity/:activityId/screen/:screenId',
+        name: 'Screen',
+        component: Screen
       },
       {
         path: '/activity/:activityId/screen/:screenId/edit',

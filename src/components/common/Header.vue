@@ -104,6 +104,7 @@ export default {
   }
   .mode {
     line-height: 2;
+    -webkit-user-select: none;
   }
 }
 </style>

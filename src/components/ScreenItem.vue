@@ -46,12 +46,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions('screen', ['deleteScreen', 'getScreens']),
+    ...mapActions('screen', ['deleteScreen', 'getScreens', 'selectScreen']),
     handleCopy() {
       this.$clipboard(this.screen.loginCode);
       this.$message.success('复制成功！');
     },
-    handleDetail() {},
+    handleDetail() {
+      this.selectScreen(this.screen);
+      this.$router.push({
+        name: 'Screen',
+        params: { screenId: this.screen.id },
+      });
+    },
     handleEdit() {
       this.$router.push({
         name: 'EditScreen',
