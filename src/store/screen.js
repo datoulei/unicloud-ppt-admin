@@ -22,7 +22,7 @@ export default {
       if (rootState.loginType === 'internet') {
         // 互联网模式
         const result = await Vue.axios.get(`/activities/${activity.id}/screens`, { params })
-        const list = result.rows
+        const list = result
         commit('SET_SCREENS', list)
         return result
       } else {

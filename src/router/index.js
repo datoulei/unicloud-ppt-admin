@@ -27,7 +27,12 @@ const routes = [
         path: '/activity/:activityId/screen/create',
         name: 'CreateScreen',
         component: ScreenForm
-      }
+      },
+      {
+        path: '/activity/:activityId/screen/:screenId/edit',
+        name: 'EditScreen',
+        component: ScreenForm
+      },
     ]
   },
   {

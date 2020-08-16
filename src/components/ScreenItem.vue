@@ -46,13 +46,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions('screen', ['deleteScreen']),
+    ...mapActions('screen', ['deleteScreen', 'getScreens']),
     handleCopy() {
-      this.$clipboard(this.screen.name);
+      this.$clipboard(this.screen.loginCode);
       this.$message.success('复制成功！');
     },
     handleDetail() {},
-    handleEdit() {},
+    handleEdit() {
+      this.$router.push({
+        name: 'EditScreen',
+        params: { screenId: this.screen.id },
+      });
+    },
     handleDelete() {
       this.$confirm({
         title: '删除确认',
@@ -67,6 +72,8 @@ export default {
             this.deleteScreen(this.screen.id)
               .then(() => {
                 hide();
+                this.$message.success('删除成功');
+                this.getScreens();
                 resolve();
               })
               .catch(() => {

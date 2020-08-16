@@ -4,7 +4,7 @@
       <a-select
         allowClear
         placeholder="全部"
-        class="w-150"
+        style="width: 150px;"
         @change="handleSelect"
       >
         <a-select-option key="todo" :value="1">待进行</a-select-option>
@@ -13,7 +13,7 @@
       </a-select>
       <span flex-box="1"></span>
       <a-input-search
-        class="w-200"
+        style="width: 200px;"
         v-model="conditions.name"
         placeholder="搜索活动"
         @search="handleSearch"

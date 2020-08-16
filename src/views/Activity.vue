@@ -19,29 +19,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import ScreenPanel from '@/components/ScreenPanel';
 export default {
   components: {
     ScreenPanel,
   },
-  data() {
-    return {
-      list: this.$mock.mock({
-        'list|20': [
-          {
-            id: '@uuid',
-            'date|1': ['2020-07-29', '2020-07-30', '2020-07-31'],
-            name: '@ctitle',
-            mainScheduleCount: '@integer(1, 100)',
-            pptCount: '@integer(1, 100)',
-          },
-        ],
-      }).list,
-    };
-  },
   computed: {
     ...mapState('activity', ['selected']),
+    ...mapState('screen', ['screens']),
     name() {
       try {
         return this.selected.name;
@@ -68,13 +54,17 @@ export default {
       }
     },
     group() {
-      return this.$lodash.groupBy(this.list, 'date');
+      return this.$lodash.groupBy(this.screens, 'date');
     },
     sortDates() {
       return this.$lodash.sortBy(this.$lodash.keys(this.group));
     },
   },
+  created() {
+    this.getScreens();
+  },
   methods: {
+    ...mapActions('screen', ['getScreens']),
     handleCreate() {
       this.$router.push({ name: 'CreateScreen' });
     },

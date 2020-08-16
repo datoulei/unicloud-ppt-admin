@@ -11,13 +11,14 @@
     <img v-if="value" :src="value" alt="avatar" :style="{ width, height }" />
     <div
       v-else
+      class="placeholder"
       flex="dir:top main:center cross:center"
       :style="{ width, height }"
     >
-      <a-icon :type="loading ? 'loading' : 'plus'" />
-      <div class="ant-upload-text">
+      <a-icon :type="loading ? 'loading' : 'plus'" :style="{ color: '#999' }" />
+      <span class="ant-upload-text">
         {{ placeholder }}
-      </div>
+      </span>
     </div>
   </a-upload>
 </template>
@@ -39,7 +40,7 @@ export default {
     },
     listType: {
       type: String,
-      default: 'picture-card',
+      default: 'text',
     },
     showUploadList: {
       type: Boolean,
@@ -61,7 +62,7 @@ export default {
   data() {
     return {
       loading: false,
-      action: '',
+      action: process.env.VUE_APP_BASE_URL + '/files',
     };
   },
   methods: {
@@ -73,12 +74,13 @@ export default {
       return isLimitSize;
     },
     handleChange(info) {
+      console.log('handleChange -> info', info);
       if (info.file.status === 'uploading') {
         this.loading = true;
         return;
       }
       if (info.file.status === 'done') {
-        const url = this.$lodash.get(info, 'file.response.data.url');
+        const url = this.$lodash.get(info, 'file.response');
         this.$emit('input', url);
       }
     },
@@ -88,9 +90,12 @@ export default {
 
 <style lang="less">
 .image-uploader {
-  .ant-upload {
-    width: 128px;
-    height: 128px;
+  .placeholder {
+    background: rgba(247, 247, 247, 1);
+    border-radius: 2px;
+    border: 1px dashed rgba(216, 216, 216, 1);
+    color: #999;
+    cursor: pointer;
   }
 }
 </style>
