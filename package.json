@@ -48,7 +48,6 @@
     "prettier": "^2.0.5",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
-    "vue-svg-loader": "^0.16.0",
     "vue-template-compiler": "^2.6.11"
   }
 }
