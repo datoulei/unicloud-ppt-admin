@@ -1,22 +1,9 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import { app, protocol, BrowserWindow, ipcMain, globalShortcut } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
-import { User } from './db'
-
-function isLogin() {
-  return new Promise((resolve, reject) => {
-    User.findOne({}, (err, user) => {
-      if (user) {
-        resolve(user);
-      } else {
-        reject();
-      }
-    })
-  })
-}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -42,14 +29,15 @@ function createWindow() {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      additionalArguments: ['main-window']
+      additionalArguments: ['main-window'],
+      enableRemoteModule: true
     }
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-    if (!process.env.IS_TEST) win.webContents.openDevTools();
+    // if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
@@ -73,14 +61,15 @@ function createLoginWindow() {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      additionalArguments: ['login-window']
+      additionalArguments: ['login-window'],
+      enableRemoteModule: true
     }
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     loginWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-    if (!process.env.IS_TEST) loginWin.webContents.openDevTools();
+    // if (!process.env.IS_TEST) loginWin.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
@@ -113,6 +102,12 @@ app.on("activate", () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
+  console.log('is ready');
+  globalShortcut.register('CommandOrControl+Shift+J', () => {
+    if (win) {
+      win.webContents.openDevTools()
+    }
+  })
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
