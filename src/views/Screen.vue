@@ -3,7 +3,8 @@
     <div class="card" flex="cross:center">
       <img src="/images/icon_screen.png" class="icon" />
       <div>
-        <p class="name">{{ name }}</p>
+        <p class="name">{{ screen.name }}</p>
+        <p class="date m-t-12">活动名称：{{ name }}</p>
         <p class="date m-t-12">活动时间：{{ startDate }} - {{ endDate }}</p>
       </div>
     </div>
@@ -62,18 +63,19 @@ export default {
     MainScheduleModal,
   },
   computed: {
-    ...mapState('activity', ['selected']),
+    ...mapState('activity', { activity: (state) => state.selected }),
+    ...mapState('screen', { screen: (state) => state.selected }),
     ...mapState('mainSchedule', ['mainSchedules']),
     name() {
       try {
-        return this.selected.name;
+        return this.activity.name;
       } catch (error) {
         return '';
       }
     },
     startDate() {
       try {
-        return this.$moment(this.selected.startTime).format(
+        return this.$moment(this.activity.startTime).format(
           'YYYY年MM月DD日 HH:mm',
         );
       } catch (error) {
@@ -82,7 +84,7 @@ export default {
     },
     endDate() {
       try {
-        return this.$moment(this.selected.endTime).format(
+        return this.$moment(this.activity.endTime).format(
           'YYYY年MM月DD日 HH:mm',
         );
       } catch (error) {
@@ -187,6 +189,7 @@ export default {
     height: 48px;
   }
   .name {
+    font-family: PingFangTC-Semibold, PingFangTC;
     font-size: 20px;
     font-weight: 600;
     color: #333333;
