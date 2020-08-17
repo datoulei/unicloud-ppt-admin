@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <div class="card activity" flex="cross:center">
-      <div class="line"></div>
+    <div class="card" flex="cross:center">
+      <img src="/images/icon_calendar.png" class="icon" />
       <div>
         <p class="name">{{ name }}</p>
         <p class="date m-t-12">活动时间：{{ startDate }} - {{ endDate }}</p>
@@ -77,28 +77,27 @@ export default {
   background: #ffffff;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
   padding: 32px;
-  &.activity {
-    line-height: 1;
-    .line {
-      height: 52px;
-      width: 4px;
-      background-color: #f60f0f;
-      margin-right: 24px;
-    }
-    .calendar {
-      width: 48px;
-      height: 48px;
-    }
-    .name {
-      font-size: 20px;
-      font-weight: 600;
-      color: #333333;
-    }
-    .date {
-      font-size: 14px;
-      font-weight: 400;
-      color: #666666;
-    }
+  line-height: 1;
+  border-left: 3px solid #f60f0f;
+  .icon {
+    width: 48px;
+    height: 48px;
+    margin-left: -3px;
+    margin-right: 24px;
+  }
+  .calendar {
+    width: 48px;
+    height: 48px;
+  }
+  .name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333333;
+  }
+  .date {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666666;
   }
 }
 </style>
