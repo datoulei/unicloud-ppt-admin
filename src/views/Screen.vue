@@ -123,6 +123,10 @@ export default {
     },
     handleDetail(record) {
       this.selectMainSchedule(record);
+      this.$router.push({
+        name: 'MainSchedule',
+        params: { scheduleId: record.id },
+      });
     },
     handleEdit(record) {
       this.$refs.modal.open(record);

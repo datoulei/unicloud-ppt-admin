@@ -6,6 +6,7 @@ import Login from "../views/Login.vue";
 import Activity from "../views/Activity.vue"
 import Screen from "../views/Screen.vue"
 import ScreenForm from "../views/ScreenForm.vue"
+import MainSchedule from "../views/MainSchedule.vue"
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,11 @@ const routes = [
         path: '/activity/:activityId/screen/:screenId/edit',
         name: 'EditScreen',
         component: ScreenForm
+      },
+      {
+        path: '/activity/:activityId/screen/:screenId/schedule/:scheduleId',
+        name: 'MainSchedule',
+        component: MainSchedule
       },
     ]
   },

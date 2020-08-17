@@ -3,23 +3,27 @@
     class="image-uploader"
     :action="action"
     :accept="accept"
-    :list-type="listType"
     :show-upload-list="showUploadList"
     :beforeUpload="beforeUpload"
     @change="handleChange"
   >
-    <img v-if="value" :src="value" alt="avatar" :style="{ width, height }" />
-    <div
-      v-else
-      class="placeholder"
-      flex="dir:top main:center cross:center"
-      :style="{ width, height }"
-    >
-      <a-icon :type="loading ? 'loading' : 'plus'" :style="{ color: '#999' }" />
-      <span class="ant-upload-text">
-        {{ placeholder }}
-      </span>
-    </div>
+    <slot>
+      <img v-if="value" :src="value" alt="avatar" :style="{ width, height }" />
+      <div
+        v-else
+        class="placeholder"
+        flex="dir:top main:center cross:center"
+        :style="{ width, height }"
+      >
+        <a-icon
+          :type="loading ? 'loading' : 'plus'"
+          :style="{ color: '#999' }"
+        />
+        <span class="ant-upload-text">
+          {{ placeholder }}
+        </span>
+      </div>
+    </slot>
   </a-upload>
 </template>
 
@@ -37,10 +41,6 @@ export default {
     placeholder: {
       type: String,
       default: '上传图片',
-    },
-    listType: {
-      type: String,
-      default: 'text',
     },
     showUploadList: {
       type: Boolean,
@@ -69,7 +69,7 @@ export default {
     beforeUpload(file) {
       const isLimitSize = file.size / 1024 / 1024 < this.limitSize;
       if (!isLimitSize) {
-        this.$message.error(`请上传${this.limitSize}M以内的图片！`);
+        this.$message.error(`请上传${this.limitSize}M以内的文件！`);
       }
       return isLimitSize;
     },

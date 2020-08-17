@@ -55,9 +55,9 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapperCol="{ offset: 3 }">
-          <a-button :loading="loading" type="primary" @click="handleSubmit"
-            >保存</a-button
-          >
+          <a-button :loading="loading" type="primary" @click="handleSubmit">
+            保存
+          </a-button>
         </a-form-model-item>
       </a-form-model>
     </a-card>
