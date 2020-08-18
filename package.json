@@ -1,6 +1,7 @@
 {
   "name": "ppt_management_admin",
   "version": "1.0.1",
+  "author": "Jiang Yun",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,7 +11,8 @@
     "electron:build-win": "vue-cli-service electron:build --windows",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "release": "build"
   },
   "main": "background.js",
   "dependencies": {

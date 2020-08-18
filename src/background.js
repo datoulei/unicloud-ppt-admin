@@ -3,10 +3,14 @@
 import { app, protocol, BrowserWindow, ipcMain, globalShortcut } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 log.transports.console.level = false;
 log.transports.console.level = 'silly'
 const isDevelopment = process.env.NODE_ENV !== "production";
+autoUpdater.logger = log
+autoUpdater.checkForUpdatesAndNotify()
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -23,10 +27,10 @@ function createWindow() {
 
   win = new BrowserWindow({
     frame: false,
-    minWidth: 1000,
-    width: 1000,
-    minHeight: 670,
-    height: 670,
+    minWidth: 1352,
+    width: 1352,
+    minHeight: 760,
+    height: 760,
     show: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
