@@ -80,6 +80,7 @@ export default {
         return;
       }
       if (info.file.status === 'done') {
+        this.loading = false;
         const url = this.$lodash.get(info, 'file.response');
         this.$emit('input', url);
       }

@@ -16,8 +16,8 @@
       <a-table
         ref="table"
         :dataSource="subSchedules"
+        rowKey="id"
         :pagination="false"
-        :scroll="{ x: true }"
       >
         <a-table-column key="time" title="起始时间" width="150px">
           <template slot-scope="item">
@@ -50,7 +50,7 @@
           title="单位"
           width="200px"
         />
-        <a-table-column key="ppt" title="PPT" width="150px">
+        <!-- <a-table-column key="ppt" title="PPT" width="150px">
           <template slot-scope="row">
             <a v-if="row.ppt" :href="row.ppt" :download="getFilename(row.ppt)">
               {{ getFilename(row.ppt) }}
@@ -74,8 +74,8 @@
               </template>
             </FileUpload>
           </template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" width="150px" fixed="right">
+        </a-table-column> -->
+        <a-table-column key="action" title="操作" width="150px">
           <template slot-scope="row">
             <img
               src="/images/icon_button_edit.png"
@@ -158,7 +158,7 @@ export default {
       'getSubSchedules',
       'updateSubSchedule',
       'deleteSubSchedule',
-      'sortSubSchedule',
+      'sortSubSchedules',
     ]),
     handleCreate() {
       this.$refs.modal.open();
@@ -183,7 +183,7 @@ export default {
       console.log('handleSort -> newIndex', newIndex);
       console.log('handleSort -> oldIndex', oldIndex);
       let leftElement, rightElement;
-      const list = this.mainSchedules;
+      const list = this.subSchedules;
       const oldElement = this.$lodash.cloneDeep(list[oldIndex]);
       const isLast = newIndex === list.length - 1;
       const isFirst = newIndex === 0;

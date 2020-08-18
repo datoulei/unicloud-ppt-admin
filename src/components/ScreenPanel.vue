@@ -13,7 +13,7 @@
       <a-list
         class="m-t-16"
         :dataSource="screens"
-        :grid="{ gutter: 16, column: 2 }"
+        :grid="{ gutter: 16, column: 3 }"
         :split="false"
       >
         <a-list-item slot="renderItem" slot-scope="item">
@@ -50,6 +50,12 @@ export default {
 
 <style lang="less" scoped>
 .date {
+  width: 220px;
+  height: 44px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  border-left: 3px solid #f60f0f;
+  padding-left: 13px;
   font-size: 18px;
   color: #333;
   font-family: PingFangTC-Semibold, PingFangTC;
