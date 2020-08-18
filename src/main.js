@@ -24,12 +24,15 @@ new Vue({
 }).$mount("#app");
 
 if (process.argv.includes('main-window')) {
+  console.log('检查登录状态')
   const loginType = Vue.ls.get('loginType')
   const token = Vue.ls.get('token')
   const code = Vue.ls.get('code')
   if ((loginType === 'internet' && !!token) || (loginType === 'local' && !!code)) {
+    console.log('已登录，唤醒主进程')
     Vue.ipcRenderer.invoke('channel', { type: 'init', data: { isLogin: true } });
   } else {
+    console.log('未登录，打开登录进程')
     Vue.ipcRenderer.invoke('channel', { type: 'init', data: { isLogin: false } });
   }
 }

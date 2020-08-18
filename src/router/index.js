@@ -14,9 +14,10 @@ const routes = [
   {
     path: "/",
     component: BaseLayout,
+    redirect: '/home',
     children: [
       {
-        path: '',
+        path: '/home',
         name: 'Home',
         component: Home
       },
@@ -55,12 +56,12 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
   base: process.env.BASE_URL,
   routes
 });
 
 router.beforeEach((to, from, next) => {
+  console.log('开始路由跳转钩子')
   let isLogin = false;
   const loginType = Vue.ls.get('loginType');
   const token = Vue.ls.get('token');
@@ -76,6 +77,7 @@ router.beforeEach((to, from, next) => {
       break;
   }
   if (!isLogin) {
+    console.log('用户未登录，跳转登录页面')
     // 未登录
     if (to.path !== '/login') {
       next('/login');
@@ -83,6 +85,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else {
+    console.log('用户已登录，跳转首页')
     // 已登录
     if (to.path === '/login') {
       next('/')
