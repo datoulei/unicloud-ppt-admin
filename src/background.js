@@ -3,6 +3,9 @@
 import { app, protocol, BrowserWindow, ipcMain, globalShortcut } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import log from 'electron-log'
+log.transports.console.level = false;
+log.transports.console.level = 'silly'
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Keep a global reference of the window object, if you don't, the window will

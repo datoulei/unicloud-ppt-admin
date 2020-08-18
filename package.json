@@ -16,6 +16,7 @@
   "dependencies": {
     "ant-design-vue": "^1.6.4",
     "core-js": "^3.6.5",
+    "electron-log": "^4.2.4",
     "flex.css": "^1.1.7",
     "lodash": "^4.17.19",
     "mockjs": "^1.1.0",
@@ -41,6 +42,7 @@
     "babel-eslint": "^10.1.0",
     "electron": "^9.2.0",
     "electron-devtools-installer": "^3.1.1",
+    "electron-updater": "^4.3.4",
     "eslint": "^7.6.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
