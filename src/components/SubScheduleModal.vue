@@ -101,6 +101,19 @@ export default {
     FileUpload,
   },
   data() {
+    const endTimeValidator = (rule, value, cb) => {
+      if (value && this.form.startTime) {
+        const startTime = this.$moment(this.form.startTime, 'HH:mm');
+        const endTime = this.$moment(value, 'HH:mm');
+        if (endTime.isAfter(startTime)) {
+          cb();
+        } else {
+          cb(new Error('结束时间不能晚于开始时间'));
+        }
+      } else {
+        cb();
+      }
+    };
     return {
       visible: false,
       loading: false,
@@ -123,6 +136,7 @@ export default {
         ],
         endTime: [
           { required: true, message: '结束时间不能为空', trigger: 'change' },
+          { validator: endTimeValidator },
         ],
         avatar: [{ required: true, message: '头像不能为空', trigger: 'blur' }],
         name: [
