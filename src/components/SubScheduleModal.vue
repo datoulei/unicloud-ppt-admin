@@ -76,7 +76,7 @@
         </FileUpload>
       </a-form-model-item>
       <a-form-model-item label="PPT演讲时长" prop="minutes">
-        <a-input-number v-model="form.minutes" />分钟
+        <a-input-number v-model="form.minutes" :min="0" />分钟
       </a-form-model-item>
       <a-form-model-item label="倒计时显示位置" prop="position">
         <a-radio-group v-model="form.position" class="p-t-8">
@@ -108,7 +108,7 @@ export default {
         if (endTime.isAfter(startTime)) {
           cb();
         } else {
-          cb(new Error('结束时间不能晚于开始时间'));
+          cb(new Error('结束时间不能早于开始时间'));
         }
       } else {
         cb();
