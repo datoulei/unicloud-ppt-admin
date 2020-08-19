@@ -43,28 +43,27 @@
           data-index="name"
           title="子日程名称"
           width="400px"
+          ellipsis
         />
         <a-table-column
           key="work"
           data-index="work"
           title="单位"
           width="200px"
+          ellipsis
         />
         <a-table-column key="ppt" title="PPT" width="150px">
           <template slot-scope="row">
             <span
               v-if="row.ppt"
-              @click="handlePreview(row)"
               class="text-primary pointer"
+              @click="handleDownload(row)"
             >
               {{ getFilename(row.ppt) }}
             </span>
-            <!-- <a v-if="row.ppt" :href="row.ppt" :download="getFilename(row.ppt)">
-              {{ getFilename(row.ppt) }}
-            </a> -->
             <FileUpload
               v-else
-              accept=".ppt, .pptx"
+              accept=".ppt, .pptx, .pps, .ppsx .pdf"
               :limitSize="100"
               :showUploadList="false"
               @input="(url) => handleUpload(row, url)"
@@ -82,8 +81,14 @@
             </FileUpload>
           </template>
         </a-table-column>
-        <a-table-column key="action" title="操作" width="150px">
+        <a-table-column key="action" title="操作" width="200px">
           <template slot-scope="row">
+            <a-icon
+              type="play-circle"
+              class="m-r-20"
+              :style="{ fontSize: '16px', color: '#f60f0f' }"
+              @click="handlePreview(row)"
+            ></a-icon>
             <img
               src="/images/icon_button_edit.png"
               class="icon-button"
@@ -114,7 +119,6 @@ export default {
     FileUpload,
   },
   computed: {
-    ...mapState(['loginType']),
     ...mapState('activity', ['selected']),
     ...mapState('subSchedule', ['subSchedules']),
     name() {
@@ -231,16 +235,16 @@ export default {
       return file;
     },
     handlePreview({ ppt }) {
-      const baseUrl = 'https://view.officeapps.live.com/op/view.aspx';
-      const url = `${baseUrl}?src=${encodeURIComponent(ppt)}`;
-      if (this.loginType === 'internet') {
-        this.$ipcRenderer.invoke('channel', {
-          type: 'previewPPT',
-          data: { url },
-        });
-      } else {
-        this.$message.warn('局域网模式不支持预览');
-      }
+      this.$ipcRenderer.invoke('channel', {
+        type: 'preview',
+        data: { url: ppt },
+      });
+    },
+    handleDownload({ ppt }) {
+      this.$ipcRenderer.invoke('channel', {
+        type: 'download',
+        data: { url: ppt },
+      });
     },
   },
 };

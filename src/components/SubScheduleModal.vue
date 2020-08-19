@@ -67,7 +67,7 @@
         />
       </a-form-model-item>
       <a-form-model-item label="子日程ppt" prop="ppt">
-        <FileUpload v-model="form.ppt" accept=".ppt, .pptx">
+        <FileUpload v-model="form.ppt" accept=".ppt, .pptx, .pps, .ppsx .pdf">
           <template slot-scope="{ loading }">
             <a-button :loading="loading" type="primary" icon="upload">
               上传文件

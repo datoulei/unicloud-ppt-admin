@@ -102,12 +102,16 @@ export default {
         code: '',
       },
       internetRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }],
+        username: [
+          { required: true, message: '用户名不能为空', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+        ],
       },
       localRules: {
-        ip: [{ required: true, trigger: 'blur' }],
-        code: [{ required: true, trigger: 'blur' }],
+        ip: [{ required: true, message: 'IP不能为空', trigger: 'blur' }],
+        code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }],
       },
     };
   },

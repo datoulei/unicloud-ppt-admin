@@ -106,7 +106,7 @@ export default {
   font-size: 12px;
   line-height: 1.2;
   vertical-align: text-top;
-  .primary {
+  &.primary {
     color: #f60f0f;
   }
   &::before {
@@ -134,6 +134,7 @@ export default {
     color: #333;
     font-size: 20px;
     font-weight: 500;
+    text-align: center;
   }
 }
 .finished {

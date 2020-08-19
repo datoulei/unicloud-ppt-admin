@@ -2,7 +2,7 @@
   <div class="screen-item">
     <div class="header">
       <p class="title">{{ screen.name }}</p>
-      <div class="sub-title m-t-10">
+      <div class="sub-title m-t-4">
         <span>主日程数量：{{ screen.mainScheduleCount }}</span>
         <span class="m-l-32">PPT数量：{{ screen.pptCount }}</span>
       </div>
@@ -100,22 +100,24 @@ export default {
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   .header {
-    height: 104px;
+    height: 68px;
     box-sizing: border-box;
-    padding: 24px;
+    padding: 10px 24px;
     background-color: #f60f0f;
     color: #fff;
     .title {
       font-size: 18px;
       font-weight: 500;
+      line-height: 24px;
     }
     .sub-title {
       font-size: 14px;
       font-weight: 400;
+      line-height: 20px;
     }
   }
   .body {
-    height: 104px;
+    height: 108px;
     .icon {
       width: 32px;
       height: 32px;

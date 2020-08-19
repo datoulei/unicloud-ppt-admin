@@ -1,8 +1,10 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, ipcMain, globalShortcut } from "electron";
+import { app, session, shell, protocol, BrowserWindow, ipcMain, globalShortcut } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import * as path from 'path';
+import * as fs from 'fs-extra';
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 log.transports.console.level = false;
@@ -37,7 +39,8 @@ function createWindow() {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       additionalArguments: ['main-window'],
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      plugins: false
     }
   });
 
@@ -189,17 +192,62 @@ ipcMain.handle('channel', (event, { type, data }) => {
       }
       createLoginWindow();
       return { code: 1 }
-    case 'previewPPT':
-      modal = new BrowserWindow({
-        fullscreen: true,
-        resizable: false,
-        alwaysOnTop: true,
-        parent: win,
-      });
+    case 'preview':
+      if (data.url.endsWith('.pdf')) {
+        modal = new BrowserWindow({
+          fullscreen: true,
+          resizable: false,
+          alwaysOnTop: true,
+          parent: win,
+        });
+      } else if (data.url.endsWith('.ppt') || data.url.endsWith('.pptx') || data.url.endsWith('.pps') || data.url.endsWith('.ppsx')) {
+        modal = new BrowserWindow({
+          show: false,
+        });
+        modal.webContents.session.on('will-download', async (event, item) => {
+          console.log('开始下载文件')
+          const fileName = item.getFilename();
+          const url = item.getURL();
+          const startTime = item.getStartTime();
+          const initialState = item.getState();
+          const downloadPath = app.getPath('downloads');
+
+          let fileNum = 0;
+          let savePath = path.join(downloadPath, fileName);
+
+          // savePath基础信息
+          const ext = path.extname(savePath);
+          const name = path.basename(savePath, ext);
+          const dir = path.dirname(savePath);
+
+          // 文件名自增逻辑
+          while (fs.pathExistsSync(savePath)) {
+            fileNum += 1;
+            savePath = path.format({
+              dir,
+              ext,
+              name: `${name}(${fileNum})`,
+            });
+          }
+
+          // 设置下载目录，阻止系统dialog的出现
+          item.setSavePath(savePath);
+
+          // 下载任务完成
+          item.on('done', (e, state) => { // eslint-disable-line
+            shell.openPath(savePath)
+          });
+
+        })
+      }
       modal.loadURL(data.url)
+      return { code: 1 }
+    case 'download':
+      win.webContents.downloadURL(data.url)
       return { code: 1 }
     default:
       console.log('未知操作：', type)
       break;
   }
 })
+

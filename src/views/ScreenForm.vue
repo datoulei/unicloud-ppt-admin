@@ -83,9 +83,13 @@ export default {
         style: 'dark',
       },
       rules: {
-        name: [{ required: true, trigger: 'blur' }],
-        displayName: [{ required: true, trigger: 'blur' }],
-        date: [{ required: true, trigger: 'blur' }],
+        name: [
+          { required: true, message: '屏幕名称不能为空', trigger: 'blur' },
+        ],
+        displayName: [
+          { required: true, message: '显示名称不能为空', trigger: 'blur' },
+        ],
+        date: [{ required: true, message: '日期不能为空', trigger: 'blur' }],
         // logo: [{ required: true, trigger: 'blur' }],
         // style: [{ required: true, trigger: 'blur' }],
       },
