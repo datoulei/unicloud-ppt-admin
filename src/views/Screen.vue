@@ -147,6 +147,9 @@ export default {
     async handleSort({ oldIndex, newIndex }) {
       console.log('handleSort -> newIndex', newIndex);
       console.log('handleSort -> oldIndex', oldIndex);
+      if (newIndex === oldIndex) {
+        return;
+      }
       let leftElement, rightElement;
       const list = this.mainSchedules;
       const oldElement = this.$lodash.cloneDeep(list[oldIndex]);

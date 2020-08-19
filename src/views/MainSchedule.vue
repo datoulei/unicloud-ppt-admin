@@ -50,11 +50,18 @@
           title="单位"
           width="200px"
         />
-        <!-- <a-table-column key="ppt" title="PPT" width="150px">
+        <a-table-column key="ppt" title="PPT" width="150px">
           <template slot-scope="row">
-            <a v-if="row.ppt" :href="row.ppt" :download="getFilename(row.ppt)">
+            <span
+              v-if="row.ppt"
+              @click="handlePreview(row)"
+              class="text-primary pointer"
+            >
               {{ getFilename(row.ppt) }}
-            </a>
+            </span>
+            <!-- <a v-if="row.ppt" :href="row.ppt" :download="getFilename(row.ppt)">
+              {{ getFilename(row.ppt) }}
+            </a> -->
             <FileUpload
               v-else
               accept=".ppt, .pptx"
@@ -74,7 +81,7 @@
               </template>
             </FileUpload>
           </template>
-        </a-table-column> -->
+        </a-table-column>
         <a-table-column key="action" title="操作" width="150px">
           <template slot-scope="row">
             <img
@@ -107,6 +114,7 @@ export default {
     FileUpload,
   },
   computed: {
+    ...mapState(['loginType']),
     ...mapState('activity', ['selected']),
     ...mapState('subSchedule', ['subSchedules']),
     name() {
@@ -182,6 +190,9 @@ export default {
     async handleSort({ oldIndex, newIndex }) {
       console.log('handleSort -> newIndex', newIndex);
       console.log('handleSort -> oldIndex', oldIndex);
+      if (newIndex === oldIndex) {
+        return;
+      }
       let leftElement, rightElement;
       const list = this.subSchedules;
       const oldElement = this.$lodash.cloneDeep(list[oldIndex]);
@@ -218,6 +229,18 @@ export default {
     getFilename(url) {
       const file = url.split('/').pop();
       return file;
+    },
+    handlePreview({ ppt }) {
+      const baseUrl = 'https://view.officeapps.live.com/op/view.aspx';
+      const url = `${baseUrl}?src=${encodeURIComponent(ppt)}`;
+      if (this.loginType === 'internet') {
+        this.$ipcRenderer.invoke('channel', {
+          type: 'previewPPT',
+          data: { url },
+        });
+      } else {
+        this.$message.warn('局域网模式不支持预览');
+      }
     },
   },
 };

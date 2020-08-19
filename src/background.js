@@ -143,6 +143,7 @@ if (isDevelopment) {
 
 // 主进程监听
 ipcMain.handle('channel', (event, { type, data }) => {
+  let modal;
   console.log("主进程监听，type：%s， data: %o", type, data)
   switch (type) {
     case 'init':
@@ -187,6 +188,15 @@ ipcMain.handle('channel', (event, { type, data }) => {
         win.hide()
       }
       createLoginWindow();
+      return { code: 1 }
+    case 'previewPPT':
+      modal = new BrowserWindow({
+        fullscreen: true,
+        resizable: false,
+        alwaysOnTop: true,
+        parent: win,
+      });
+      modal.loadURL(data.url)
       return { code: 1 }
     default:
       console.log('未知操作：', type)

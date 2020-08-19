@@ -11,7 +11,7 @@ export default {
       state.subSchedules = list
       return state
     },
-    SORT_MAIN_SCHEDULES(state, { oldIndex, newIndex }) {
+    SORT_SUB_SCHEDULES(state, { oldIndex, newIndex }) {
       let leftElement, rightElement;
       const tempList = [...state.subSchedules]
       const oldElement = tempList[oldIndex];
@@ -54,25 +54,25 @@ export default {
         // 局域网模式
       }
     },
-    async createSubSchedule({ rootState, commit }, data) {
+    async createSubSchedule({ rootState }, data) {
       const mainSchedule = rootState.mainSchedule.selected
       if (rootState.loginType === 'internet') {
         await Vue.axios.post(`/schedules/${mainSchedule.id}/children`, data)
       }
     },
-    async updateSubSchedule({ rootState, commit }, data) {
+    async updateSubSchedule({ rootState }, data) {
       const mainSchedule = rootState.mainSchedule.selected
       if (rootState.loginType === 'internet') {
         await Vue.axios.put(`/schedules/${mainSchedule.id}/children/${data.id}`, data)
       }
     },
-    async deleteSubSchedule({ rootState, commit }, id) {
+    async deleteSubSchedule({ rootState }, id) {
       const mainSchedule = rootState.mainSchedule.selected
       if (rootState.loginType === 'internet') {
         await Vue.axios.delete(`/schedules/${mainSchedule.id}/children/${id}`)
       }
     },
-    selectSubSchedule({ state, commit }, subSchedule) {
+    selectSubSchedule({ commit }, subSchedule) {
       commit('SET_SELECTED', subSchedule)
     },
     sortSubSchedules({ commit }, sort) {
