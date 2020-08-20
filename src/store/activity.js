@@ -5,6 +5,7 @@ export default {
   state: {
     activites: [],
     selected: null,
+    attendees: []
   },
   mutations: {
     SET_ACTIVITIES(state, list) {
@@ -14,7 +15,11 @@ export default {
     SET_SELECTED(state, selected) {
       state.selected = selected
       return state
-    }
+    },
+    SET_ATTENDEES(state, list) {
+      state.attendees = list
+      return state
+    },
   },
   actions: {
     async getActivities({ rootState, commit }, params) {
@@ -55,5 +60,11 @@ export default {
     selectActivity({ commit }, activity) {
       commit('SET_SELECTED', activity)
     },
+    async loadAttendees({ rootState, state, commit }) {
+      if (rootState.loginType === 'internet') {
+        const result = await Vue.axios.get(`/activities/${state.selected.id}/attendees`)
+        commit('SET_ATTENDEES', result)
+      }
+    }
   },
 }

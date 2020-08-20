@@ -53,11 +53,25 @@
         />
       </a-form-model-item>
       <a-form-model-item label="姓名" prop="guestName">
-        <a-input
+        <!-- <a-input
           v-model="form.guestName"
           placeholder="请输入姓名"
           style="width: 240px;"
-        />
+        /> -->
+        <a-auto-complete
+          v-model="form.guestName"
+          :filterOption="attendeeFilter"
+          :defaultOpen="false"
+          placeholder="请输入姓名"
+          style="width: 240px;"
+          @select="handleSelect"
+        >
+          <template slot="dataSource">
+            <a-select-option v-for="item in attendees" :key="item.name">
+              {{ item.name }}
+            </a-select-option>
+          </template>
+        </a-auto-complete>
       </a-form-model-item>
       <a-form-model-item label="单位名称" prop="work">
         <a-input
@@ -91,7 +105,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import ImageUpload from '@/components/common/ImageUpload';
 import FileUpload from '@/components/common/FileUpload';
 export default {
@@ -154,7 +168,11 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState('activity', ['attendees']),
+  },
   methods: {
+    ...mapActions('activity', ['loadAttendees']),
     ...mapActions('subSchedule', ['createSubSchedule', 'updateSubSchedule']),
     open(record) {
       this.visible = true;
@@ -162,6 +180,7 @@ export default {
         this.recordId = record.id;
         this.form = this.$lodash.cloneDeep(record);
       }
+      this.loadAttendees();
     },
     close() {
       this.visible = false;
@@ -195,6 +214,13 @@ export default {
         this.$emit('confirm');
       } catch (error) {}
       this.loading = false;
+    },
+    attendeeFilter(inputValue, option) {
+      return option.key.includes(inputValue);
+    },
+    handleSelect(val) {
+      const work = this.attendees.find((a) => a.name === val).work;
+      this.form.work = work;
     },
   },
 };
