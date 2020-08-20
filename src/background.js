@@ -203,6 +203,9 @@ ipcMain.handle('channel', (event, { type, data }) => {
       } else if (data.url.endsWith('.ppt') || data.url.endsWith('.pptx') || data.url.endsWith('.pps') || data.url.endsWith('.ppsx')) {
         modal = new BrowserWindow({
           show: false,
+          webPreferences: {
+            session: session.fromPartition('ppt')
+          }
         });
         modal.webContents.session.on('will-download', async (event, item) => {
           console.log('开始下载文件')
