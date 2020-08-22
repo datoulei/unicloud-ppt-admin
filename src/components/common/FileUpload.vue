@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   props: {
     value: {
@@ -54,9 +55,18 @@ export default {
   data() {
     return {
       loading: false,
-      action: process.env.VUE_APP_BASE_URL + '/files',
       fileList: [],
     };
+  },
+  computed: {
+    ...mapState(['loginType']),
+    action() {
+      if (this.loginType === 'local') {
+        const baseURL = this.$ls.get('baseURL');
+        return baseURL + '/files';
+      }
+      return process.env.VUE_APP_BASE_URL + '/files';
+    },
   },
   methods: {
     beforeUpload(file) {

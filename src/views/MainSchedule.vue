@@ -119,6 +119,7 @@ export default {
     FileUpload,
   },
   computed: {
+    ...mapState(['loginType']),
     ...mapState('activity', ['selected']),
     ...mapState('subSchedule', ['subSchedules']),
     name() {
@@ -235,12 +236,18 @@ export default {
       return file;
     },
     handlePreview({ ppt }) {
+      if (this.loginType === 'local') {
+        ppt = this.$ls.get('baseURL') + '/' + ppt;
+      }
       this.$ipcRenderer.invoke('channel', {
         type: 'preview',
         data: { url: ppt },
       });
     },
     handleDownload({ ppt }) {
+      if (this.loginType === 'local') {
+        ppt = this.$ls.get('baseURL') + '/' + ppt;
+      }
       this.$ipcRenderer.invoke('channel', {
         type: 'download',
         data: { url: ppt },

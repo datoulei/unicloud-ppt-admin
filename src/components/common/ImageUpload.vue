@@ -8,7 +8,12 @@
     @change="handleChange"
   >
     <slot>
-      <img v-if="value" :src="value" alt="avatar" :style="{ width, height }" />
+      <img
+        v-if="value"
+        :src="preview"
+        alt="avatar"
+        :style="{ width, height }"
+      />
       <div
         v-else
         class="placeholder"
@@ -28,6 +33,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   props: {
     value: {
@@ -62,8 +68,24 @@ export default {
   data() {
     return {
       loading: false,
-      action: process.env.VUE_APP_BASE_URL + '/files',
     };
+  },
+  computed: {
+    ...mapState(['loginType']),
+    action() {
+      if (this.loginType === 'local') {
+        const baseURL = this.$ls.get('baseURL');
+        return baseURL + '/files';
+      }
+      return process.env.VUE_APP_BASE_URL + '/files';
+    },
+    preview() {
+      if (this.loginType === 'local' && this.value) {
+        const baseURL = this.$ls.get('baseURL');
+        return `${baseURL}/${this.value}`;
+      }
+      return this.value;
+    },
   },
   methods: {
     beforeUpload(file) {
