@@ -132,9 +132,7 @@ export default {
             break;
           case 'local':
             await this.$refs.localForm.validate();
-            // 设置baseURL
-            this.$axios.defaults.baseURL = `http://${this.localForm.ip}`;
-            await this.$axios.post(`/admin/login`, {
+            await this.$axios.post(`http://${this.localForm.ip}/admin/login`, {
               code: this.localForm.code,
             });
             this.$ls.set('loginType', 'local');
