@@ -11,6 +11,15 @@
         <a-select-option key="doing" :value="2">进行中</a-select-option>
         <a-select-option key="done" :value="3">已结束</a-select-option>
       </a-select>
+      <template v-if="loginType === 'local'">
+        <a-button
+          class="m-l-5"
+          type="primary"
+          icon="plus"
+          @click="handleCreateActivity()"
+          >创建活动</a-button
+        >
+      </template>
       <span flex-box="1"></span>
       <a-input-search
         style="width: 200px;"
@@ -35,15 +44,18 @@
         <ActivityItem :activity="item" />
       </a-list-item>
     </a-list>
+    <ActivityModal ref="modal" @confirm="handleSearch" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import ActivityItem from '@/components/ActivityItem';
+import ActivityModal from '@/components/ActivityModal';
 export default {
   components: {
     ActivityItem,
+    ActivityModal,
   },
   data() {
     return {
@@ -55,9 +67,10 @@ export default {
     };
   },
   computed: {
+    ...mapState(['loginType']),
     ...mapState('activity', ['activites']),
   },
-  created() {
+  mounted() {
     this.handleSearch();
   },
   methods: {
@@ -72,6 +85,9 @@ export default {
         await this.getActivities(this.conditions);
       } catch (error) {}
       this.loading = false;
+    },
+    handleCreateActivity(record) {
+      this.$refs.modal.open();
     },
   },
 };

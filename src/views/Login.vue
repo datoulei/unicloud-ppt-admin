@@ -123,7 +123,10 @@ export default {
         switch (type) {
           case 'internet':
             await this.$refs.internetForm.validate();
-            res = await this.$axios.post('/auth/login', this.internetForm);
+            res = await this.$axios.post(
+              `${process.env.VUE_APP_BASE_URL}/auth/login`,
+              this.internetForm,
+            );
             this.$ls.set('loginType', 'internet');
             this.$ls.set('token', res.token);
             break;

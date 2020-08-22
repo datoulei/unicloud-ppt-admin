@@ -44,33 +44,23 @@ export default {
   actions: {
     async getSubSchedules({ rootState, commit }, params) {
       const mainSchedule = rootState.mainSchedule.selected
-      if (rootState.loginType === 'internet') {
-        // 互联网模式
-        const result = await Vue.axios.get(`/schedules/${mainSchedule.id}/children`, { params })
-        const list = result
-        commit('SET_SUB_SCHEDULES', list)
-        return result
-      } else {
-        // 局域网模式
-      }
+      // 互联网模式
+      const result = await Vue.axios.get(`/schedules/${mainSchedule.id}/children`, { params })
+      const list = result
+      commit('SET_SUB_SCHEDULES', list)
+      return result
     },
     async createSubSchedule({ rootState }, data) {
       const mainSchedule = rootState.mainSchedule.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.post(`/schedules/${mainSchedule.id}/children`, data)
-      }
+      await Vue.axios.post(`/schedules/${mainSchedule.id}/children`, data)
     },
     async updateSubSchedule({ rootState }, data) {
       const mainSchedule = rootState.mainSchedule.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.put(`/schedules/${mainSchedule.id}/children/${data.id}`, data)
-      }
+      await Vue.axios.put(`/schedules/${mainSchedule.id}/children/${data.id}`, data)
     },
     async deleteSubSchedule({ rootState }, id) {
       const mainSchedule = rootState.mainSchedule.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.delete(`/schedules/${mainSchedule.id}/children/${id}`)
-      }
+      await Vue.axios.delete(`/schedules/${mainSchedule.id}/children/${id}`)
     },
     selectSubSchedule({ commit }, subSchedule) {
       commit('SET_SELECTED', subSchedule)

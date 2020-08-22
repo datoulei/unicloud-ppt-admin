@@ -25,12 +25,20 @@ export default {
     async getActivities({ rootState, commit }, params) {
       if (rootState.loginType === 'internet') {
         // 互联网模式
-        const result = await Vue.axios.get('/activities', { params })
-        const list = result.rows.filter(row => [1, 2, 3].includes(row.status))
+        const result = await Vue.axios.get('/activities', {
+          params: {
+            ...params,
+            simple: true,
+          }
+        })
+        const list = result.filter(row => [1, 2, 3].includes(row.status))
         commit('SET_ACTIVITIES', list)
         return result
       } else {
         // 局域网模式
+        const result = await Vue.axios.get('/activities', { params })
+        commit('SET_ACTIVITIES', result)
+        return result
       }
     },
     async createActivity({ rootState, commit }, data) {

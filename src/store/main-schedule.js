@@ -44,33 +44,22 @@ export default {
   actions: {
     async getMainSchedules({ rootState, commit }, params) {
       const screen = rootState.screen.selected
-      if (rootState.loginType === 'internet') {
-        // 互联网模式
-        const result = await Vue.axios.get(`/screens/${screen.id}/schedules`, { params })
-        const list = result
-        commit('SET_MAIN_SCHEDULES', list)
-        return result
-      } else {
-        // 局域网模式
-      }
+      const result = await Vue.axios.get(`/screens/${screen.id}/schedules`, { params })
+      const list = result
+      commit('SET_MAIN_SCHEDULES', list)
+      return result
     },
     async createMainSchedule({ rootState }, data) {
       const screen = rootState.screen.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.post(`/screens/${screen.id}/schedules`, data)
-      }
+      await Vue.axios.post(`/screens/${screen.id}/schedules`, data)
     },
     async updateMainSchedule({ rootState }, data) {
       const screen = rootState.screen.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.put(`/screens/${screen.id}/schedules/${data.id}`, data)
-      }
+      await Vue.axios.put(`/screens/${screen.id}/schedules/${data.id}`, data)
     },
     async deleteMainSchedule({ rootState }, id) {
       const screen = rootState.screen.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.delete(`/screens/${screen.id}/schedules/${id}`)
-      }
+      await Vue.axios.delete(`/screens/${screen.id}/schedules/${id}`)
     },
     selectMainSchedule({ commit }, mainSchedule) {
       commit('SET_SELECTED', mainSchedule)

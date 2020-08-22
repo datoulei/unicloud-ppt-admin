@@ -89,7 +89,7 @@ export default {
         displayName: [
           { required: true, message: '显示名称不能为空', trigger: 'blur' },
         ],
-        date: [{ required: true, message: '日期不能为空', trigger: 'blur' }],
+        date: [{ required: true, message: '日期不能为空', trigger: 'change' }],
         // logo: [{ required: true, trigger: 'blur' }],
         // style: [{ required: true, trigger: 'blur' }],
       },

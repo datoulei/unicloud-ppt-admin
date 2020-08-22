@@ -19,33 +19,22 @@ export default {
   actions: {
     async getScreens({ rootState, commit }, params) {
       const activity = rootState.activity.selected
-      if (rootState.loginType === 'internet') {
-        // 互联网模式
-        const result = await Vue.axios.get(`/activities/${activity.id}/screens`, { params })
-        const list = result
-        commit('SET_SCREENS', list)
-        return result
-      } else {
-        // 局域网模式
-      }
+      const result = await Vue.axios.get(`/activities/${activity.id}/screens`, { params })
+      const list = result
+      commit('SET_SCREENS', list)
+      return result
     },
     async createScreen({ rootState }, data) {
       const activity = rootState.activity.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.post(`/activities/${activity.id}/screens`, data)
-      }
+      await Vue.axios.post(`/activities/${activity.id}/screens`, data)
     },
     async updateScreen({ rootState }, data) {
       const activity = rootState.activity.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.put(`/activities/${activity.id}/screens/${data.id}`, data)
-      }
+      await Vue.axios.put(`/activities/${activity.id}/screens/${data.id}`, data)
     },
     async deleteScreen({ rootState }, id) {
       const activity = rootState.activity.selected
-      if (rootState.loginType === 'internet') {
-        await Vue.axios.delete(`/activities/${activity.id}/screens/${id}`)
-      }
+      await Vue.axios.delete(`/activities/${activity.id}/screens/${id}`)
     },
     selectScreen({ commit }, screen) {
       commit('SET_SELECTED', screen)
