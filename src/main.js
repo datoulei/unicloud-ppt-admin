@@ -31,6 +31,10 @@ if (process.argv.includes('main-window')) {
   if ((loginType === 'internet' && !!token) || (loginType === 'local' && !!code)) {
     console.log('已登录，唤醒主进程')
     Vue.ipcRenderer.invoke('channel', { type: 'init', data: { isLogin: true } });
+    if (loginType === 'local') {
+      const baseURL = Vue.ls.get('baseURL')
+      Vue.axios.defaults.baseURL = baseURL
+    }
   } else {
     console.log('未登录，打开登录进程')
     Vue.ipcRenderer.invoke('channel', { type: 'init', data: { isLogin: false } });

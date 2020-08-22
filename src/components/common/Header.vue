@@ -11,6 +11,22 @@
       <a-button ghost size="small" icon="left" @click="handleBack" />
       <a-button ghost size="small" icon="right" @click="handleForward" />
     </a-button-group>
+    <a-popover placement="topRight">
+      <template #content>
+        <span>{{ code }}</span>
+        <span class="m-l-10">
+          <a-icon
+            class="pointer"
+            type="redo"
+            @click="handleRefreshCode"
+          ></a-icon>
+        </span>
+      </template>
+      <span class="m-l-24">
+        <span>群晖验证码</span>
+        <a-icon type="caret-down"></a-icon>
+      </span>
+    </a-popover>
     <span flex-box="1" />
     <a-dropdown :getPopupContainer="getPopupContainer" placement="bottomRight">
       <span class="mode" v-if="loginType === 'internet'">互联网模式</span>
@@ -34,8 +50,21 @@
 import { mapState } from 'vuex';
 export default {
   name: 'Header',
+  data() {
+    return { code: null };
+  },
   computed: {
     ...mapState(['loginType']),
+  },
+  watch: {
+    loginType: {
+      handler(loginType) {
+        if (loginType === 'local') {
+          this.code = this.$ls.get('code');
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     getPopupContainer() {
@@ -84,6 +113,11 @@ export default {
           this.$ipcRenderer.invoke('channel', { type: 'logout' });
         },
       });
+    },
+    async handleRefreshCode() {
+      const code = await this.$axios.get('/refresh_code');
+      this.$ls.set('code', code);
+      this.code = code;
     },
   },
 };

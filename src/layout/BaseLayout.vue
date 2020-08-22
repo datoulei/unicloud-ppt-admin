@@ -21,6 +21,7 @@ export default {
 <style lang="less">
 .ant-layout-header {
   height: 48px;
+  line-height: 1;
   padding: 0 15px;
   background: #222;
   position: fixed;

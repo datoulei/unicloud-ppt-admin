@@ -114,8 +114,10 @@ app.on("activate", () => {
 app.on("ready", async () => {
   console.log('is ready');
   globalShortcut.register('CommandOrControl+Shift+J', () => {
-    if (win) {
+    if (win && win.isVisible()) {
       win.webContents.openDevTools()
+    } else if (loginWin) {
+      loginWin.webContents.openDevTools()
     }
   })
   if (isDevelopment && !process.env.IS_TEST) {
