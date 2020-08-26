@@ -16,7 +16,7 @@
       </a-col>
       <a-col :span="6" class="main:center">
         <div class="pointer" flex="dir:top cross:center" @click="handleDetail">
-          <img src="/images/icon_copy.png" alt="" class="icon" />
+          <img src="/images/icon_manage.png" alt="" class="icon" />
           <span class="label m-t-8">管理日程</span>
         </div>
       </a-col>

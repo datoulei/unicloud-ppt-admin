@@ -64,8 +64,8 @@ function createLoginWindow() {
 
   loginWin = new BrowserWindow({
     frame: false,
-    width: 756,
-    height: 448,
+    width: 868,
+    height: 528,
     resizable: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone

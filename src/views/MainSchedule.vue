@@ -83,12 +83,11 @@
         </a-table-column>
         <a-table-column key="action" title="操作" width="200px">
           <template slot-scope="row">
-            <a-icon
-              type="play-circle"
+            <img
+              src="/images/icon_play.png"
               class="m-r-20"
-              :style="{ fontSize: '16px', color: '#f60f0f' }"
               @click="handlePreview(row)"
-            ></a-icon>
+            />
             <img
               src="/images/icon_button_edit.png"
               class="icon-button"

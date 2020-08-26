@@ -38,10 +38,19 @@
             <div
               :class="[
                 'style-radio-item',
-                'dark',
-                form.style === 'dark' && 'checked',
+                'blue',
+                form.style === 'blue' && 'checked',
               ]"
-              @click="form.style = 'dark'"
+              @click="form.style = 'blue'"
+            />
+            <div
+              :class="[
+                'style-radio-item',
+                'm-l-16',
+                'red',
+                form.style === 'red' && 'checked',
+              ]"
+              @click="form.style = 'red'"
             />
             <div
               :class="[
@@ -79,8 +88,8 @@ export default {
         name: null,
         displayName: null,
         date: null,
-        logo: null,
-        style: 'dark',
+        logo: 'https://uniecloud.oss-cn-shenzhen.aliyuncs.com/ppt/logo.png',
+        style: 'blue',
       },
       rules: {
         name: [
@@ -141,6 +150,15 @@ export default {
     right: 8px;
     background-image: url('/images/icon_checked.png');
     background-size: cover;
+  }
+  &.blue {
+    background-image: url('/images/img_style_blue.png');
+  }
+  &.red {
+    background-image: url('/images/img_style_red.png');
+  }
+  &.light {
+    background-image: url('/images/img_style_light.png');
   }
 }
 .w-240 {

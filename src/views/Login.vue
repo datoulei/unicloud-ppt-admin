@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <img src="/images/icon_close.png" class="close-btn" @click="handleClose" />
+    <img src="/images/logo.png" class="logo" />
     <div class="main">
       <h2 class="title">登录</h2>
       <div class="body m-t-24">
@@ -171,7 +172,7 @@ export default {
   }
   .main {
     position: absolute;
-    top: 40px;
+    top: 80px;
     right: 64px;
     width: 332px;
     height: 368px;
@@ -220,6 +221,13 @@ export default {
       border-radius: 2px;
       border: 1px solid rgba(229, 229, 229, 1);
     }
+  }
+  .logo {
+    position: absolute;
+    left: 93px;
+    top: 198px;
+    width: 192px;
+    height: 52px;
   }
 }
 </style>
