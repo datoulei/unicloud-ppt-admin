@@ -85,7 +85,7 @@
           <template slot-scope="row">
             <img
               src="/images/icon_play.png"
-              class="m-r-20"
+              class="icon-button"
               @click="handlePreview(row)"
             />
             <img
