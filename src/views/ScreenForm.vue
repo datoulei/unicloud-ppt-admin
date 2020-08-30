@@ -139,7 +139,8 @@ export default {
   height: 108px;
   cursor: pointer;
   position: relative;
-  background: rgba(0, 0, 0, 0.46);
+  // background: rgba(0, 0, 0, 0.46);
+  background-size: cover;
   &.checked::before {
     content: '';
     display: block;

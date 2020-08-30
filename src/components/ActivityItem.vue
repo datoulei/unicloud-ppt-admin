@@ -8,10 +8,12 @@
         <div>
           <p class="title">{{ activity.name }}</p>
           <p class="m-t-8">
-            <span v-if="activity.status === 1" class="status primary">
+            <span v-if="activity.status === 1" class="status">
               待进行
             </span>
-            <span v-else-if="activity.status === 2" class="status">进行中</span>
+            <span v-else-if="activity.status === 2" class="status primary">
+              进行中
+            </span>
             <span v-else-if="activity.status === 3" class="status">已结束</span>
           </p>
         </div>
@@ -106,9 +108,6 @@ export default {
   font-size: 12px;
   line-height: 1.2;
   vertical-align: text-top;
-  &.primary {
-    color: #f60f0f;
-  }
   &::before {
     content: '';
     display: inline-block;
@@ -118,6 +117,12 @@ export default {
     background-color: #b8b8b8;
     margin-right: 6px;
     vertical-align: middle;
+  }
+  &.primary {
+    color: #f60f0f;
+    &::before {
+      background-color: #f60f0f;
+    }
   }
 }
 .date-box {
