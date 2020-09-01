@@ -80,7 +80,11 @@ export default {
       return process.env.VUE_APP_BASE_URL + '/files';
     },
     preview() {
-      if (this.loginType === 'local' && this.value) {
+      if (
+        this.loginType === 'local' &&
+        this.value &&
+        this.value !== '/images/logo.png'
+      ) {
         const baseURL = this.$ls.get('baseURL');
         return `${baseURL}/${this.value}`;
       }

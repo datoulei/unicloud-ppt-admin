@@ -88,7 +88,7 @@ export default {
         name: null,
         displayName: null,
         date: null,
-        logo: 'https://uniecloud.oss-cn-shenzhen.aliyuncs.com/ppt/logo.png',
+        logo: '/images/logo.png',
         style: 'blue',
       },
       rules: {

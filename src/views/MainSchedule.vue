@@ -63,7 +63,7 @@
             </span>
             <FileUpload
               v-else
-              accept=".ppt, .pptx, .pps, .ppsx .pdf"
+              accept=".ppt, .pptx, .pps, .ppsx, .pdf"
               :limitSize="100"
               :showUploadList="false"
               @input="(url) => handleUpload(row, url)"
