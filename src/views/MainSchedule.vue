@@ -236,7 +236,7 @@ export default {
     },
     handlePreview({ ppt }) {
       if (this.loginType === 'local') {
-        ppt = this.$ls.get('baseURL') + '/' + ppt;
+        ppt = this.$db.get('baseURL').value() + '/' + ppt;
       }
       this.$ipcRenderer.invoke('channel', {
         type: 'preview',
@@ -245,7 +245,7 @@ export default {
     },
     handleDownload({ ppt }) {
       if (this.loginType === 'local') {
-        ppt = this.$ls.get('baseURL') + '/' + ppt;
+        ppt = this.$db.get('baseURL').value() + '/' + ppt;
       }
       this.$ipcRenderer.invoke('channel', {
         type: 'download',

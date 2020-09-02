@@ -62,7 +62,7 @@ export default {
     ...mapState(['loginType']),
     action() {
       if (this.loginType === 'local') {
-        const baseURL = this.$ls.get('baseURL');
+        const baseURL = this.$db.get('baseURL').value();
         return baseURL + '/files';
       }
       return process.env.VUE_APP_BASE_URL + '/files';

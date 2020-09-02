@@ -136,7 +136,7 @@ export default {
 <style lang="less" scoped>
 .style-radio-item {
   width: 192px;
-  height: 108px;
+  height: 109px;
   cursor: pointer;
   position: relative;
   // background: rgba(0, 0, 0, 0.46);

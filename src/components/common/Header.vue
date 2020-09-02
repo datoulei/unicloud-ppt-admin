@@ -62,7 +62,7 @@ export default {
     loginType: {
       handler(loginType) {
         if (loginType === 'local') {
-          this.code = this.$ls.get('code');
+          this.code = this.$db.get('code').value();
         }
       },
       immediate: true,
@@ -108,9 +108,9 @@ export default {
         title: '退出登录确认',
         content: '是否确认退出登录？',
         onOk: () => {
-          this.$ls.remove('loginType');
-          this.$ls.remove('token');
-          this.$ls.remove('code');
+          this.$db.unset('loginType').write();
+          this.$db.unset('token').write();
+          this.$db.unset('code').write();
           this.$message.success('退出登录成功！');
           this.$ipcRenderer.invoke('channel', { type: 'logout' });
         },
@@ -118,7 +118,7 @@ export default {
     },
     async handleRefreshCode() {
       const code = await this.$axios.get('/refresh_code');
-      this.$ls.set('code', code);
+      this.$db.set('code', code).write();
       this.code = code;
     },
   },

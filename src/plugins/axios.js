@@ -20,9 +20,9 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function (config) {
-    const loginType = Vue.ls.get('loginType')
-    const token = Vue.ls.get('token')
-    const baseURL = Vue.ls.get('baseURL')
+    const loginType = Vue.db.get('loginType').value()
+    const token = Vue.db.get('token').value()
+    const baseURL = Vue.db.get('baseURL').value()
     if (loginType === 'internet') {
       if (config.baseURL !== process.env.VUE_APP_BASE_URL) {
         config.baseURL = process.env.VUE_APP_BASE_URL

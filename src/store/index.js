@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    loginType: Vue.ls.get('loginType'),
+    loginType: Vue.db.get('loginType').value(),
   },
   modules: {
     activity,

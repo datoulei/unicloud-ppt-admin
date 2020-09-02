@@ -1,5 +1,5 @@
 import Vue from "vue";
-import * as db from '../db'
+import db from '../db'
 
 const Plugin = {
   install: function (Vue) {

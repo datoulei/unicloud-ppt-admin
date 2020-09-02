@@ -128,8 +128,8 @@ export default {
               `${process.env.VUE_APP_BASE_URL}/auth/login`,
               this.internetForm,
             );
-            this.$ls.set('loginType', 'internet');
-            this.$ls.set('token', res.token);
+            this.$db.set('loginType', 'internet').write();
+            this.$db.set('token', res.token).write();
             break;
           case 'local':
             await this.$refs.localForm.validate();
@@ -139,9 +139,9 @@ export default {
                 code: this.localForm.code,
               },
             );
-            this.$ls.set('loginType', 'local');
-            this.$ls.set('baseURL', `http://${this.localForm.ip}:3000`);
-            this.$ls.set('code', this.localForm.code);
+            this.$db.set('loginType', 'local').write();
+            this.$db.set('baseURL', `http://${this.localForm.ip}:3000`).write();
+            this.$db.set('code', this.localForm.code).write();
             break;
           default:
             break;

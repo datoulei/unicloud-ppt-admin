@@ -5,6 +5,7 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import db from './db'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 log.transports.console.level = false;
@@ -33,7 +34,6 @@ function createWindow() {
     width: 1352,
     minHeight: 760,
     height: 760,
-    show: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -104,7 +104,12 @@ app.on("activate", () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
-    createWindow();
+    const isLogin = db.get('isLogin').value()
+    if (isLogin) {
+      createWindow();
+    } else {
+      createLoginWindow();
+    }
   }
 });
 
@@ -113,6 +118,7 @@ app.on("activate", () => {
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
   console.log('is ready');
+  const isLogin = db.get('isLogin').value()
   globalShortcut.register('CommandOrControl+Shift+J', () => {
     if (win && win.isVisible()) {
       win.webContents.openDevTools()
@@ -128,7 +134,46 @@ app.on("ready", async () => {
       console.error("Vue Devtools failed to install:", e.toString());
     }
   }
-  createWindow();
+  if (isLogin) {
+    createWindow();
+  } else {
+    createLoginWindow();
+  }
+  session.fromPartition('ppt').on('will-download', async (event, item) => {
+    console.log('开始下载文件')
+    const fileName = item.getFilename();
+    const url = item.getURL();
+    const startTime = item.getStartTime();
+    const initialState = item.getState();
+    const downloadPath = app.getPath('downloads');
+
+    let fileNum = 0;
+    let savePath = path.join(downloadPath, fileName);
+
+    // savePath基础信息
+    const ext = path.extname(savePath);
+    const name = path.basename(savePath, ext);
+    const dir = path.dirname(savePath);
+
+    // 文件名自增逻辑
+    while (fs.pathExistsSync(savePath)) {
+      fileNum += 1;
+      savePath = path.format({
+        dir,
+        ext,
+        name: `${name}(${fileNum})`,
+      });
+    }
+
+    // 设置下载目录，阻止系统dialog的出现
+    item.setSavePath(savePath);
+
+    // 下载任务完成
+    item.on('done', (e, state) => { // eslint-disable-line
+      shell.openPath(savePath)
+    });
+
+  })
 });
 
 // Exit cleanly on request from parent process in development mode.
@@ -151,13 +196,13 @@ ipcMain.handle('channel', (event, { type, data }) => {
   let modal;
   console.log("主进程监听，type：%s， data: %o", type, data)
   switch (type) {
-    case 'init':
-      if (data.isLogin) {
-        win.show()
-      } else {
-        createLoginWindow();
-      }
-      return { code: 1 }
+    // case 'init':
+    //   if (data.isLogin) {
+    //     createWindow();
+    //   } else {
+    //     createLoginWindow();
+    //   }
+    //   return { code: 1 }
     case 'minimize':
       if (win && !win.isMinimized()) {
         win.minimize();
@@ -183,14 +228,11 @@ ipcMain.handle('channel', (event, { type, data }) => {
       if (loginWin) {
         loginWin.close()
       }
-      if (win) {
-        win.reload()
-        win.show()
-      }
+      createWindow()
       return { code: 1 }
     case 'logout':
       if (win) {
-        win.hide()
+        win.close()
       }
       createLoginWindow();
       return { code: 1 }
@@ -198,9 +240,9 @@ ipcMain.handle('channel', (event, { type, data }) => {
       if (data.url.endsWith('.pdf')) {
         modal = new BrowserWindow({
           fullscreen: true,
-          resizable: false,
-          alwaysOnTop: true,
-          parent: win,
+          // resizable: false,
+          // alwaysOnTop: true,
+          // parent: win,
         });
       } else if (data.url.endsWith('.ppt') || data.url.endsWith('.pptx') || data.url.endsWith('.pps') || data.url.endsWith('.ppsx')) {
         modal = new BrowserWindow({
@@ -209,41 +251,41 @@ ipcMain.handle('channel', (event, { type, data }) => {
             session: session.fromPartition('ppt')
           }
         });
-        modal.webContents.session.on('will-download', async (event, item) => {
-          console.log('开始下载文件')
-          const fileName = item.getFilename();
-          const url = item.getURL();
-          const startTime = item.getStartTime();
-          const initialState = item.getState();
-          const downloadPath = app.getPath('downloads');
+        // modal.webContents.session.on('will-download', async (event, item) => {
+        //   console.log('开始下载文件')
+        //   const fileName = item.getFilename();
+        //   const url = item.getURL();
+        //   const startTime = item.getStartTime();
+        //   const initialState = item.getState();
+        //   const downloadPath = app.getPath('downloads');
 
-          let fileNum = 0;
-          let savePath = path.join(downloadPath, fileName);
+        //   let fileNum = 0;
+        //   let savePath = path.join(downloadPath, fileName);
 
-          // savePath基础信息
-          const ext = path.extname(savePath);
-          const name = path.basename(savePath, ext);
-          const dir = path.dirname(savePath);
+        //   // savePath基础信息
+        //   const ext = path.extname(savePath);
+        //   const name = path.basename(savePath, ext);
+        //   const dir = path.dirname(savePath);
 
-          // 文件名自增逻辑
-          while (fs.pathExistsSync(savePath)) {
-            fileNum += 1;
-            savePath = path.format({
-              dir,
-              ext,
-              name: `${name}(${fileNum})`,
-            });
-          }
+        //   // 文件名自增逻辑
+        //   while (fs.pathExistsSync(savePath)) {
+        //     fileNum += 1;
+        //     savePath = path.format({
+        //       dir,
+        //       ext,
+        //       name: `${name}(${fileNum})`,
+        //     });
+        //   }
 
-          // 设置下载目录，阻止系统dialog的出现
-          item.setSavePath(savePath);
+        //   // 设置下载目录，阻止系统dialog的出现
+        //   item.setSavePath(savePath);
 
-          // 下载任务完成
-          item.on('done', (e, state) => { // eslint-disable-line
-            shell.openPath(savePath)
-          });
+        //   // 下载任务完成
+        //   item.on('done', (e, state) => { // eslint-disable-line
+        //     shell.openPath(savePath)
+        //   });
 
-        })
+        // })
       }
       modal.loadURL(data.url)
       return { code: 1 }
