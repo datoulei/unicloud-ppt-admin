@@ -118,7 +118,7 @@ app.on("activate", () => {
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
   console.log('is ready');
-  const isLogin = db.get('isLogin').value()
+  const loginType = db.get('loginType').value()
   globalShortcut.register('CommandOrControl+Shift+J', () => {
     if (win && win.isVisible()) {
       win.webContents.openDevTools()
@@ -134,7 +134,7 @@ app.on("ready", async () => {
       console.error("Vue Devtools failed to install:", e.toString());
     }
   }
-  if (isLogin) {
+  if (loginType !== null) {
     createWindow();
   } else {
     createLoginWindow();
@@ -224,17 +224,23 @@ ipcMain.handle('channel', (event, { type, data }) => {
       }
       return { code: 1 }
     case 'login':
+      if (loginWin) {
+        loginWin.hide()
+      }
+      createWindow()
       // 关闭当前窗口，打开主窗口
       if (loginWin) {
         loginWin.close()
       }
-      createWindow()
       return { code: 1 }
     case 'logout':
       if (win) {
-        win.close()
+        win.hide()
       }
       createLoginWindow();
+      if (win) {
+        win.close()
+      }
       return { code: 1 }
     case 'preview':
       if (data.url.endsWith('.pdf')) {
