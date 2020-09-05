@@ -139,30 +139,29 @@ app.on("ready", async () => {
   } else {
     createLoginWindow();
   }
-  session.fromPartition('ppt').on('will-download', async (event, item) => {
+  session.fromPartition('preview').on('will-download', async (event, item) => {
+    console.log("item", item)
     console.log('开始下载文件')
     const fileName = item.getFilename();
     const url = item.getURL();
     const startTime = item.getStartTime();
     const initialState = item.getState();
-    const downloadPath = app.getPath('downloads');
+    const downloadPath = app.getPath('userData');
 
-    let fileNum = 0;
-    let savePath = path.join(downloadPath, fileName);
-
+    const saveBasePath = path.join(downloadPath, 'temp');
     // savePath基础信息
-    const ext = path.extname(savePath);
-    const name = path.basename(savePath, ext);
-    const dir = path.dirname(savePath);
+    const ext = path.extname(fileName);
+    const name = path.basename(fileName, ext);
+    let savePath = path.format({
+      saveBasePath,
+      ext,
+      name: `${name}-${Date.now()}`,
+    });
+    console.log("savePath", savePath)
 
-    // 文件名自增逻辑
-    while (fs.pathExistsSync(savePath)) {
-      fileNum += 1;
-      savePath = path.format({
-        dir,
-        ext,
-        name: `${name}(${fileNum})`,
-      });
+
+    if (!fs.existsSync(saveBasePath)) {
+      fs.mkdirpSync(saveBasePath);
     }
 
     // 设置下载目录，阻止系统dialog的出现
@@ -170,10 +169,13 @@ app.on("ready", async () => {
 
     // 下载任务完成
     item.on('done', (e, state) => { // eslint-disable-line
-      shell.openPath(savePath)
+      if (state === 'completed') {
+        console.log('下载完成')
+        shell.openPath(savePath)
+      }
     });
 
-  })
+  });
 });
 
 // Exit cleanly on request from parent process in development mode.
@@ -244,56 +246,18 @@ ipcMain.handle('channel', (event, { type, data }) => {
       return { code: 1 }
     case 'preview':
       if (data.url.endsWith('.pdf')) {
-        modal = new BrowserWindow({
-          fullscreen: true,
-          // resizable: false,
-          // alwaysOnTop: true,
-          // parent: win,
-        });
-      } else if (data.url.endsWith('.ppt') || data.url.endsWith('.pptx') || data.url.endsWith('.pps') || data.url.endsWith('.ppsx')) {
+        (new BrowserWindow({
+          fullscreen: false,
+        })).loadURL(data.url);
+      } else {
         modal = new BrowserWindow({
           show: false,
           webPreferences: {
-            session: session.fromPartition('ppt')
+            session: session.fromPartition('preview')
           }
         });
-        // modal.webContents.session.on('will-download', async (event, item) => {
-        //   console.log('开始下载文件')
-        //   const fileName = item.getFilename();
-        //   const url = item.getURL();
-        //   const startTime = item.getStartTime();
-        //   const initialState = item.getState();
-        //   const downloadPath = app.getPath('downloads');
-
-        //   let fileNum = 0;
-        //   let savePath = path.join(downloadPath, fileName);
-
-        //   // savePath基础信息
-        //   const ext = path.extname(savePath);
-        //   const name = path.basename(savePath, ext);
-        //   const dir = path.dirname(savePath);
-
-        //   // 文件名自增逻辑
-        //   while (fs.pathExistsSync(savePath)) {
-        //     fileNum += 1;
-        //     savePath = path.format({
-        //       dir,
-        //       ext,
-        //       name: `${name}(${fileNum})`,
-        //     });
-        //   }
-
-        //   // 设置下载目录，阻止系统dialog的出现
-        //   item.setSavePath(savePath);
-
-        //   // 下载任务完成
-        //   item.on('done', (e, state) => { // eslint-disable-line
-        //     shell.openPath(savePath)
-        //   });
-
-        // })
+        modal.loadURL(data.url)
       }
-      modal.loadURL(data.url)
       return { code: 1 }
     case 'download':
       win.webContents.downloadURL(data.url)

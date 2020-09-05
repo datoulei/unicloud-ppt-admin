@@ -3,7 +3,7 @@
     <img src="/images/icon_close.png" class="close-btn" @click="handleClose" />
     <img src="/images/logo.png" class="logo" />
     <div class="main">
-      <h2 class="title">登录</h2>
+      <h2 class="title">服务端登录</h2>
       <div class="body m-t-24">
         <div class="radio-group m-b-16">
           <div
@@ -66,7 +66,7 @@
           <a-form-model-item prop="code">
             <a-input
               v-model="localForm.code"
-              placeholder="请输入验证码"
+              placeholder="请输入群晖验证码"
             ></a-input>
           </a-form-model-item>
           <a-form-model-item>
@@ -183,7 +183,7 @@ export default {
     border-radius: 6px;
     padding: 40px 25px;
     .title {
-      width: 48px;
+      // width: 48px;
       height: 32px;
       font-size: 24px;
       font-family: PingFangTC-Medium, PingFangTC;
