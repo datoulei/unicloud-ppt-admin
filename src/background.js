@@ -6,13 +6,13 @@ import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import db from './db'
-import { autoUpdater } from 'electron-updater'
+// import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 log.transports.console.level = false;
 log.transports.console.level = 'silly'
 const isDevelopment = process.env.NODE_ENV !== "production";
-autoUpdater.logger = log
-autoUpdater.checkForUpdatesAndNotify()
+// autoUpdater.logger = log
+// autoUpdater.checkForUpdatesAndNotify()
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -121,7 +121,8 @@ app.on("ready", async () => {
   const loginType = db.get('loginType').value()
   console.log('is ready, loginType=', loginType);
   globalShortcut.register('CommandOrControl+Shift+J', () => {
-    if (win && win.isVisible()) {
+    log.info('打开控制台')
+    if (win) {
       win.webContents.openDevTools()
     } else if (loginWin) {
       loginWin.webContents.openDevTools()
@@ -141,8 +142,7 @@ app.on("ready", async () => {
     createWindow();
   }
   session.fromPartition('preview').on('will-download', async (event, item) => {
-    console.log("item", item)
-    console.log('开始下载文件')
+    log.info('开始下载预览文件')
     const fileName = item.getFilename();
     const url = item.getURL();
     const startTime = item.getStartTime();
@@ -158,7 +158,7 @@ app.on("ready", async () => {
       ext,
       name: `${name}-${Date.now()}`,
     });
-    console.log("savePath", savePath)
+    log.info("savePath", savePath)
 
 
     if (!fs.existsSync(saveBasePath)) {
@@ -171,8 +171,10 @@ app.on("ready", async () => {
     // 下载任务完成
     item.on('done', (e, state) => { // eslint-disable-line
       if (state === 'completed') {
-        console.log('下载完成')
+        log.info('下载完成, 打开文件')
         shell.openPath(savePath)
+      } else {
+        log.error('下载失败', e)
       }
     });
 
@@ -247,11 +249,13 @@ ipcMain.handle('channel', (event, { type, data }) => {
       return { code: 1 }
     case 'preview':
       if (data.url.endsWith('.pdf')) {
-        (new BrowserWindow({
-          fullscreen: false,
-          frame: true,
-        })).loadURL(data.url);
+        log.info('预览pdf:', data.url)
+          (new BrowserWindow({
+            fullscreen: false,
+            frame: true,
+          })).loadURL(data.url);
       } else {
+        log.info('预览其他文件:', data.url)
         modal = new BrowserWindow({
           show: false,
           webPreferences: {
@@ -262,6 +266,7 @@ ipcMain.handle('channel', (event, { type, data }) => {
       }
       return { code: 1 }
     case 'download':
+      log.info('下载文件:', data.url)
       win.webContents.downloadURL(data.url)
       return { code: 1 }
     default:
