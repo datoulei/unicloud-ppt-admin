@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, session, shell, protocol, BrowserWindow, ipcMain, globalShortcut } from "electron";
+import { app, session, shell, protocol, BrowserWindow, ipcMain, globalShortcut, Menu } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import * as path from 'path';
@@ -117,8 +117,9 @@ app.on("activate", () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
-  console.log('is ready');
+  Menu.setApplicationMenu(new Menu())
   const loginType = db.get('loginType').value()
+  console.log('is ready, loginType=', loginType);
   globalShortcut.register('CommandOrControl+Shift+J', () => {
     if (win && win.isVisible()) {
       win.webContents.openDevTools()
@@ -134,10 +135,10 @@ app.on("ready", async () => {
       console.error("Vue Devtools failed to install:", e.toString());
     }
   }
-  if (loginType !== null) {
-    createWindow();
-  } else {
+  if (!loginType) {
     createLoginWindow();
+  } else {
+    createWindow();
   }
   session.fromPartition('preview').on('will-download', async (event, item) => {
     console.log("item", item)
@@ -248,6 +249,7 @@ ipcMain.handle('channel', (event, { type, data }) => {
       if (data.url.endsWith('.pdf')) {
         (new BrowserWindow({
           fullscreen: false,
+          frame: true,
         })).loadURL(data.url);
       } else {
         modal = new BrowserWindow({

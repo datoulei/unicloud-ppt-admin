@@ -83,7 +83,7 @@ export default {
       if (
         this.loginType === 'local' &&
         this.value &&
-        this.value !== '/images/logo.png'
+        !['/images/logo.png', '/images/default_avatar.png'].includes(this.value)
       ) {
         const baseURL = this.$db.get('baseURL').value();
         return `${baseURL}/${this.value}`;
