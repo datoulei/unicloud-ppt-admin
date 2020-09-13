@@ -250,10 +250,11 @@ ipcMain.handle('channel', (event, { type, data }) => {
     case 'preview':
       if (data.url.endsWith('.pdf')) {
         log.info('预览pdf:', data.url)
-          (new BrowserWindow({
-            fullscreen: false,
-            frame: true,
-          })).loadURL(data.url);
+        let _modal = new BrowserWindow({
+          fullscreen: false,
+          frame: true,
+        })
+        _modal.loadURL(data.url);
       } else {
         log.info('预览其他文件:', data.url)
         modal = new BrowserWindow({
