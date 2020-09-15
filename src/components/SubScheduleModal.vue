@@ -145,6 +145,7 @@ export default {
         guestName: null,
         work: null,
         ppt: null,
+        timestamp: null,
         minutes: 0,
         position: 'leftTop',
       },
@@ -171,6 +172,11 @@ export default {
         ],
       },
     };
+  },
+  watch: {
+    'form.ppt': {
+      handler: 'updateTimestamp',
+    },
   },
   computed: {
     ...mapState('activity', ['attendees']),
@@ -225,6 +231,9 @@ export default {
     handleSelect(val) {
       const work = this.attendees.find((a) => a.name === val).work;
       this.form.work = work;
+    },
+    updateTimestamp() {
+      this.form.timestamp = Date.now();
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="header" flex="cross:center">
-    <img src="/images/logo.png" class="logo" />
+    <img src="/images/login_logo.png" class="logo" />
     <a-icon
       class="m-l-30 pointer"
       type="home"
