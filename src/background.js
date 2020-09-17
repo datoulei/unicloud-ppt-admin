@@ -144,21 +144,24 @@ app.on("ready", async () => {
   session.fromPartition('preview').on('will-download', async (event, item) => {
     log.info('开始下载预览文件')
     const fileName = item.getFilename();
-    const url = item.getURL();
-    const startTime = item.getStartTime();
-    const initialState = item.getState();
+    // const url = item.getURL();
+    // const startTime = item.getStartTime();
+    // const initialState = item.getState();
     const downloadPath = app.getPath('userData');
 
     const saveBasePath = path.join(downloadPath, 'temp');
+    log.info("saveBasePath", saveBasePath)
     // savePath基础信息
     const ext = path.extname(fileName);
+    log.info("ext=", ext)
     const name = path.basename(fileName, ext);
-    let savePath = path.format({
-      saveBasePath,
+    log.info("name=", name)
+    const savePath = path.format({
+      dir: saveBasePath,
       ext,
       name: `${name}-${Date.now()}`,
     });
-    log.info("savePath", savePath)
+    log.info("savePath=", savePath)
 
 
     if (!fs.existsSync(saveBasePath)) {
@@ -168,10 +171,22 @@ app.on("ready", async () => {
     // 设置下载目录，阻止系统dialog的出现
     item.setSavePath(savePath);
 
+    item.on('updated', (event, state) => {
+      if (state === 'interrupted') {
+        log.info('Download is interrupted but can be resumed')
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          log.info('Download is paused')
+        } else {
+          log.info(`Received bytes: ${item.getReceivedBytes()}`)
+        }
+      }
+    })
+
     // 下载任务完成
     item.on('done', (e, state) => { // eslint-disable-line
       if (state === 'completed') {
-        log.info('下载完成, 打开文件')
+        log.info('下载完成, 打开文件=', savePath)
         shell.openPath(savePath)
       } else {
         log.error('下载失败', e)
