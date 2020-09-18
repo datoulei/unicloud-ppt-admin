@@ -4,8 +4,10 @@
     :visible="visible"
     :title="recordId ? '编辑子日程' : '创建子日程'"
     :confirmLoading="loading"
+    :maskClosable="false"
     @cancel="close"
     @ok="handleSubmit"
+    :okButtonProps="{ props: okButtonProps }"
   >
     <a-form-model
       ref="form"
@@ -85,6 +87,7 @@
           v-model="form.ppt"
           accept=".ppt, .pptx, .pps, .ppsx, .pdf"
           :limitSize="10000"
+          @uploading="handleUploading"
         >
           <template slot-scope="{ loading }">
             <a-button :loading="loading" type="primary" icon="upload">
@@ -157,7 +160,6 @@ export default {
           { required: true, message: '结束时间不能为空', trigger: 'change' },
           { validator: endTimeValidator },
         ],
-        avatar: [{ required: true, message: '头像不能为空', trigger: 'blur' }],
         name: [
           { required: true, message: '子日程名称不能为空', trigger: 'blur' },
         ],
@@ -170,6 +172,9 @@ export default {
         work: [
           { required: true, message: '工作单位不能为空', trigger: 'blur' },
         ],
+      },
+      okButtonProps: {
+        disabled: false,
       },
     };
   },
@@ -234,6 +239,9 @@ export default {
     },
     updateTimestamp() {
       this.form.timestamp = Date.now();
+    },
+    handleUploading(flag) {
+      this.okButtonProps.disabled = flag;
     },
   },
 };

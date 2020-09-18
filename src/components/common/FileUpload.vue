@@ -81,10 +81,12 @@ export default {
       if (info.file.status === 'uploading') {
         this.loading = true;
         this.fileList = info.fileList;
+        this.$emit('uploading', true);
         return;
       }
       if (info.file.status === 'done') {
         this.loading = false;
+        this.$emit('uploading', false);
         const url = this.$lodash.get(info, 'file.response');
         this.$emit('input', url);
       }

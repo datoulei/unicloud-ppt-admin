@@ -90,6 +90,8 @@ import { ipcRenderer } from 'electron';
 
 export default {
   data() {
+    const internetForm = this.$ls.get('internetForm');
+    const localForm = this.$ls.get('localForm');
     return {
       type: 'internet',
       loading: false,
@@ -128,6 +130,7 @@ export default {
               `${process.env.VUE_APP_BASE_URL}/auth/login`,
               this.internetForm,
             );
+            this.$ls.set('internetForm', this.internetForm);
             this.$db.set('loginType', 'internet').write();
             this.$db.set('token', res.token).write();
             break;
@@ -139,6 +142,7 @@ export default {
                 code: this.localForm.code,
               },
             );
+            this.$ls.set('localForm', this.localForm);
             this.$db.set('loginType', 'local').write();
             this.$db.set('baseURL', `http://${this.localForm.ip}:3000`).write();
             this.$db.set('code', this.localForm.code).write();

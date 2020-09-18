@@ -4,6 +4,7 @@
     :visible="visible"
     :title="recordId ? '编辑活动' : '创建活动'"
     :confirmLoading="loading"
+    :maskClosable="false"
     @cancel="close"
     @ok="handleSubmit"
   >

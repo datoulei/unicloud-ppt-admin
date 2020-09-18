@@ -4,6 +4,7 @@
     :visible="visible"
     :title="recordId ? '编辑主日程' : '创建主日程'"
     :confirmLoading="loading"
+    :maskClosable="false"
     @cancel="close"
     @ok="handleSubmit"
   >

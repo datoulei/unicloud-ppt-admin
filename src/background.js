@@ -19,6 +19,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 let loginWin;
+let previewWin;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -126,6 +127,14 @@ app.on("ready", async () => {
       win.webContents.openDevTools()
     } else if (loginWin) {
       loginWin.webContents.openDevTools()
+    }
+  })
+  globalShortcut.register('Escape', () => {
+    log.info('Escape is pressed')
+    try {
+      previewWin.close()
+    } catch (error) {
+
     }
   })
   if (isDevelopment && !process.env.IS_TEST) {
@@ -265,11 +274,14 @@ ipcMain.handle('channel', (event, { type, data }) => {
     case 'preview':
       if (data.url.endsWith('.pdf')) {
         log.info('预览pdf:', data.url)
-        let _modal = new BrowserWindow({
-          fullscreen: false,
+        previewWin = new BrowserWindow({
+          fullscreen: true,
           frame: true,
         })
-        _modal.loadURL(data.url);
+        previewWin.loadURL(data.url);
+        previewWin.on("closed", () => {
+          previewWin = null;
+        });
       } else {
         log.info('预览其他文件:', data.url)
         modal = new BrowserWindow({
