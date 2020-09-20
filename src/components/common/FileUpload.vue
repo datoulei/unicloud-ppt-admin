@@ -1,16 +1,17 @@
 <template>
   <a-upload
     class="file-uploader"
-    :action="action"
+    action=""
     :accept="accept"
     :beforeUpload="beforeUpload"
     :remove="handleRemove"
     :openFileDialogOnClick="!loading"
     :showUploadList="showUploadList"
     :fileList="fileList"
+    :customRequest="customRequest"
     @change="handleChange"
   >
-    <slot v-bind:loading="loading"></slot>
+    <slot v-bind:loading="loading" :percent="percent"></slot>
   </a-upload>
 </template>
 
@@ -56,17 +57,19 @@ export default {
     return {
       loading: false,
       fileList: [],
+      checkpoint: null,
+      percent: 0,
     };
   },
   computed: {
     ...mapState(['loginType']),
-    action() {
-      if (this.loginType === 'local') {
-        const baseURL = this.$db.get('baseURL').value();
-        return baseURL + '/files';
-      }
-      return process.env.VUE_APP_BASE_URL + '/files';
-    },
+    // action() {
+    //   if (this.loginType === 'local') {
+    //     const baseURL = this.$db.get('baseURL').value();
+    //     return baseURL + '/files';
+    //   }
+    //   return process.env.VUE_APP_BASE_URL + '/files';
+    // },
   },
   methods: {
     beforeUpload(file) {
@@ -75,6 +78,30 @@ export default {
         this.$message.error(`请上传${this.limitSize}M以内的文件！`);
       }
       return isLimitSize;
+    },
+    async customRequest({ onSuccess, onError, file, onProgress }) {
+      this.percent = 0;
+      try {
+        const result = await this.$oss.multipartUpload(
+          `/uploads/${Date.now()}/${file.name}`,
+          file,
+          {
+            progress: (progress, checkpoint) => {
+              console.log('customRequest -> progress', progress);
+              this.checkpoint = checkpoint;
+              this.percent = progress * 100;
+              onProgress({ percent: progress * 100, file });
+            },
+            mime: file.type,
+          },
+        );
+        console.log('customRequest -> result', result);
+        result.url = `https://uniecloud-sh.oss-cn-shanghai.aliyuncs.com${result.name}`;
+        onSuccess(result, file);
+      } catch (error) {
+        console.log('customRequest -> error', error);
+        onError(error);
+      }
     },
     handleChange(info) {
       console.log('handleChange -> info', info);
@@ -85,10 +112,12 @@ export default {
         return;
       }
       if (info.file.status === 'done') {
-        this.loading = false;
         this.$emit('uploading', false);
-        const url = this.$lodash.get(info, 'file.response');
+        const url = this.$lodash.get(info, 'file.response.url');
         this.$emit('input', url);
+        this.$nextTick(() => {
+          this.loading = false;
+        });
       }
     },
     handleRemove() {

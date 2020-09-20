@@ -118,7 +118,7 @@ app.on("activate", () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
-  Menu.setApplicationMenu(new Menu())
+  // Menu.setApplicationMenu(new Menu())
   const loginType = db.get('loginType').value()
   console.log('is ready, loginType=', loginType);
   globalShortcut.register('CommandOrControl+Shift+J', () => {
@@ -127,14 +127,6 @@ app.on("ready", async () => {
       win.webContents.openDevTools()
     } else if (loginWin) {
       loginWin.webContents.openDevTools()
-    }
-  })
-  globalShortcut.register('Escape', () => {
-    log.info('Escape is pressed')
-    try {
-      previewWin.close()
-    } catch (error) {
-
     }
   })
   if (isDevelopment && !process.env.IS_TEST) {
@@ -281,7 +273,14 @@ ipcMain.handle('channel', (event, { type, data }) => {
         previewWin.loadURL(data.url);
         previewWin.on("closed", () => {
           previewWin = null;
+          globalShortcut.unregister('Escape')
         });
+        globalShortcut.register('Escape', () => {
+          log.info('Escape is pressed')
+          try {
+            previewWin.close()
+          } catch (error) { }
+        })
       } else {
         log.info('预览其他文件:', data.url)
         modal = new BrowserWindow({

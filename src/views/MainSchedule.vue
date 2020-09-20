@@ -52,7 +52,7 @@
           width="200px"
           ellipsis
         />
-        <a-table-column key="ppt" title="PPT" width="150px">
+        <a-table-column key="ppt" title="PPT" width="160px">
           <template slot-scope="row">
             <span
               v-if="row.ppt"
@@ -68,9 +68,21 @@
               :showUploadList="false"
               @input="(url) => handleUpload(row, url)"
             >
-              <template slot-scope="{ loading }">
+              <template slot-scope="{ loading, percent }">
+                <a-statistic
+                  v-show="loading"
+                  class="stat"
+                  :value="percent"
+                  :precision="0"
+                  suffix="%)"
+                >
+                  <template #prefix>
+                    <a-icon type="loading" spin />
+                    <span class="m-l-4">上传中(</span>
+                  </template>
+                </a-statistic>
                 <a-button
-                  :loading="loading"
+                  v-show="!loading"
                   type="link"
                   icon="upload"
                   style="padding: 0;"
@@ -282,6 +294,15 @@ export default {
     font-size: 14px;
     font-weight: 400;
     color: #666666;
+  }
+}
+.stat {
+  ::v-deep {
+    .ant-statistic-content,
+    .ant-statistic-content-suffix {
+      font-size: 14px;
+      color: #666;
+    }
   }
 }
 </style>
