@@ -21,9 +21,8 @@
         :pagination="false"
       >
         <a-table-column
-          key="startDate"
-          data-index="startDate"
-          :customRender="(text) => $moment(text).format('YYYY/MM/DD HH:mm')"
+          key="startTime"
+          data-index="startTime"
           title="主日程开始时间"
           width="200px"
         />
