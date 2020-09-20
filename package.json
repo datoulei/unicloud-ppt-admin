@@ -1,6 +1,6 @@
 {
   "name": "ppt_management_admin",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "author": "Jiang Yun",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "ali-oss": "^6.10.0",
     "ant-design-vue": "^1.6.4",
     "core-js": "^3.6.5",
     "electron-log": "^4.2.4",
