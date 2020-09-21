@@ -82,22 +82,29 @@ export default {
     async customRequest({ onSuccess, onError, file, onProgress }) {
       this.percent = 0;
       try {
-        const result = await this.$oss.multipartUpload(
-          `/uploads/${Date.now()}/${file.name}`,
-          file,
-          {
-            progress: (progress, checkpoint) => {
-              console.log('customRequest -> progress', progress);
-              this.checkpoint = checkpoint;
-              this.percent = progress * 100;
-              onProgress({ percent: progress * 100, file });
+        if (this.loginType === 'local') {
+          const form = new FormData();
+          form.append('file', file);
+          const result = await this.$axios.post('/files', form);
+          onSuccess(result, file);
+        } else {
+          const result = await this.$oss.multipartUpload(
+            `/uploads/${Date.now()}/${file.name}`,
+            file,
+            {
+              progress: (progress, checkpoint) => {
+                console.log('customRequest -> progress', progress);
+                this.checkpoint = checkpoint;
+                this.percent = progress * 100;
+                onProgress({ percent: progress * 100, file });
+              },
+              mime: file.type,
             },
-            mime: file.type,
-          },
-        );
-        console.log('customRequest -> result', result);
-        result.url = `https://uniecloud-sh.oss-cn-shanghai.aliyuncs.com${result.name}`;
-        onSuccess(result, file);
+          );
+          console.log('customRequest -> result', result);
+          const url = `https://uniecloud-sh.oss-cn-shanghai.aliyuncs.com${result.name}`;
+          onSuccess(url, file);
+        }
       } catch (error) {
         console.log('customRequest -> error', error);
         onError(error);
@@ -113,7 +120,7 @@ export default {
       }
       if (info.file.status === 'done') {
         this.$emit('uploading', false);
-        const url = this.$lodash.get(info, 'file.response.url');
+        const url = this.$lodash.get(info, 'file.response');
         this.$emit('input', url);
         this.$nextTick(() => {
           this.loading = false;
