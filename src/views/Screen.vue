@@ -9,11 +9,12 @@
       </div>
     </div>
     <div class="m-t-24">
-      <a-button type="primary" icon="plus" @click="handleCreate">
+      <a-button class="no-padding" type="link" @click="handleCreate">
+        <a-icon theme="filled" type="plus-circle" />
         创建主日程
       </a-button>
     </div>
-    <div class="m-t-16" style="background-color: #fff;">
+    <div class="m-t-16" style="background-color: #fff">
       <a-table
         ref="table"
         :dataSource="mainSchedules"

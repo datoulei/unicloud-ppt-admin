@@ -5,20 +5,17 @@
       flex="cross:center"
     >
       <div class="content">
-        <div>
-          <p class="title">{{ activity.name }}</p>
+        <div class="p-r-33">
+          <p class="title">
+            {{ activity.name }}
+          </p>
           <p class="m-t-8">
-            <span v-if="activity.status === 1" class="status">
-              待进行
-            </span>
-            <span v-else-if="activity.status === 2" class="status primary">
-              进行中
-            </span>
-            <span v-else-if="activity.status === 3" class="status">已结束</span>
+            <!-- 地址 -->
+            地址：{{ activity.address }}
           </p>
         </div>
       </div>
-      <div class="date-box m-t-16" flex-box="1" flex>
+      <div class="date-box" flex-box="1" flex>
         <div class="start">
           <p class="date">{{ startDate }}</p>
           <p class="time">{{ startTime }}</p>
@@ -29,15 +26,24 @@
           <p class="time">{{ endTime }}</p>
         </div>
       </div>
-      <a-button type="primary" @click="handleSelect">管理</a-button>
-      <a-button
-        v-if="loginType === 'local' && activity.status === 3"
-        class="m-l-10"
-        type="primary"
-        @click="handleDelete"
-      >
-        删除
-      </a-button>
+      <div>
+        <a-button type="primary" @click="handleSelect">管理</a-button>
+        <a-button
+          v-if="loginType === 'local' && activity.status === 3"
+          class="m-l-10"
+          type="primary"
+          @click="handleDelete"
+        >
+          删除
+        </a-button>
+        <p class="m-t-10">
+          <span v-if="activity.status === 1" class="status"> 待进行 </span>
+          <span v-else-if="activity.status === 2" class="status primary">
+            进行中
+          </span>
+          <span v-else-if="activity.status === 3" class="status">已结束</span>
+        </p>
+      </div>
     </div>
   </a-card>
 </template>
@@ -98,6 +104,9 @@ export default {
   font-weight: 600;
   color: #333;
   line-height: 1.2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .content {
   min-width: 640px;

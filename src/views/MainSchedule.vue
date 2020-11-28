@@ -8,18 +8,19 @@
       </div>
     </div>
     <div class="m-t-24">
-      <a-button type="primary" icon="plus" @click="handleCreate">
+      <a-button class="no-padding" type="link" @click="handleCreate">
+        <a-icon theme="filled" type="plus-circle" />
         创建子日程
       </a-button>
     </div>
-    <div class="m-t-24" style="background-color: #fff;">
+    <div class="m-t-24" style="background-color: #fff">
       <a-table
         ref="table"
         :dataSource="subSchedules"
         rowKey="id"
         :pagination="false"
       >
-        <a-table-column key="time" title="起始时间" width="150px">
+        <a-table-column key="time" title="子日程时间" width="150px">
           <template slot-scope="item">
             <span>{{ item.startTime }}</span>
             <span>-</span>
@@ -85,7 +86,7 @@
                   v-show="!loading"
                   type="link"
                   icon="upload"
-                  style="padding: 0;"
+                  style="padding: 0"
                 >
                   上传文件
                 </a-button>
