@@ -1,19 +1,22 @@
-import Vue from "vue";
+import Vue from 'vue';
 
 export default {
   namespaced: true,
   state: {
     mainSchedules: [],
-    selected: null
+    selected: null,
+  },
+  getters: {
+    mainSchedule: (state) => state.selected,
   },
   mutations: {
     SET_MAIN_SCHEDULES(state, list) {
-      state.mainSchedules = list
-      return state
+      state.mainSchedules = list;
+      return state;
     },
     SORT_MAIN_SCHEDULES(state, { oldIndex, newIndex }) {
       let leftElement, rightElement;
-      const tempList = [...state.mainSchedules]
+      const tempList = [...state.mainSchedules];
       const oldElement = tempList[oldIndex];
       const isLast = newIndex === tempList.length - 1;
       const isFirst = newIndex === 0;
@@ -31,41 +34,43 @@ export default {
         rightElement = tempList[newIndex + 1];
         oldElement.order = (leftElement.order + rightElement.order) / 2;
       }
-      tempList.splice(oldIndex, 1)
+      tempList.splice(oldIndex, 1);
       tempList.splice(newIndex, 0, oldElement);
-      state.mainSchedules = tempList
-      return state
+      state.mainSchedules = tempList;
+      return state;
     },
     SET_SELECTED(state, selected) {
-      state.selected = selected
-      return state
-    }
+      state.selected = selected;
+      return state;
+    },
   },
   actions: {
     async getMainSchedules({ rootState, commit }, params) {
-      const screen = rootState.screen.selected
-      const result = await Vue.axios.get(`/screens/${screen.id}/schedules`, { params })
-      const list = result
-      commit('SET_MAIN_SCHEDULES', list)
-      return result
+      const screen = rootState.screen.selected;
+      const result = await Vue.axios.get(`/screens/${screen.id}/schedules`, {
+        params,
+      });
+      const list = result;
+      commit('SET_MAIN_SCHEDULES', list);
+      return result;
     },
     async createMainSchedule({ rootState }, data) {
-      const screen = rootState.screen.selected
-      await Vue.axios.post(`/screens/${screen.id}/schedules`, data)
+      const screen = rootState.screen.selected;
+      await Vue.axios.post(`/screens/${screen.id}/schedules`, data);
     },
     async updateMainSchedule({ rootState }, data) {
-      const screen = rootState.screen.selected
-      await Vue.axios.put(`/screens/${screen.id}/schedules/${data.id}`, data)
+      const screen = rootState.screen.selected;
+      await Vue.axios.put(`/screens/${screen.id}/schedules/${data.id}`, data);
     },
     async deleteMainSchedule({ rootState }, id) {
-      const screen = rootState.screen.selected
-      await Vue.axios.delete(`/screens/${screen.id}/schedules/${id}`)
+      const screen = rootState.screen.selected;
+      await Vue.axios.delete(`/screens/${screen.id}/schedules/${id}`);
     },
     selectMainSchedule({ commit }, mainSchedule) {
-      commit('SET_SELECTED', mainSchedule)
+      commit('SET_SELECTED', mainSchedule);
     },
     sortMainSchedules({ commit }, sort) {
-      commit('SORT_MAIN_SCHEDULES', sort)
+      commit('SORT_MAIN_SCHEDULES', sort);
     },
   },
-}
+};

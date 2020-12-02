@@ -3,14 +3,15 @@
     <div class="card" flex="cross:center">
       <img src="/images/icon_calendar.png" class="icon" />
       <div>
-        <p class="name">{{ name }}</p>
-        <p class="date m-t-12">活动时间：{{ startDate }} - {{ endDate }}</p>
+        <p class="name">{{ activityName }}</p>
+        <p class="date m-t-12">{{ screenName }} - {{ mainScheduleName }}</p>
+        <p class="date m-t-12">{{ screenDate }}</p>
       </div>
     </div>
     <div class="m-t-24">
       <a-button class="no-padding" type="link" @click="handleCreate">
-        <a-icon theme="filled" type="plus-circle" />
-        创建子日程
+        <img class="btn-icon-add" src="/images/add.png" />
+        <span class="btn-text-add"> 创建子日程 </span>
       </a-button>
     </div>
     <div class="m-t-24" style="background-color: #fff">
@@ -121,7 +122,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import Sortable from 'sortablejs';
 import SubScheduleModal from '@/components/SubScheduleModal';
 import FileUpload from '@/components/common/FileUpload';
@@ -132,29 +133,34 @@ export default {
   },
   computed: {
     ...mapState(['loginType']),
-    ...mapState('activity', ['selected']),
+    ...mapGetters('activity', ['activity']),
+    ...mapGetters('screen', ['screen']),
+    ...mapGetters('mainSchedule', ['mainSchedule']),
     ...mapState('subSchedule', ['subSchedules']),
-    name() {
+    activityName() {
       try {
-        return this.selected.name;
+        return this.activity.name;
       } catch (error) {
         return '';
       }
     },
-    startDate() {
+    screenName() {
       try {
-        return this.$moment(this.selected.startTime).format(
-          'YYYY年MM月DD日 HH:mm',
-        );
+        return this.screen.name;
       } catch (error) {
         return '';
       }
     },
-    endDate() {
+    mainScheduleName() {
       try {
-        return this.$moment(this.selected.endTime).format(
-          'YYYY年MM月DD日 HH:mm',
-        );
+        return this.mainSchedule.name;
+      } catch (error) {
+        return '';
+      }
+    },
+    screenDate() {
+      try {
+        return this.$moment(this.screen.date).format('YYYY年MM月DD日');
       } catch (error) {
         return '';
       }

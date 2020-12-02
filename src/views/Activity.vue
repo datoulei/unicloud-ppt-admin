@@ -25,8 +25,8 @@
     </div>
     <div class="m-t-24">
       <a-button class="no-padding" type="link" @click="handleCreate">
-        <a-icon theme="filled" type="plus-circle" />
-        创建屏幕
+        <img class="btn-icon-add" src="/images/add.png" />
+        <span class="btn-text-add">创建屏幕</span>
       </a-button>
       <template v-for="date in sortDates">
         <ScreenPanel :key="date" :date="date" :screens="group[date]" />

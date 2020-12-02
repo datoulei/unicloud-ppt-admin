@@ -1,6 +1,6 @@
 <template>
   <div class="screen-item">
-    <div class="header">
+    <div :class="['header', screen.style]">
       <p class="title">{{ screen.name }}</p>
       <div class="sub-title m-t-4">
         <span>主日程数量：{{ screen.mainScheduleCount }}</span>
@@ -98,13 +98,22 @@ export default {
 .screen-item {
   background: #ffffff;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
+  border-radius: 4px;
+  overflow: hidden;
   .header {
     height: 68px;
     box-sizing: border-box;
     padding: 10px 24px;
-    background-color: #f60f0f;
     color: #fff;
+    &.red {
+      background-color: #f60f0f;
+    }
+    &.blue {
+      background-color: #2267e5;
+    }
+    &.light {
+      background-color: #838383;
+    }
     .title {
       font-size: 18px;
       font-weight: 500;

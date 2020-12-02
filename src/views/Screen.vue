@@ -3,15 +3,15 @@
     <div class="card" flex="cross:center">
       <img src="/images/icon_screen.png" class="icon" />
       <div>
-        <p class="name">{{ screen.name }}</p>
-        <p class="date m-t-12">活动名称：{{ name }}</p>
-        <p class="date m-t-12">活动时间：{{ startDate }} - {{ endDate }}</p>
+        <p class="name">{{ activityName }}</p>
+        <p class="date m-t-12">{{ screenName }}</p>
+        <p class="date m-t-12">{{ screenDate }}</p>
       </div>
     </div>
     <div class="m-t-24">
       <a-button class="no-padding" type="link" @click="handleCreate">
-        <a-icon theme="filled" type="plus-circle" />
-        创建主日程
+        <img class="btn-icon-add" src="/images/add.png" />
+        <span class="btn-text-add">创建主日程</span>
       </a-button>
     </div>
     <div class="m-t-16" style="background-color: #fff">
@@ -21,12 +21,13 @@
         rowKey="id"
         :pagination="false"
       >
-        <a-table-column
-          key="startTime"
-          data-index="startTime"
-          title="主日程开始时间"
-          width="200px"
-        />
+        <a-table-column key="startTime" title="主日程时间" width="200px">
+          <template slot-scope="row">
+            <span>{{ row.startTime }}</span>
+            <span> - </span>
+            <span>{{ row.endTime }}</span>
+          </template>
+        </a-table-column>
         <a-table-column key="name" data-index="name" title="主日程名称" />
         <a-table-column key="action" title="操作" width="200px">
           <template slot-scope="row">
@@ -66,27 +67,23 @@ export default {
     ...mapState('activity', { activity: (state) => state.selected }),
     ...mapState('screen', { screen: (state) => state.selected }),
     ...mapState('mainSchedule', ['mainSchedules']),
-    name() {
+    activityName() {
       try {
         return this.activity.name;
       } catch (error) {
         return '';
       }
     },
-    startDate() {
+    screenName() {
       try {
-        return this.$moment(this.activity.startTime).format(
-          'YYYY年MM月DD日 HH:mm',
-        );
+        return this.screen.name;
       } catch (error) {
         return '';
       }
     },
-    endDate() {
+    screenDate() {
       try {
-        return this.$moment(this.activity.endTime).format(
-          'YYYY年MM月DD日 HH:mm',
-        );
+        return this.$moment(this.screen.date).format('YYYY年MM月DD日');
       } catch (error) {
         return '';
       }

@@ -238,10 +238,10 @@ ipcMain.handle('channel', (event, { type, data }) => {
       }
       return { code: 1 };
     case 'maximize':
-      if (win && !win.isMaximized()) {
-        win.maximize();
+      if (win && !win.isFullScreen()) {
+        win.setFullScreen(true);
       } else {
-        win.unmaximize();
+        win.setFullScreen(false);
       }
       return { code: 1 };
     case 'quit':
