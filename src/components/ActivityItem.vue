@@ -9,7 +9,7 @@
           <p class="title">
             {{ activity.name }}
           </p>
-          <p class="m-t-8">
+          <p class="m-t-8" v-show="activity.address">
             <!-- 地址 -->
             地址：{{ activity.address }}
           </p>

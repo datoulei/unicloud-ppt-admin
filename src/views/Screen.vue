@@ -1,12 +1,29 @@
 <template>
   <div class="page">
     <div class="card" flex="cross:center">
-      <img src="/images/icon_screen.png" class="icon" />
-      <div>
+      <div class="content" flex-box="1">
         <p class="name">{{ activityName }}</p>
         <p class="date m-t-12">{{ screenName }}</p>
-        <p class="date m-t-12">{{ screenDate }}</p>
+        <p class="date">{{ screenDate }}</p>
       </div>
+      <div class="date-box" flex>
+        <div class="start">
+          <p class="date">{{ startDate }}</p>
+          <p class="time">{{ startTime }}</p>
+        </div>
+        <div class="line"></div>
+        <div class="end">
+          <p class="date">{{ endDate }}</p>
+          <p class="time">{{ endTime }}</p>
+        </div>
+      </div>
+      <p class="m-l-64">
+        <span v-if="activity.status === 1" class="status"> 待进行 </span>
+        <span v-else-if="activity.status === 2" class="status primary">
+          进行中
+        </span>
+        <span v-else-if="activity.status === 3" class="status">已结束</span>
+      </p>
     </div>
     <div class="m-t-24">
       <a-button class="no-padding" type="link" @click="handleCreate">
@@ -87,6 +104,18 @@ export default {
       } catch (error) {
         return '';
       }
+    },
+    startDate() {
+      return this.$moment(this.activity.startTime).format('YYYY年MM月DD日');
+    },
+    startTime() {
+      return this.$moment(this.activity.startTime).format('HH:mm');
+    },
+    endDate() {
+      return this.$moment(this.activity.endTime).format('YYYY年MM月DD日');
+    },
+    endTime() {
+      return this.$moment(this.activity.endTime).format('HH:mm');
     },
   },
   created() {
@@ -181,7 +210,7 @@ export default {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
   padding: 32px;
   line-height: 1;
-  border-left: 3px solid #f60f0f;
+  // border-left: 3px solid #f60f0f;
   .icon {
     width: 48px;
     height: 48px;
@@ -192,16 +221,73 @@ export default {
     width: 48px;
     height: 48px;
   }
-  .name {
-    font-family: PingFangTC-Semibold, PingFangTC;
-    font-size: 20px;
-    font-weight: 600;
-    color: #333333;
+  .content {
+    border-left: 3px solid #f60f0f;
+    padding-left: 23px;
+    .name {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333333;
+    }
+    .date {
+      font-size: 14px;
+      font-weight: 400;
+      color: #666666;
+      line-height: 20px;
+    }
   }
-  .date {
-    font-size: 14px;
-    font-weight: 400;
-    color: #666666;
+  .status {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.2;
+    vertical-align: text-top;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: #b8b8b8;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    &.primary {
+      color: #f60f0f;
+      &::before {
+        background-color: #f60f0f;
+      }
+    }
+  }
+  .date-box {
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 1px;
+      height: 32px;
+      background: #e5e5e5;
+      left: -40px;
+      top: 5px;
+    }
+    .date {
+      font-size: 14px;
+      color: #000;
+      line-height: 20px;
+    }
+    .line {
+      margin: 10px 20px 0;
+      height: 2px;
+      background: #999;
+      width: 15px;
+    }
+    .time {
+      color: #333;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 20px;
+    }
   }
 }
 </style>
