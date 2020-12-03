@@ -1,13 +1,13 @@
 <template>
-  <div class="header" flex="cross:center">
+  <div class="header drag" flex="cross:center">
     <img src="/images/login_logo.png" class="logo" />
     <a-icon
-      class="m-l-30 pointer"
+      class="m-l-30 pointer no-drag"
       type="home"
       :style="{ fontSize: '22px', color: '#fff' }"
       @click="handleHome"
     />
-    <a-button-group class="m-l-14">
+    <a-button-group class="m-l-14 no-drag">
       <a-button ghost size="small" icon="left" @click="handleBack" />
       <a-button ghost size="small" icon="right" @click="handleForward" />
     </a-button-group>
@@ -23,7 +23,7 @@
             ></a-icon>
           </span>
         </template>
-        <span class="m-l-24">
+        <span class="m-l-24 no-drag">
           <span>群晖验证码</span>
           <a-icon type="caret-down"></a-icon>
         </span>
@@ -31,8 +31,12 @@
     </template>
     <span flex-box="1" />
     <a-dropdown :getPopupContainer="getPopupContainer" placement="bottomRight">
-      <span class="mode" v-if="loginType === 'internet'">互联网模式</span>
-      <span class="mode" v-else-if="loginType === 'local'">局域网模式</span>
+      <span class="mode no-drag" v-if="loginType === 'internet'"
+        >互联网模式</span
+      >
+      <span class="mode no-drag" v-else-if="loginType === 'local'"
+        >局域网模式</span
+      >
       <a-icon type="down" />
       <a-menu slot="overlay" @click="handleClickMenu">
         <a-menu-item key="logout">
@@ -40,7 +44,7 @@
         </a-menu-item>
       </a-menu>
     </a-dropdown>
-    <div class="action-bar m-l-16 p-l-16" flex="cross:center">
+    <div class="action-bar m-l-16 p-l-16 no-drag" flex="cross:center">
       <a-icon type="minus" class="pointer" @click="handleMinimize" />
       <a-icon type="border" class="pointer m-l-8" @click="handleMaximize" />
       <a-icon type="close" class="pointer m-l-8" @click="handleQuit" />
@@ -130,7 +134,6 @@ export default {
   height: 100%;
   color: #fff;
   .logo {
-    -webkit-app-region: drag;
     height: 24px;
     cursor: move;
   }
