@@ -32,6 +32,7 @@
         </a-form-model-item>
         <a-form-model-item label="屏幕Logo" prop="logo">
           <ImageUpload v-model="form.logo" width="120px" height="66px" />
+          <div>建议上传尺寸：320*320</div>
         </a-form-model-item>
         <a-form-model-item label="屏幕风格" prop="style">
           <div class="style-radio-group" flex>

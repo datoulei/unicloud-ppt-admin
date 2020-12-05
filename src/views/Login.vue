@@ -1,6 +1,10 @@
 <template>
-  <div class="page">
-    <img src="/images/icon_close.png" class="close-btn" @click="handleClose" />
+  <div class="page drag">
+    <img
+      src="/images/icon_close.png"
+      class="close-btn no-drag"
+      @click="handleClose"
+    />
     <img src="/images/login_logo.png" class="logo" />
     <div class="main">
       <h2 class="title">服务端登录</h2>
@@ -41,6 +45,7 @@
           </a-form-model-item>
           <a-form-model-item>
             <a-button
+              class="no-drag"
               :loading="loading"
               type="primary"
               block
@@ -71,6 +76,7 @@
           </a-form-model-item>
           <a-form-model-item>
             <a-button
+              class="no-drag"
               :loading="loading"
               type="primary"
               block
