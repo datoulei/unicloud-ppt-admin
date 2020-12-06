@@ -6,7 +6,7 @@
       @click="handleClose"
     />
     <img src="/images/login_logo.png" class="logo" />
-    <div class="main">
+    <div class="main no-drag">
       <h2 class="title">服务端登录</h2>
       <div class="body m-t-24">
         <div class="radio-group m-b-16">
