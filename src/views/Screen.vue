@@ -6,7 +6,7 @@
         <p class="date m-t-12">{{ screenName }}</p>
         <p class="date">{{ screenDate }}</p>
       </div>
-      <div class="date-box" flex>
+      <!-- <div class="date-box" flex>
         <div class="start">
           <p class="date">{{ startDate }}</p>
           <p class="time">{{ startTime }}</p>
@@ -16,7 +16,7 @@
           <p class="date">{{ endDate }}</p>
           <p class="time">{{ endTime }}</p>
         </div>
-      </div>
+      </div> -->
       <p class="m-l-64">
         <span v-if="activity.status === 1" class="status"> 待进行 </span>
         <span v-else-if="activity.status === 2" class="status primary">
@@ -38,14 +38,6 @@
         rowKey="id"
         :pagination="false"
       >
-        <a-table-column key="startTime" title="主日程时间" width="200px">
-          <template slot-scope="row">
-            <span>{{ row.startTime }}</span>
-            <span> - </span>
-            <span>{{ row.endTime }}</span>
-          </template>
-        </a-table-column>
-        <a-table-column key="name" data-index="name" title="主日程名称" />
         <a-table-column key="action" title="操作" width="200px">
           <template slot-scope="row">
             <img
@@ -66,6 +58,14 @@
             <img src="/images/icon_button_move.png" class="icon-button drag" />
           </template>
         </a-table-column>
+        <a-table-column key="startTime" title="主日程时间" width="200px">
+          <template slot-scope="row">
+            <span>{{ row.startTime }}</span>
+            <span> - </span>
+            <span>{{ row.endTime }}</span>
+          </template>
+        </a-table-column>
+        <a-table-column key="name" data-index="name" title="主日程名称" />
       </a-table>
     </div>
     <MainScheduleModal ref="modal" @confirm="getMainSchedules" />

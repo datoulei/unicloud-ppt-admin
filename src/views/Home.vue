@@ -4,7 +4,7 @@
       <a-select
         allowClear
         placeholder="全部"
-        style="width: 150px;"
+        style="width: 150px"
         @change="handleSelect"
       >
         <a-select-option key="todo" :value="1">待进行</a-select-option>
@@ -22,7 +22,7 @@
       </template>
       <span flex-box="1"></span>
       <a-input-search
-        style="width: 200px;"
+        style="width: 200px"
         v-model="conditions.name"
         placeholder="搜索活动"
         @search="handleSearch"
@@ -72,9 +72,11 @@ export default {
   },
   mounted() {
     this.handleSearch();
+    this.loadUser();
   },
   methods: {
     ...mapActions('activity', ['getActivities']),
+    ...mapActions(['loadUser']),
     handleSelect(val) {
       this.conditions.status = val;
       this.handleSearch();

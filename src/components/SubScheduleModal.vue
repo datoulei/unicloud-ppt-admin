@@ -21,7 +21,7 @@
           v-model="form.startTime"
           format="HH:mm"
           valueFormat="HH:mm"
-          style="width: 240px;"
+          style="width: 240px"
         ></a-time-picker>
       </a-form-model-item>
       <a-form-model-item label="结束时间" prop="endTime">
@@ -29,30 +29,15 @@
           v-model="form.endTime"
           format="HH:mm"
           valueFormat="HH:mm"
-          style="width: 240px;"
+          style="width: 240px"
         ></a-time-picker>
       </a-form-model-item>
       <a-form-model-item label="子日程名称" prop="name">
         <a-input
           v-model="form.name"
           placeholder="请输入子日程名称"
-          style="width: 240px;"
+          style="width: 240px"
         ></a-input>
-      </a-form-model-item>
-      <a-form-model-item label="头像" prop="avatar">
-        <ImageUpload
-          v-model="form.avatar"
-          width="64px"
-          height="64px"
-          placeholder="上传"
-        />
-      </a-form-model-item>
-      <a-form-model-item label="身份类型" prop="identity">
-        <a-input
-          v-model="form.identity"
-          placeholder="请输入身份类型"
-          style="width: 240px;"
-        />
       </a-form-model-item>
       <a-form-model-item label="姓名" prop="guestName">
         <!-- <a-input
@@ -65,7 +50,7 @@
           :filterOption="attendeeFilter"
           :defaultOpen="false"
           placeholder="请输入姓名"
-          style="width: 240px;"
+          style="width: 240px"
           @select="handleSelect"
         >
           <template slot="dataSource">
@@ -79,8 +64,19 @@
         <a-input
           v-model="form.work"
           placeholder="请输入单位名称"
-          style="width: 240px;"
+          style="width: 240px"
         />
+      </a-form-model-item>
+      <a-form-model-item label="头像" prop="avatar">
+        <ImageUpload
+          v-model="form.avatar"
+          width="64px"
+          height="64px"
+          placeholder="上传"
+        />
+        <a-button v-show="form.avatar" type="link" @click="form.avatar = null">
+          清空
+        </a-button>
       </a-form-model-item>
       <a-form-model-item label="子日程ppt" prop="ppt">
         <FileUpload
@@ -101,10 +97,10 @@
       </a-form-model-item>
       <a-form-model-item label="倒计时显示位置" prop="position">
         <a-radio-group v-model="form.position" class="p-t-8">
-          <a-radio value="leftTop" style="width: 104px;">左上角</a-radio>
-          <a-radio value="leftBottom" style="width: 104px;">左下角</a-radio>
-          <a-radio value="rightTop" style="width: 104px;">右上角</a-radio>
-          <a-radio value="rightBottom" style="width: 104px;">右下角</a-radio>
+          <a-radio value="rightTop" style="width: 104px">右上角</a-radio>
+          <a-radio value="leftTop" style="width: 104px">左上角</a-radio>
+          <a-radio value="rightBottom" style="width: 104px">右下角</a-radio>
+          <a-radio value="leftBottom" style="width: 104px">左下角</a-radio>
         </a-radio-group>
       </a-form-model-item>
     </a-form-model>
@@ -143,14 +139,13 @@ export default {
         startTime: null,
         endTime: null,
         name: null,
-        avatar: '/images/default_avatar.png',
-        identity: null,
+        avatar: null,
         guestName: null,
         work: null,
         ppt: null,
         timestamp: null,
         minutes: 0,
-        position: 'leftTop',
+        position: 'rightTop',
       },
       rules: {
         startTime: [
@@ -162,9 +157,6 @@ export default {
         ],
         name: [
           { required: true, message: '子日程名称不能为空', trigger: 'blur' },
-        ],
-        identity: [
-          { required: true, message: '身份类型不能为空', trigger: 'blur' },
         ],
         guestName: [
           { required: true, message: '姓名不能为空', trigger: 'blur' },
@@ -204,8 +196,7 @@ export default {
         startTime: null,
         endTime: null,
         name: null,
-        avatar: '/images/default_avatar.png',
-        identity: null,
+        avatar: null,
         guestName: null,
         work: null,
         ppt: null,

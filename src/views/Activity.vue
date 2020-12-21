@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="card" flex="cross:center">
+    <div :class="['card', `status-${status}`]" flex="cross:center">
       <img src="/images/icon_calendar.png" class="icon" />
       <div class="content">
         <p class="name">{{ name }}</p>
@@ -119,7 +119,16 @@ export default {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
   padding: 32px;
   line-height: 1;
-  border-left: 3px solid #f60f0f;
+  &.status-1 {
+    border-left: 3px solid #fdcfcf;
+  }
+  &.status-2 {
+    border-left: 3px solid #f60f0f;
+  }
+  &.status-3 {
+    border-left: 3px solid #b8b8b8;
+  }
+
   .icon {
     width: 48px;
     height: 48px;
@@ -167,9 +176,7 @@ export default {
     }
   }
   .date-box {
-    .date {
-      font-size: 14px;
-    }
+    font-size: 14px;
     .line {
       margin: 10px 20px 0;
       height: 2px;
@@ -178,7 +185,6 @@ export default {
     }
     .time {
       color: #333;
-      font-size: 20px;
       font-weight: 500;
       text-align: center;
     }

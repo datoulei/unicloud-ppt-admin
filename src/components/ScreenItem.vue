@@ -11,25 +11,25 @@
       <a-col :span="6" class="main:center">
         <div class="pointer" flex="dir:top cross:center" @click="handleCopy">
           <img src="/images/icon_copy.png" alt="" class="icon" />
-          <span class="label m-t-8">复制登录码</span>
+          <span class="label">复制登录码</span>
         </div>
       </a-col>
       <a-col :span="6" class="main:center">
         <div class="pointer" flex="dir:top cross:center" @click="handleDetail">
           <img src="/images/icon_manage.png" alt="" class="icon" />
-          <span class="label m-t-8">管理日程</span>
+          <span class="label">管理日程</span>
         </div>
       </a-col>
       <a-col :span="6" class="main:center">
         <div class="pointer" flex="dir:top cross:center" @click="handleEdit">
           <img src="/images/icon_edit.png" alt="" class="icon" />
-          <span class="label m-t-8">编辑</span>
+          <span class="label">编辑</span>
         </div>
       </a-col>
       <a-col :span="6" class="main:center">
         <div class="pointer" flex="dir:top cross:center" @click="handleDelete">
           <img src="/images/icon_delete.png" alt="" class="icon" />
-          <span class="label m-t-8">删除</span>
+          <span class="label">删除</span>
         </div>
       </a-col>
     </a-row>
@@ -128,8 +128,13 @@ export default {
   .body {
     height: 108px;
     .icon {
-      width: 32px;
-      height: 32px;
+      width: 42px;
+      height: 42px;
+      &:hover {
+        transform: scale(1.428571429);
+        transform-origin: center;
+        transition: all 0.1s ease-in-out;
+      }
     }
     .label {
       font-size: 12px;

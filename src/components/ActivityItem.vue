@@ -1,10 +1,10 @@
 <template>
-  <a-card>
+  <a-card :class="['card', `status-${activity.status}`]">
     <div
       :class="['activity-item', activity.status === 3 && 'finished']"
       flex="cross:center"
     >
-      <div class="content">
+      <div class="content" flex-box="1">
         <div class="p-r-33">
           <p class="title">
             {{ activity.name }}
@@ -15,7 +15,7 @@
           </p>
         </div>
       </div>
-      <div class="date-box" flex-box="1" flex>
+      <div class="date-box" flex>
         <div class="start">
           <p class="date">{{ startDate }}</p>
           <p class="time">{{ startTime }}</p>
@@ -26,11 +26,17 @@
           <p class="time">{{ endTime }}</p>
         </div>
       </div>
-      <div>
-        <a-button type="primary" @click="handleSelect">管理</a-button>
+      <div flex="dir:top cross:center">
+        <a-button
+          :class="['w-76', `btn-status-${activity.status}`]"
+          type="primary"
+          @click="handleSelect"
+        >
+          管理
+        </a-button>
         <a-button
           v-if="loginType === 'local' && activity.status === 3"
-          class="m-l-10"
+          class="m-l-10 w-76"
           type="primary"
           @click="handleDelete"
         >
@@ -99,6 +105,24 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.card {
+  border-radius: 5px;
+  overflow: hidden;
+  &:hover {
+    transform: scale(1.028911565);
+    transform-origin: center;
+    transition: all 0.1s ease-in-out;
+  }
+  &.status-1 {
+    border-left: 4px solid #fdcfcf;
+  }
+  &.status-2 {
+    border-left: 4px solid #f60f0f;
+  }
+  &.status-3 {
+    border-left: 4px solid #b8b8b8;
+  }
+}
 .title {
   font-size: 24px;
   font-weight: 600;
@@ -107,10 +131,6 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-.content {
-  min-width: 640px;
-  max-width: 640px;
 }
 .status {
   color: #666;
@@ -135,9 +155,11 @@ export default {
   }
 }
 .date-box {
-  .date {
-    font-size: 14px;
-  }
+  font-size: 14px;
+  width: 350px;
+  min-width: 350px;
+  max-width: 350px;
+  margin-right: 80px;
   .line {
     margin: 10px 20px 0;
     height: 2px;
@@ -146,7 +168,6 @@ export default {
   }
   .time {
     color: #333;
-    font-size: 20px;
     font-weight: 500;
     text-align: center;
   }
@@ -156,5 +177,17 @@ export default {
   .date-box .time {
     color: #999;
   }
+}
+.btn-status-1 {
+  background-color: #fdcfcf;
+  border-color: #fdcfcf;
+}
+.btn-status-2 {
+  background-color: #f60f0f;
+  border-color: #f60f0f;
+}
+.btn-status-3 {
+  background-color: #b8b8b8;
+  border-color: #b8b8b8;
 }
 </style>

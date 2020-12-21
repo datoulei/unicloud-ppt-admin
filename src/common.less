@@ -81,3 +81,35 @@ p {
 .no-drag {
   -webkit-app-region: no-drag;
 }
+
+.ant-modal-footer {
+  padding: 16px;
+  background-color: #f7f7f7;
+  & > div {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 164px;
+    margin: auto;
+  }
+  .ant-btn {
+    padding: 8px 16px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: #666666;
+    &.ant-btn-primary {
+      background-color: #f60f0f;
+      color: #fff;
+    }
+  }
+}
+
+.ant-upload-list-item:hover .ant-upload-list-item-info,
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover {
+  background-color: #f1f1f1;
+}

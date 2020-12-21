@@ -5,7 +5,6 @@
       class="close-btn no-drag"
       @click="handleClose"
     />
-    <img src="/images/login_logo.png" class="logo" />
     <div class="main no-drag">
       <h2 class="title">服务端登录</h2>
       <div class="body m-t-24">
@@ -137,6 +136,7 @@ export default {
               this.internetForm,
             );
             this.$ls.set('internetForm', this.internetForm);
+            this.$ls.set('user', res.user);
             this.$db.set('loginType', 'internet').write();
             this.$db.set('token', res.token).write();
             break;

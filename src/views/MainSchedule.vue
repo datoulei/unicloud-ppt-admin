@@ -21,6 +21,26 @@
         rowKey="id"
         :pagination="false"
       >
+        <a-table-column key="action" title="操作" width="200px">
+          <template slot-scope="row">
+            <img
+              src="/images/icon_play.png"
+              class="icon-button"
+              @click="handlePreview(row)"
+            />
+            <img
+              src="/images/icon_button_edit.png"
+              class="icon-button"
+              @click="handleEdit(row)"
+            />
+            <img
+              src="/images/icon_button_delete.png"
+              class="icon-button"
+              @click="handleDelete(row)"
+            />
+            <img src="/images/icon_button_move.png" class="icon-button drag" />
+          </template>
+        </a-table-column>
         <a-table-column key="time" title="子日程时间" width="150px">
           <template slot-scope="item">
             <span>{{ item.startTime }}</span>
@@ -41,17 +61,17 @@
           width="150px"
         />
         <a-table-column
-          key="name"
-          data-index="name"
-          title="子日程名称"
-          width="400px"
-          ellipsis
-        />
-        <a-table-column
           key="work"
           data-index="work"
           title="单位"
           width="200px"
+          ellipsis
+        />
+        <a-table-column
+          key="name"
+          data-index="name"
+          title="子日程名称"
+          width="400px"
           ellipsis
         />
         <a-table-column key="ppt" title="PPT" width="160px">
@@ -93,26 +113,6 @@
                 </a-button>
               </template>
             </FileUpload>
-          </template>
-        </a-table-column>
-        <a-table-column key="action" title="操作" width="200px">
-          <template slot-scope="row">
-            <img
-              src="/images/icon_play.png"
-              class="icon-button"
-              @click="handlePreview(row)"
-            />
-            <img
-              src="/images/icon_button_edit.png"
-              class="icon-button"
-              @click="handleEdit(row)"
-            />
-            <img
-              src="/images/icon_button_delete.png"
-              class="icon-button"
-              @click="handleDelete(row)"
-            />
-            <img src="/images/icon_button_move.png" class="icon-button drag" />
           </template>
         </a-table-column>
       </a-table>

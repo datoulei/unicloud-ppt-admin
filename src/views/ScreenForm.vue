@@ -31,8 +31,11 @@
           />
         </a-form-model-item>
         <a-form-model-item label="屏幕Logo" prop="logo">
-          <ImageUpload v-model="form.logo" width="120px" height="66px" />
-          <div>建议上传尺寸：320*320</div>
+          <ImageUpload v-model="form.logo" width="240px" height="120px" />
+          <a-button v-show="form.logo" type="link" @click="form.logo = null">
+            清空
+          </a-button>
+          <div>建议上传尺寸：640*320</div>
         </a-form-model-item>
         <a-form-model-item label="屏幕风格" prop="style">
           <div class="style-radio-group" flex>
@@ -89,7 +92,7 @@ export default {
         name: null,
         displayName: null,
         date: null,
-        logo: '/images/logo.png',
+        logo: null,
         style: 'blue',
       },
       rules: {

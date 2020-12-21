@@ -12,7 +12,7 @@
     <div v-show="show" class="list">
       <a-list
         class="m-t-16"
-        :dataSource="screens"
+        :dataSource="sortScreens"
         :grid="{ gutter: 16, column: 3 }"
         :split="false"
       >
@@ -44,6 +44,11 @@ export default {
     return {
       show: true,
     };
+  },
+  computed: {
+    sortScreens() {
+      return this.$lodash.sortBy(this.screens, 'id');
+    },
   },
 };
 </script>

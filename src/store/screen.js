@@ -20,8 +20,9 @@ export default {
     },
   },
   actions: {
-    async getScreens({ rootState, commit }, params) {
+    async getScreens({ rootState, commit }, params = {}) {
       const activity = rootState.activity.selected;
+      params.order = 'createdAt';
       const result = await Vue.axios.get(`/activities/${activity.id}/screens`, {
         params,
       });

@@ -1,10 +1,8 @@
 <template>
   <div class="header drag" flex="cross:center">
-    <img src="/images/login_logo.png" class="logo" />
-    <a-icon
-      class="m-l-30 pointer no-drag"
-      type="home"
-      :style="{ fontSize: '22px', color: '#fff' }"
+    <img
+      src="/images/logo.png"
+      class="logo pointer no-drag"
       @click="handleHome"
     />
     <a-button-group class="m-l-14 no-drag">
@@ -31,22 +29,35 @@
     </template>
     <span flex-box="1" />
     <a-dropdown :getPopupContainer="getPopupContainer" placement="bottomRight">
-      <span class="mode no-drag" v-if="loginType === 'internet'"
-        >互联网模式</span
-      >
-      <span class="mode no-drag" v-else-if="loginType === 'local'"
-        >局域网模式</span
-      >
-      <a-icon type="down" />
+      <span flex="cross:center">
+        <a-avatar :src="avatar" :size="27" />
+        <span class="m-l-10">{{ nickname }}</span>
+        <a-icon class="m-l-4" type="down" />
+      </span>
       <a-menu slot="overlay" @click="handleClickMenu">
+        <a-menu-item key="mode">
+          <span class="mode no-drag" v-if="loginType === 'internet'">
+            互联网模式
+          </span>
+          <span class="mode no-drag" v-else-if="loginType === 'local'">
+            局域网模式
+          </span>
+        </a-menu-item>
         <a-menu-item key="logout">
-          <span>退出登录</span>
+          <span>切换账号</span>
+        </a-menu-item>
+        <a-menu-item key="quit">
+          <span>退出</span>
         </a-menu-item>
       </a-menu>
     </a-dropdown>
     <div class="action-bar m-l-16 p-l-16 no-drag" flex="cross:center">
       <a-icon type="minus" class="pointer" @click="handleMinimize" />
-      <a-icon type="border" class="pointer m-l-8" @click="handleMaximize" />
+      <a-icon
+        :type="isMaximize ? 'switcher' : 'border'"
+        class="pointer m-l-8"
+        @click="handleMaximize"
+      />
       <a-icon type="close" class="pointer m-l-8" @click="handleQuit" />
     </div>
   </div>
@@ -57,10 +68,22 @@ import { mapState } from 'vuex';
 export default {
   name: 'Header',
   data() {
-    return { code: null };
+    return { code: null, isMaximize: false };
   },
   computed: {
-    ...mapState(['loginType']),
+    ...mapState(['loginType', 'user']),
+    avatar() {
+      if (this.user) {
+        return this.user.avatar || '/images/default_avatar.png';
+      }
+      return '/images/default_avatar.png';
+    },
+    nickname() {
+      if (this.user) {
+        return this.user.nickname;
+      }
+      return '';
+    },
   },
   watch: {
     loginType: {
@@ -92,17 +115,26 @@ export default {
       this.$ipcRenderer.invoke('channel', { type: 'minimize' });
     },
     handleMaximize() {
+      this.isMaximize = !this.isMaximize;
       this.$ipcRenderer.invoke('channel', { type: 'maximize' });
     },
     handleQuit() {
-      this.$ipcRenderer.invoke('channel', { type: 'quit' });
+      this.$confirm({
+        title: '关闭应用',
+        content: '是否确认关闭应用？',
+        onOk: () => {
+          this.$ipcRenderer.invoke('channel', { type: 'quit' });
+        },
+      });
     },
     handleClickMenu({ key }) {
       switch (key) {
         case 'logout':
           this.handleLogout();
           break;
-
+        case 'quit':
+          this.handleQuit();
+          break;
         default:
           break;
       }
@@ -135,7 +167,6 @@ export default {
   color: #fff;
   .logo {
     height: 24px;
-    cursor: move;
   }
   .action-bar {
     height: 16px;
