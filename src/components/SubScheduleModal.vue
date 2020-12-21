@@ -70,9 +70,12 @@
       <a-form-model-item label="头像" prop="avatar">
         <ImageUpload
           v-model="form.avatar"
-          width="64px"
-          height="64px"
+          width="90px"
+          height="110px"
           placeholder="上传"
+          cropper
+          :cropperWidth="90"
+          :cropperHeight="110"
         />
         <a-button v-show="form.avatar" type="link" @click="form.avatar = null">
           清空

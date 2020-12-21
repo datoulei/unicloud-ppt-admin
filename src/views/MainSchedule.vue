@@ -36,7 +36,7 @@
             <img
               src="/images/icon_button_delete.png"
               class="icon-button"
-              @click="handleDelete(row)"
+              @click="handleOpenDeleteModal(row)"
             />
             <img src="/images/icon_button_move.png" class="icon-button drag" />
           </template>
@@ -118,6 +118,12 @@
       </a-table>
     </div>
     <SubScheduleModal ref="modal" @confirm="getSubSchedules" />
+    <ConfirmDeleteModal
+      ref="deleteModal"
+      desc="删除后，您将无法查看该日程的信息
+如您确认要删除，请在下方输入「DELETE」"
+      @confirm="handleDelete"
+    />
   </div>
 </template>
 
@@ -125,10 +131,12 @@
 import { mapState, mapActions, mapGetters } from 'vuex';
 import Sortable from 'sortablejs';
 import SubScheduleModal from '@/components/SubScheduleModal';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 import FileUpload from '@/components/common/FileUpload';
 export default {
   components: {
     SubScheduleModal,
+    ConfirmDeleteModal,
     FileUpload,
   },
   computed: {
@@ -197,18 +205,15 @@ export default {
     handleEdit(record) {
       this.$refs.modal.open(record);
     },
-    handleDelete(record) {
-      this.$confirm({
-        title: '删除确认',
-        content: '是否确认删除该日程？',
-        onOk: async () => {
-          try {
-            await this.deleteSubSchedule(record.id);
-            this.$message.success('删除成功');
-            this.getSubSchedules();
-          } catch (error) {}
-        },
-      });
+    handleOpenDeleteModal(record) {
+      this.$refs.deleteModal.open(record);
+    },
+    async handleDelete(record) {
+      try {
+        await this.deleteSubSchedule(record.id);
+        this.$message.success('删除成功');
+        this.getSubSchedules();
+      } catch (error) {}
     },
     async handleSort({ oldIndex, newIndex }) {
       console.log('handleSort -> newIndex', newIndex);

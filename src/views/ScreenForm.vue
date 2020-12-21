@@ -31,7 +31,14 @@
           />
         </a-form-model-item>
         <a-form-model-item label="屏幕Logo" prop="logo">
-          <ImageUpload v-model="form.logo" width="240px" height="120px" />
+          <ImageUpload
+            v-model="form.logo"
+            width="240px"
+            height="120px"
+            cropper
+            :cropperWidth="640"
+            :cropperHeight="320"
+          />
           <a-button v-show="form.logo" type="link" @click="form.logo = null">
             清空
           </a-button>

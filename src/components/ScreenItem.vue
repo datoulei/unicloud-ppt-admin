@@ -27,23 +27,37 @@
         </div>
       </a-col>
       <a-col :span="6" class="main:center">
-        <div class="pointer" flex="dir:top cross:center" @click="handleDelete">
+        <div
+          class="pointer"
+          flex="dir:top cross:center"
+          @click="handleOpenDeleteModal"
+        >
           <img src="/images/icon_delete.png" alt="" class="icon" />
           <span class="label">删除</span>
         </div>
       </a-col>
     </a-row>
+    <ConfirmDeleteModal
+      ref="modal"
+      desc="删除后，您将无法查看该屏幕的信息
+如您确认要删除，请在下方输入「DELETE」"
+      @confirm="handleDelete"
+    />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 export default {
   props: {
     screen: {
       type: Object,
       required: true,
     },
+  },
+  components: {
+    ConfirmDeleteModal,
   },
   methods: {
     ...mapActions('screen', ['deleteScreen', 'getScreens', 'selectScreen']),
@@ -64,31 +78,17 @@ export default {
         params: { screenId: this.screen.id },
       });
     },
-    handleDelete() {
-      this.$confirm({
-        title: '删除确认',
-        content:
-          '删除屏幕会连带删除该屏幕下的分享和素材，且无法恢复，请确认是否删除该屏幕?',
-        okText: '确认',
-        okType: 'danger',
-        cancelText: '取消',
-        onOk: () => {
-          return new Promise((resolve, reject) => {
-            const hide = this.$message.loading('正在处理..', 0);
-            this.deleteScreen(this.screen.id)
-              .then(() => {
-                hide();
-                this.$message.success('删除成功');
-                this.getScreens();
-                resolve();
-              })
-              .catch(() => {
-                hide();
-                reject();
-              });
-          });
-        },
-      });
+    handleOpenDeleteModal() {
+      this.$refs['modal'].open();
+    },
+    async handleDelete() {
+      const hide = this.$message.loading('正在处理..', 0);
+      try {
+        await this.deleteScreen(this.screen.id);
+        this.$message.success('删除成功');
+        this.getScreens();
+      } catch (error) {}
+      hide();
     },
   },
 };

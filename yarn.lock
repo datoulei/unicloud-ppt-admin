@@ -10181,6 +10181,11 @@ vue-cli-plugin-electron-builder@~2.0.0-rc.4:
     webpack-merge "^4.2.2"
     yargs "^15.3.1"
 
+vue-cropper@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.npm.taobao.org/vue-cropper/download/vue-cropper-0.5.5.tgz#9bd1ba563c7faa268abd52fb2af4c6c28d33c962"
+  integrity sha1-m9G6Vjx/qiaKvVL7KvTGwo0zyWI=
+
 vue-eslint-parser@^7.0.0:
   version "7.1.0"
   resolved "https://registry.npm.taobao.org/vue-eslint-parser/download/vue-eslint-parser-7.1.0.tgz?cache=0&sync_timestamp=1589684321779&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-eslint-parser%2Fdownload%2Fvue-eslint-parser-7.1.0.tgz#9cdbcc823e656b087507a1911732b867ac101e83"
