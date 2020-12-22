@@ -17,7 +17,7 @@
       <p class="desc">{{ desc }}</p>
       <div class="wrapper">
         <a-input v-model="answer" />
-        <span v-show="showError" class="error">*输入错误</span>
+        <span v-show="showError" class="error">*密码错误</span>
       </div>
     </div>
   </a-modal>

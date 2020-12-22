@@ -29,7 +29,7 @@
     </template>
     <span flex-box="1" />
     <a-dropdown :getPopupContainer="getPopupContainer" placement="bottomRight">
-      <span flex="cross:center">
+      <span class="no-drag" flex="cross:center">
         <a-avatar :src="avatar" :size="27" />
         <span class="m-l-10">{{ nickname }}</span>
         <a-icon class="m-l-4" type="down" />

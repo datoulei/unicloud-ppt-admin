@@ -2,11 +2,18 @@
   <div class="page">
     <div class="card" flex="cross:center">
       <img src="/images/icon_calendar.png" class="icon" />
-      <div>
+      <div flex-box="1">
         <p class="name">{{ activityName }}</p>
         <p class="date m-t-12">{{ screenName }} - {{ mainScheduleName }}</p>
         <p class="date m-t-12">{{ screenDate }}</p>
       </div>
+      <p class="m-l-64">
+        <span v-if="activity.status === 1" class="status"> 待进行 </span>
+        <span v-else-if="activity.status === 2" class="status primary">
+          进行中
+        </span>
+        <span v-else-if="activity.status === 3" class="status">已结束</span>
+      </p>
     </div>
     <div class="m-t-24">
       <a-button class="no-padding" type="link" @click="handleCreate">
@@ -120,8 +127,8 @@
     <SubScheduleModal ref="modal" @confirm="getSubSchedules" />
     <ConfirmDeleteModal
       ref="deleteModal"
-      desc="删除后，您将无法查看该日程的信息
-如您确认要删除，请在下方输入「DELETE」"
+      desc="删除后，您将无法查看此子日程及上传幻灯片
+如确认删除，请在下方输入 DELETE ，确认删除"
       @confirm="handleDelete"
     />
   </div>
@@ -306,6 +313,28 @@ export default {
     font-size: 14px;
     font-weight: 400;
     color: #666666;
+  }
+  .status {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.2;
+    vertical-align: text-top;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: #b8b8b8;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    &.primary {
+      color: #f60f0f;
+      &::before {
+        background-color: #f60f0f;
+      }
+    }
   }
 }
 .stat {

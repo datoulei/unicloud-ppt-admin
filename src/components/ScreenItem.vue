@@ -39,8 +39,8 @@
     </a-row>
     <ConfirmDeleteModal
       ref="modal"
-      desc="删除后，您将无法查看该屏幕的信息
-如您确认要删除，请在下方输入「DELETE」"
+      desc="删除后，您将无法查看此屏幕的日程及上传幻灯片
+如确认删除，请在下方输入 DELETE ，确认删除"
       @confirm="handleDelete"
     />
   </div>

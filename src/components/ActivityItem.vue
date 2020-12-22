@@ -123,6 +123,11 @@ export default {
     border-left: 4px solid #b8b8b8;
   }
 }
+.content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .title {
   font-size: 24px;
   font-weight: 600;
