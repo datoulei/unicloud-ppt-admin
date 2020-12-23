@@ -102,8 +102,12 @@
         <a-radio-group v-model="form.position" class="p-t-8">
           <a-radio value="rightTop" style="width: 104px">右上角</a-radio>
           <a-radio value="leftTop" style="width: 104px">左上角</a-radio>
-          <a-radio value="rightBottom" style="width: 104px">右下角</a-radio>
-          <a-radio value="leftBottom" style="width: 104px">左下角</a-radio>
+          <a-radio value="rightBottom" style="width: 104px; margin-top: 16px"
+            >右下角</a-radio
+          >
+          <a-radio value="leftBottom" style="width: 104px; margin-top: 16px"
+            >左下角</a-radio
+          >
         </a-radio-group>
       </a-form-model-item>
     </a-form-model>

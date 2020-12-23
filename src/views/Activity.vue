@@ -2,11 +2,12 @@
   <div class="page">
     <div :class="['card', `status-${status}`]" flex="cross:center">
       <img src="/images/icon_calendar.png" class="icon" />
-      <div class="content">
+      <div class="content" flex-box="1">
         <p class="name">{{ name }}</p>
         <p class="date m-t-12">地址：{{ address }}</p>
       </div>
-      <div class="date-box" flex-box="1" flex>
+      <div class="date-box" flex="cross:center">
+        <div class="v-line"></div>
         <div class="start">
           <p class="date">{{ startDate }}</p>
           <p class="time">{{ startTime }}</p>
@@ -17,7 +18,7 @@
           <p class="time">{{ endTime }}</p>
         </div>
       </div>
-      <p class="m-t-10">
+      <p class="m-l-64 m-t-10">
         <span v-if="status === 1" class="status"> 待进行 </span>
         <span v-else-if="status === 2" class="status primary"> 进行中 </span>
         <span v-else-if="status === 3" class="status">已结束</span>
@@ -144,11 +145,7 @@ export default {
     font-weight: 600;
     color: #333333;
   }
-  .content {
-    min-width: 640px;
-    max-width: 640px;
-  }
-  .date {
+  & > .date {
     font-size: 14px;
     font-weight: 400;
     color: #666666;
@@ -177,16 +174,23 @@ export default {
   }
   .date-box {
     font-size: 14px;
+    color: #000;
+    .v-line {
+      width: 1px;
+      height: 32px;
+      background: #e5e5e5;
+      margin-right: 39px;
+    }
     .line {
       margin: 10px 20px 0;
       height: 2px;
-      background: #999;
+      background: #000;
       width: 15px;
     }
     .time {
-      color: #333;
       font-weight: 500;
       text-align: center;
+      margin-top: 4px;
     }
   }
 }

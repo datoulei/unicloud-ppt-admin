@@ -39,6 +39,7 @@
       <div class="cropper">
         <vueCropper
           ref="cropper"
+          class="custom-cropper"
           :img="cropperImage"
           :output-type="cropperOptions.outputType"
           :can-scale="cropperOptions.canScale"
@@ -223,5 +224,9 @@ export default {
 .cropper {
   height: 76vh;
   background-color: #fff;
+}
+.custom-cropper {
+  background-image: none !important;
+  background-color: #f5f5f5;
 }
 </style>

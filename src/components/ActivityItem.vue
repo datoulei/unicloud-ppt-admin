@@ -15,7 +15,7 @@
           </p>
         </div>
       </div>
-      <div class="date-box" flex>
+      <div class="date-box" flex="cross:center">
         <div class="start">
           <p class="date">{{ startDate }}</p>
           <p class="time">{{ startTime }}</p>
@@ -165,22 +165,16 @@ export default {
   min-width: 350px;
   max-width: 350px;
   margin-right: 80px;
+  color: #000;
   .line {
     margin: 10px 20px 0;
+    background: #000;
     height: 2px;
-    background: #999;
     width: 15px;
   }
   .time {
-    color: #333;
     font-weight: 500;
     text-align: center;
-  }
-}
-.finished {
-  .title,
-  .date-box .time {
-    color: #999;
   }
 }
 .btn-status-1 {

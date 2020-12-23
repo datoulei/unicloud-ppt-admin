@@ -56,12 +56,6 @@
           </template>
         </a-table-column>
         <a-table-column
-          key="identity"
-          data-index="identity"
-          title="身份类型"
-          width="120px"
-        />
-        <a-table-column
           key="guestName"
           data-index="guestName"
           title="姓名"
