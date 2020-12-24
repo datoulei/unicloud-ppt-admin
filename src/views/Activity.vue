@@ -4,7 +4,7 @@
       <img src="/images/icon_calendar.png" class="icon" />
       <div class="content" flex-box="1">
         <p class="name">{{ name }}</p>
-        <p class="date m-t-12">地址：{{ address }}</p>
+        <p v-show="address" class="date m-t-12">地址：{{ address }}</p>
       </div>
       <div class="date-box" flex="cross:center">
         <div class="v-line"></div>
