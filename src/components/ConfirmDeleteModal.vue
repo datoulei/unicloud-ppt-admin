@@ -14,7 +14,7 @@
         theme="filled"
         class="m-b-14"
       />
-      <p class="desc">{{ desc }}</p>
+      <p class="desc" v-html="desc"></p>
       <div class="wrapper">
         <a-input v-model="answer" />
         <span v-show="showError" class="error">*密码错误</span>
@@ -71,7 +71,7 @@ export default {
 <style lang="less" scoped>
 .container {
   padding-top: 11px;
-  width: 240px;
+  width: 264px;
   margin: auto;
   .desc {
     font-size: 12px;

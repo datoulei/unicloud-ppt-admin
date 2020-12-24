@@ -71,7 +71,7 @@
     <MainScheduleModal ref="modal" @confirm="getMainSchedules" />
     <ConfirmDeleteModal
       ref="deleteModal"
-      desc="删除后，您将无法查看此主日程及上传幻灯片
+      desc="删除后，您将无法查看此主日程及上传幻灯片<br/>
       如确认删除，请在下方输入 DELETE ，确认删除"
       @confirm="handleDelete"
     />
