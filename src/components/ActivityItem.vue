@@ -173,7 +173,6 @@ export default {
     width: 15px;
   }
   .time {
-    font-weight: 500;
     text-align: center;
   }
 }

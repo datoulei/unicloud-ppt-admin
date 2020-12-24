@@ -2,12 +2,12 @@
   <div class="page">
     <div class="card" flex="cross:center">
       <img src="/images/icon_calendar.png" class="icon" />
-      <div flex-box="1">
-        <p class="name">{{ activityName }}</p>
+      <div class="content" flex-box="1">
+        <p class="name text-hidden">{{ activityName }}</p>
         <p class="date m-t-12">{{ screenName }} - {{ mainScheduleName }}</p>
         <p class="date m-t-12">{{ screenDate }}</p>
       </div>
-      <p class="m-l-64">
+      <p class="m-l-39" style="min-width: 50px">
         <span v-if="activity.status === 1" class="status"> 待进行 </span>
         <span v-else-if="activity.status === 2" class="status primary">
           进行中
@@ -297,6 +297,9 @@ export default {
   .calendar {
     width: 48px;
     height: 48px;
+  }
+  .content {
+    min-width: 0;
   }
   .name {
     font-size: 20px;

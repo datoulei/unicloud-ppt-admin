@@ -3,7 +3,9 @@
     <div :class="['card', `status-${status}`]" flex="cross:center">
       <img src="/images/icon_calendar.png" class="icon" />
       <div class="content" flex-box="1">
-        <p class="name">{{ name }}</p>
+        <p class="name text-hidden">
+          {{ name }}
+        </p>
         <p v-show="address" class="date m-t-12">地址：{{ address }}</p>
       </div>
       <div class="date-box" flex="cross:center">
@@ -18,7 +20,7 @@
           <p class="time">{{ endTime }}</p>
         </div>
       </div>
-      <p class="m-l-64 m-t-10">
+      <p class="m-l-64 m-t-10" style="min-width: 50px">
         <span v-if="status === 1" class="status"> 待进行 </span>
         <span v-else-if="status === 2" class="status primary"> 进行中 </span>
         <span v-else-if="status === 3" class="status">已结束</span>
@@ -140,10 +142,14 @@ export default {
     width: 48px;
     height: 48px;
   }
+  .content {
+    min-width: 0;
+  }
   .name {
     font-size: 20px;
     font-weight: 600;
     color: #333333;
+    padding-right: 39px;
   }
   & > .date {
     font-size: 14px;
@@ -175,6 +181,7 @@ export default {
   .date-box {
     font-size: 14px;
     color: #000;
+    min-width: 320px;
     .v-line {
       width: 1px;
       height: 32px;
@@ -188,7 +195,6 @@ export default {
       width: 15px;
     }
     .time {
-      font-weight: 500;
       text-align: center;
       margin-top: 4px;
     }

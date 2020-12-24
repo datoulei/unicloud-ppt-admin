@@ -2,7 +2,9 @@
   <div class="page">
     <div class="card" flex="cross:center">
       <div class="content" flex-box="1">
-        <p class="name">{{ activityName }}</p>
+        <p class="name text-hidden">
+          {{ activityName }}
+        </p>
         <p class="date m-t-12">{{ screenName }}</p>
         <p class="date">{{ screenDate }}</p>
       </div>
@@ -17,7 +19,7 @@
           <p class="time">{{ endTime }}</p>
         </div>
       </div> -->
-      <p class="m-l-64">
+      <p class="m-l-39" style="min-width: 50px">
         <span v-if="activity.status === 1" class="status"> 待进行 </span>
         <span v-else-if="activity.status === 2" class="status primary">
           进行中
@@ -229,6 +231,7 @@ export default {
   .content {
     // border-left: 3px solid #f60f0f;
     // padding-left: 23px;
+    min-width: 0;
     .name {
       font-size: 24px;
       font-weight: 600;
@@ -289,7 +292,6 @@ export default {
     .time {
       color: #333;
       font-size: 14px;
-      font-weight: 500;
       text-align: center;
       line-height: 20px;
     }
