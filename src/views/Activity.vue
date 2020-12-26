@@ -24,7 +24,7 @@
       <p class="m-l-64 m-t-10" style="min-width: 50px">
         <span v-if="status === 1" class="status"> 待进行 </span>
         <span v-else-if="status === 2" class="status primary"> 进行中 </span>
-        <span v-else-if="status === 3" class="status">已结束</span>
+        <span v-else-if="status === 3" class="status done">已结束</span>
       </p>
     </div>
     <div class="m-t-24">
@@ -162,7 +162,7 @@ export default {
     color: #666666;
   }
   .status {
-    color: #666;
+    color: #fcc3c3;
     font-size: 12px;
     line-height: 1.2;
     vertical-align: text-top;
@@ -172,9 +172,15 @@ export default {
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background-color: #b8b8b8;
+      background-color: #fa8787;
       margin-right: 6px;
       vertical-align: middle;
+    }
+    &.done {
+      color: #939393;
+      &::before {
+        background-color: #939393;
+      }
     }
     &.primary {
       color: #f60f0f;
