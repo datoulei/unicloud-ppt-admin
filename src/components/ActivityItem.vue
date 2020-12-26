@@ -11,11 +11,12 @@
           </p>
           <p class="m-t-8" v-show="activity.address">
             <!-- 地址 -->
-            地址：{{ activity.address }}
+            <span class="m-r-16">地</span>址：{{ activity.address }}
           </p>
         </div>
       </div>
       <div class="date-box" flex="cross:center">
+        <div class="v-line"></div>
         <div class="start">
           <p class="date">{{ startDate }}</p>
           <p class="time">{{ startTime }}</p>
@@ -47,7 +48,9 @@
           <span v-else-if="activity.status === 2" class="status primary">
             进行中
           </span>
-          <span v-else-if="activity.status === 3" class="status">已结束</span>
+          <span v-else-if="activity.status === 3" class="status done"
+            >已结束</span
+          >
         </p>
       </div>
     </div>
@@ -108,8 +111,15 @@ export default {
 .card {
   border-radius: 5px;
   overflow: hidden;
+  height: 136px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  box-shadow: 0px 5px 10px 0px rgba(102, 102, 102, 0.1);
   &:hover {
-    transform: scale(1.028911565);
+    box-shadow: 0px 5px 6px 0px rgba(0, 0, 0, 0.2);
+    transform: scale(1.029411765);
     transform-origin: center;
     transition: all 0.1s ease-in-out;
   }
@@ -138,7 +148,7 @@ export default {
   white-space: nowrap;
 }
 .status {
-  color: #666;
+  color: #fcc3c3;
   font-size: 12px;
   line-height: 1.2;
   vertical-align: text-top;
@@ -148,9 +158,15 @@ export default {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background-color: #b8b8b8;
+    background-color: #fa8787;
     margin-right: 6px;
     vertical-align: middle;
+  }
+  &.done {
+    color: #939393;
+    &::before {
+      background-color: #939393;
+    }
   }
   &.primary {
     color: #f60f0f;
@@ -166,6 +182,12 @@ export default {
   max-width: 350px;
   margin-right: 80px;
   color: #000;
+  .v-line {
+    width: 1px;
+    height: 32px;
+    background: #e5e5e5;
+    margin-right: 39px;
+  }
   .line {
     margin: 10px 20px 0;
     background: #000;

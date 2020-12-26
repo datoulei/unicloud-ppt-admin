@@ -122,7 +122,9 @@ p {
 
 .ant-upload-list-item:hover .ant-upload-list-item-info,
 .ant-dropdown-menu-item:hover,
-.ant-dropdown-menu-submenu-title:hover {
+.ant-dropdown-menu-submenu-title:hover,
+.ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled),
+.ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
   background-color: #f1f1f1;
 }
 
@@ -131,4 +133,10 @@ p {
   flex-direction: row-reverse;
   justify-content: space-between;
   width: 150px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  display: none;
 }

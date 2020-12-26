@@ -1,11 +1,15 @@
 <template>
   <div class="page">
-    <div class="card" flex="cross:center">
-      <img src="/images/icon_calendar.png" class="icon" />
+    <div :class="['card', `status-${status}`]" flex="cross:center">
       <div class="content" flex-box="1">
         <p class="name text-hidden">{{ activityName }}</p>
-        <p class="date m-t-12">{{ screenName }} - {{ mainScheduleName }}</p>
-        <p class="date m-t-12">{{ screenDate }}</p>
+        <p class="date m-t-12 text-hidden">
+          {{ screenName }} - {{ mainScheduleName }}
+        </p>
+        <p class="date m-t-12">
+          {{ screenDate }} {{ mainSchedule.startTime }} -
+          {{ mainSchedule.endTime }}
+        </p>
       </div>
       <p class="m-l-39" style="min-width: 50px">
         <span v-if="activity.status === 1" class="status"> 待进行 </span>
@@ -31,6 +35,10 @@
         <a-table-column key="action" title="操作" width="200px">
           <template slot-scope="row">
             <img
+              src="/images/icon_button_move.png"
+              class="icon-button drag-item"
+            />
+            <img
               src="/images/icon_play.png"
               class="icon-button"
               @click="handlePreview(row)"
@@ -45,7 +53,6 @@
               class="icon-button"
               @click="handleOpenDeleteModal(row)"
             />
-            <img src="/images/icon_button_move.png" class="icon-button drag" />
           </template>
         </a-table-column>
         <a-table-column key="time" title="子日程时间" width="150px">
@@ -153,6 +160,13 @@ export default {
         return '';
       }
     },
+    status() {
+      try {
+        return this.activity.status;
+      } catch (error) {
+        return 0;
+      }
+    },
     screenName() {
       try {
         return this.screen.name;
@@ -186,7 +200,7 @@ export default {
         put: false,
       },
       sort: true,
-      handle: '.drag',
+      handle: '.drag-item',
       draggable: '.ant-table-row',
       onEnd: (evt) => {
         this.handleSort(evt);
@@ -285,9 +299,21 @@ export default {
 .card {
   background: #ffffff;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-  padding: 32px;
+  padding: 32px 30px;
   line-height: 1;
-  border-left: 3px solid #f60f0f;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 144px;
+  box-sizing: border-box;
+  &.status-1 {
+    border-left: 3px solid #fdcfcf;
+  }
+  &.status-2 {
+    border-left: 3px solid #f60f0f;
+  }
+  &.status-3 {
+    border-left: 3px solid #b8b8b8;
+  }
   .icon {
     width: 48px;
     height: 48px;

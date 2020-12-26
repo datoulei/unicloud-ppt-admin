@@ -1,11 +1,11 @@
 <template>
   <div class="page">
-    <div class="card" flex="cross:center">
+    <div :class="['card', `status-${status}`]" flex="cross:center">
       <div class="content" flex-box="1">
         <p class="name text-hidden">
           {{ activityName }}
         </p>
-        <p class="date m-t-12">{{ screenName }}</p>
+        <p class="date m-t-12 text-hidden">{{ screenName }}</p>
         <p class="date">{{ screenDate }}</p>
       </div>
       <!-- <div class="date-box" flex>
@@ -43,6 +43,10 @@
         <a-table-column key="action" title="操作" width="200px">
           <template slot-scope="row">
             <img
+              src="/images/icon_button_move.png"
+              class="icon-button drag-item"
+            />
+            <img
               src="/images/icon_button_view.png"
               class="icon-button"
               @click="handleDetail(row)"
@@ -57,7 +61,6 @@
               class="icon-button"
               @click="handleOpenDeleteModal(row)"
             />
-            <img src="/images/icon_button_move.png" class="icon-button drag" />
           </template>
         </a-table-column>
         <a-table-column key="startTime" title="主日程时间" width="200px">
@@ -101,6 +104,13 @@ export default {
         return '';
       }
     },
+    status() {
+      try {
+        return this.activity.status;
+      } catch (error) {
+        return 0;
+      }
+    },
     screenName() {
       try {
         return this.screen.name;
@@ -139,7 +149,7 @@ export default {
         put: false,
       },
       sort: true,
-      handle: '.drag',
+      handle: '.drag-item',
       draggable: '.ant-table-row',
       onEnd: (evt) => {
         this.handleSort(evt);
@@ -217,7 +227,19 @@ export default {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
   padding: 32px 30px;
   line-height: 1;
-  border-left: 3px solid #f60f0f;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 144px;
+  box-sizing: border-box;
+  &.status-1 {
+    border-left: 3px solid #fdcfcf;
+  }
+  &.status-2 {
+    border-left: 3px solid #f60f0f;
+  }
+  &.status-3 {
+    border-left: 3px solid #b8b8b8;
+  }
   .icon {
     width: 48px;
     height: 48px;

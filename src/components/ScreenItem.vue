@@ -98,7 +98,7 @@ export default {
 .screen-item {
   background: #ffffff;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  border-radius: 5px;
   overflow: hidden;
   .header {
     height: 68px;

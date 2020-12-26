@@ -37,7 +37,7 @@
       rowKey="id"
     >
       <a-list-item
-        :class="['p-t-4', 'p-b-4', item.status === 3 && 'finished']"
+        :class="['p-t-8', 'p-b-8', item.status === 3 && 'finished']"
         slot="renderItem"
         slot-scope="item"
       >

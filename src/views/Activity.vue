@@ -1,12 +1,13 @@
 <template>
   <div class="page">
     <div :class="['card', `status-${status}`]" flex="cross:center">
-      <img src="/images/icon_calendar.png" class="icon" />
       <div class="content" flex-box="1">
         <p class="name text-hidden">
           {{ name }}
         </p>
-        <p v-show="address" class="date m-t-12">地址：{{ address }}</p>
+        <p v-show="address" class="date m-t-12">
+          <span class="m-r-16">地</span>址：{{ address }}
+        </p>
       </div>
       <div class="date-box" flex="cross:center">
         <div class="v-line"></div>
@@ -120,8 +121,12 @@ export default {
 .card {
   background: #ffffff;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-  padding: 32px;
+  padding: 32px 30px;
   line-height: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 144px;
+  box-sizing: border-box;
   &.status-1 {
     border-left: 3px solid #fdcfcf;
   }

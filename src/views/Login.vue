@@ -64,13 +64,13 @@
           <a-form-model-item prop="ip">
             <a-input
               v-model="localForm.ip"
-              placeholder="请输入群晖IP"
+              placeholder="请输入服务器IP"
             ></a-input>
           </a-form-model-item>
           <a-form-model-item prop="code">
             <a-input
               v-model="localForm.code"
-              placeholder="请输入群晖验证码"
+              placeholder="请输入服务器登录码"
             ></a-input>
           </a-form-model-item>
           <a-form-model-item>
@@ -119,7 +119,7 @@ export default {
       },
       localRules: {
         ip: [{ required: true, message: 'IP不能为空', trigger: 'blur' }],
-        code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }],
+        code: [{ required: true, message: '登录码不能为空', trigger: 'blur' }],
       },
     };
   },
