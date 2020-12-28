@@ -33,6 +33,7 @@
         <a-form-model-item label="屏幕Logo" prop="logo">
           <ImageUpload
             v-model="form.logo"
+            modalWidth="700px"
             width="240px"
             height="120px"
             cropper

@@ -30,6 +30,7 @@
     </a-upload>
     <a-modal
       :visible="visible"
+      :width="modalWidth"
       title="图片裁剪"
       @ok="handleCrop"
       @cancel="cancelCrop"
@@ -64,6 +65,10 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+    modalWidth: {
+      type: String,
+      default: '520px',
     },
     accept: {
       type: String,
@@ -222,7 +227,7 @@ export default {
   }
 }
 .cropper {
-  height: 76vh;
+  height: 388px;
   background-color: #fff;
 }
 .custom-cropper {
