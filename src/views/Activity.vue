@@ -151,7 +151,7 @@ export default {
     min-width: 0;
   }
   .name {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
     color: #333333;
     padding-right: 39px;

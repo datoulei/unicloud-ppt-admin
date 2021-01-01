@@ -43,7 +43,7 @@
           <a-button v-show="form.logo" type="link" @click="form.logo = null">
             清空
           </a-button>
-          <div>建议上传尺寸：640*320</div>
+          <div>建议上传尺寸：640 * 320</div>
         </a-form-model-item>
         <a-form-model-item label="屏幕风格" prop="style">
           <div class="style-radio-group" flex>

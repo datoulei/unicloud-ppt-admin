@@ -7,8 +7,8 @@
         style="width: 150px"
         @change="handleSelect"
       >
-        <a-select-option key="todo" :value="1">待进行</a-select-option>
         <a-select-option key="doing" :value="2">进行中</a-select-option>
+        <a-select-option key="todo" :value="1">待进行</a-select-option>
         <a-select-option key="done" :value="3">已结束</a-select-option>
       </a-select>
       <template v-if="loginType === 'local'">
