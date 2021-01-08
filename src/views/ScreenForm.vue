@@ -149,12 +149,17 @@ export default {
 
 <style lang="less" scoped>
 .style-radio-item {
-  width: 192px;
+  width: 276px;
   height: 109px;
   cursor: pointer;
   position: relative;
   // background: rgba(0, 0, 0, 0.46);
   background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px dashed #d3d3d3;
+  }
   &.checked::before {
     content: '';
     display: block;
@@ -167,13 +172,13 @@ export default {
     background-size: cover;
   }
   &.blue {
-    background-image: url('/images/img_style_blue.png');
+    background-image: url('/images/img_style_blue.jpg');
   }
   &.red {
-    background-image: url('/images/img_style_red.png');
+    background-image: url('/images/img_style_red.jpg');
   }
   &.light {
-    background-image: url('/images/img_style_light.png');
+    background-image: url('/images/img_style_light.jpg');
   }
 }
 .w-240 {
