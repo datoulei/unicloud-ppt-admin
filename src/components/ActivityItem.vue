@@ -35,14 +35,6 @@
         >
           管理
         </a-button>
-        <a-button
-          v-if="loginType === 'local' && activity.status === 3"
-          class="m-l-10 w-76"
-          type="primary"
-          @click="handleDelete"
-        >
-          删除
-        </a-button>
         <p class="m-t-10">
           <span v-if="activity.status === 1" class="status"> 待进行 </span>
           <span v-else-if="activity.status === 2" class="status primary">

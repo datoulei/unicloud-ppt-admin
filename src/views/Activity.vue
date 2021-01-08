@@ -5,7 +5,7 @@
         <p class="name text-hidden">
           {{ name }}
         </p>
-        <p v-show="address" class="date m-t-12">
+        <p v-show="address" class="date m-t-8">
           <span class="m-r-16">地</span>址：{{ address }}
         </p>
       </div>
@@ -21,11 +21,29 @@
           <p class="time">{{ endTime }}</p>
         </div>
       </div>
-      <p class="m-l-64 m-t-10" style="min-width: 50px">
-        <span v-if="status === 1" class="status"> 待进行 </span>
-        <span v-else-if="status === 2" class="status primary"> 进行中 </span>
-        <span v-else-if="status === 3" class="status done">已结束</span>
-      </p>
+      <div class="m-l-64" style="min-width: 50px">
+        <div
+          v-if="loginType === 'local' && selected.status === 3"
+          class="action-bar m-b-12"
+          flex="cross:center"
+        >
+          <img
+            src="/images/icon_button_edit.png"
+            class="icon pointer"
+            @click="handleEdit"
+          />
+          <img
+            src="/images/icon_button_delete.png"
+            class="icon pointer m-l-17"
+            @click="handleDelete"
+          />
+        </div>
+        <p>
+          <span v-if="status === 1" class="status"> 待进行 </span>
+          <span v-else-if="status === 2" class="status primary"> 进行中 </span>
+          <span v-else-if="status === 3" class="status done">已结束</span>
+        </p>
+      </div>
     </div>
     <div class="m-t-24">
       <a-button class="no-padding" type="link" @click="handleCreate">
@@ -36,17 +54,22 @@
         <ScreenPanel :key="date" :date="date" :screens="group[date]" />
       </template>
     </div>
+    <ActivityModal ref="modal" @confirm="handleSearch" />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import ScreenPanel from '@/components/ScreenPanel';
+import ActivityModal from '@/components/ActivityModal';
+
 export default {
   components: {
     ScreenPanel,
+    ActivityModal,
   },
   computed: {
+    ...mapState(['loginType']),
     ...mapState('activity', ['selected']),
     ...mapState('screen', ['screens']),
     name() {
@@ -109,9 +132,26 @@ export default {
     this.getScreens();
   },
   methods: {
+    ...mapActions('activity', ['deleteActivity']),
     ...mapActions('screen', ['getScreens']),
     handleCreate() {
       this.$router.push({ name: 'CreateScreen' });
+    },
+    handleEdit() {
+      this.$refs.modal.open(this.selected);
+    },
+    handleDelete() {
+      this.$confirm({
+        title: '删除提示',
+        content:
+          '删除活动会连带删除该活动下的所有分享和素材，且无法恢复，请确认是否删除该活动?',
+        onOk: () => {
+          return this.deleteActivity(this.selected.id).then(() => {
+            this.$message.success();
+            return Promise.resolve();
+          });
+        },
+      });
     },
   },
 };
@@ -138,10 +178,8 @@ export default {
   }
 
   .icon {
-    width: 48px;
-    height: 48px;
-    margin-left: -3px;
-    margin-right: 24px;
+    width: 14.57px;
+    height: 14.57px;
   }
   .calendar {
     width: 48px;
@@ -149,17 +187,20 @@ export default {
   }
   .content {
     min-width: 0;
+    height: 80px;
   }
   .name {
     font-size: 24px;
     font-weight: 600;
     color: #333333;
     padding-right: 39px;
+    line-height: 32px;
   }
   & > .date {
     font-size: 14px;
     font-weight: 400;
     color: #666666;
+    line-height: 20px;
   }
   .status {
     color: #fcc3c3;

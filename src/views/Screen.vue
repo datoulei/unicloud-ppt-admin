@@ -5,8 +5,8 @@
         <p class="name text-hidden">
           {{ activityName }}
         </p>
-        <p class="date m-t-12 text-hidden">{{ screenName }}</p>
-        <p class="date">{{ screenDate }}</p>
+        <p class="date m-t-8 text-hidden">{{ screenName }}</p>
+        <p class="date m-t-8">{{ screenDate }}</p>
       </div>
       <!-- <div class="date-box" flex>
         <div class="start">
@@ -256,10 +256,12 @@ export default {
     // border-left: 3px solid #f60f0f;
     // padding-left: 23px;
     min-width: 0;
+    height: 80px;
     .name {
       font-size: 24px;
       font-weight: 600;
       color: #333333;
+      line-height: 32px;
     }
     .date {
       font-size: 14px;

@@ -40,10 +40,12 @@
             :cropperWidth="640"
             :cropperHeight="320"
           />
-          <a-button v-show="form.logo" type="link" @click="form.logo = null">
-            清空
-          </a-button>
-          <div>建议上传尺寸：640 * 320</div>
+          <div class="upload-extra">
+            <span class="btn" v-show="form.logo" @click="form.logo = null">
+              清空
+            </span>
+            <p class="tips">建议上传尺寸：640 * 320</p>
+          </div>
         </a-form-model-item>
         <a-form-model-item label="屏幕风格" prop="style">
           <div class="style-radio-group" flex>
@@ -176,5 +178,26 @@ export default {
 }
 .w-240 {
   width: 240px;
+}
+.upload-extra {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 14px;
+  .btn {
+    height: 16px;
+    font-size: 11px;
+    font-family: PingFangTC-Regular, PingFangTC;
+    font-weight: 400;
+    color: #f60f0f;
+    line-height: 16px;
+  }
+  .tips {
+    height: 16px;
+    font-size: 11px;
+    font-family: PingFangTC-Regular, PingFangTC;
+    font-weight: 400;
+    color: #999999;
+    line-height: 16px;
+  }
 }
 </style>

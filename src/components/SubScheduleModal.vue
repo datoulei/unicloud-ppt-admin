@@ -71,11 +71,11 @@
         <ImageUpload
           v-model="form.avatar"
           width="90px"
-          height="110px"
+          height="90px"
           placeholder="上传"
           cropper
           :cropperWidth="90"
-          :cropperHeight="110"
+          :cropperHeight="90"
         />
         <a-button v-show="form.avatar" type="link" @click="form.avatar = null">
           清空
