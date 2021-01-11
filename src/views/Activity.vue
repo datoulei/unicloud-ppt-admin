@@ -23,7 +23,7 @@
       </div>
       <div class="m-l-64" style="min-width: 50px">
         <div
-          v-if="loginType === 'local' && selected.status === 3"
+          v-if="loginType === 'local'"
           class="action-bar m-b-12"
           flex="cross:center"
         >
@@ -54,7 +54,7 @@
         <ScreenPanel :key="date" :date="date" :screens="group[date]" />
       </template>
     </div>
-    <ActivityModal ref="modal" @confirm="handleSearch" />
+    <ActivityModal ref="modal" @confirm="getActivityDetail" />
   </div>
 </template>
 
@@ -64,6 +64,7 @@ import ScreenPanel from '@/components/ScreenPanel';
 import ActivityModal from '@/components/ActivityModal';
 
 export default {
+  name: 'Activity',
   components: {
     ScreenPanel,
     ActivityModal,
@@ -132,7 +133,7 @@ export default {
     this.getScreens();
   },
   methods: {
-    ...mapActions('activity', ['deleteActivity']),
+    ...mapActions('activity', ['deleteActivity', 'getActivityDetail']),
     ...mapActions('screen', ['getScreens']),
     handleCreate() {
       this.$router.push({ name: 'CreateScreen' });

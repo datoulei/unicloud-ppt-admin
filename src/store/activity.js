@@ -44,6 +44,10 @@ export default {
         return result;
       }
     },
+    async getActivityDetail({ commit }, id) {
+      const activity = await Vue.axios.get(`/activities/${id}`);
+      commit('SET_SELECTED', activity);
+    },
     async createActivity({ rootState, commit }, data) {
       if (rootState.loginType === 'internet') {
         // 互联网模式

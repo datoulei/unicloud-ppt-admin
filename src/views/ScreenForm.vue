@@ -149,36 +149,35 @@ export default {
 
 <style lang="less" scoped>
 .style-radio-item {
-  width: 276px;
-  height: 109px;
+  width: 270px;
+  height: 121px;
   cursor: pointer;
   position: relative;
   // background: rgba(0, 0, 0, 0.46);
   background-size: cover;
   background-repeat: no-repeat;
-  border: 1px solid transparent;
-  &:hover {
-    border: 1px dashed #d3d3d3;
-  }
-  &.checked::before {
+  &::before {
     content: '';
     display: block;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background-image: url('/images/icon_checked.png');
+    top: 116px;
+    left: 135px;
+    background-image: url('/images/checkbox.png');
     background-size: cover;
   }
+  &.checked::before {
+    background-image: url('/images/checkbox_checked.png');
+  }
   &.blue {
-    background-image: url('/images/img_style_blue.jpg');
+    background-image: url('/images/img_style_blue.png');
   }
   &.red {
-    background-image: url('/images/img_style_red.jpg');
+    background-image: url('/images/img_style_red.png');
   }
   &.light {
-    background-image: url('/images/img_style_light.jpg');
+    background-image: url('/images/img_style_light.png');
   }
 }
 .w-240 {
