@@ -5,7 +5,7 @@
         <p class="name text-hidden">
           {{ name }}
         </p>
-        <p v-show="address" class="date m-t-8">
+        <p v-show="address" class="date m-t-14">
           <span class="m-r-16">地</span>址：{{ address }}
         </p>
       </div>
