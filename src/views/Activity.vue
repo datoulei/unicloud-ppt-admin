@@ -54,7 +54,7 @@
         <ScreenPanel :key="date" :date="date" :screens="group[date]" />
       </template>
     </div>
-    <ActivityModal ref="modal" @confirm="getActivityDetail" />
+    <ActivityModal ref="modal" @confirm="handleRefresh" />
   </div>
 </template>
 
@@ -133,7 +133,7 @@ export default {
     this.getScreens();
   },
   methods: {
-    ...mapActions('activity', ['deleteActivity', 'getActivityDetail']),
+    ...mapActions('activity', ['setActivity', 'deleteActivity']),
     ...mapActions('screen', ['getScreens']),
     handleCreate() {
       this.$router.push({ name: 'CreateScreen' });
@@ -153,6 +153,9 @@ export default {
           });
         },
       });
+    },
+    handleRefresh(activity) {
+      this.setActivity(activity);
     },
   },
 };

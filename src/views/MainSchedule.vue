@@ -3,10 +3,10 @@
     <div :class="['card', `status-${status}`]" flex="cross:center">
       <div class="content" flex-box="1">
         <p class="name text-hidden">{{ activityName }}</p>
-        <p class="date m-t-8 text-hidden">
+        <p class="date m-t-14 text-hidden">
           {{ screenName }} - {{ mainScheduleName }}
         </p>
-        <p class="date m-t-8">
+        <p class="date">
           {{ screenDate }} {{ mainSchedule.startTime }} -
           {{ mainSchedule.endTime }}
         </p>

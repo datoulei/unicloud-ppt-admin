@@ -41,7 +41,11 @@
             :cropperHeight="320"
           />
           <div class="upload-extra">
-            <span class="btn" v-show="form.logo" @click="form.logo = null">
+            <span
+              class="btn pointer"
+              v-show="form.logo"
+              @click="form.logo = null"
+            >
               清空
             </span>
             <p class="tips">建议上传尺寸：640 * 320</p>

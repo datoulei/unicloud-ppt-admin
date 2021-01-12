@@ -19,7 +19,7 @@
         <a-input
           v-model="form.name"
           placeholder="请输入活动名称"
-          style="width: 240px;"
+          style="width: 240px"
         ></a-input>
       </a-form-model-item>
       <a-form-model-item label="开始时间" prop="startTime">
@@ -27,7 +27,7 @@
           v-model="form.startTime"
           format="YYYY/MM/DD HH:mm"
           show-time
-          style="width: 240px;"
+          style="width: 240px"
         ></a-date-picker>
       </a-form-model-item>
       <a-form-model-item label="结束时间" prop="endTime">
@@ -36,7 +36,7 @@
           format="YYYY/MM/DD HH:mm"
           show-time
           :disabledDate="(date) => date.isBefore($moment(form.startTime))"
-          style="width: 240px;"
+          style="width: 240px"
         ></a-date-picker>
       </a-form-model-item>
     </a-form-model>
@@ -106,17 +106,18 @@ export default {
     },
     async handleSubmit() {
       this.loading = true;
+      let result = null;
       try {
         await this.$refs.form.validate();
         if (this.recordId) {
-          await this.updateActivity(this.form);
+          result = await this.updateActivity(this.form);
           this.$message.success('修改成功');
         } else {
-          await this.createActivity(this.form);
+          result = await this.createActivity(this.form);
           this.$message.success('创建成功');
         }
         this.close();
-        this.$emit('confirm');
+        this.$emit('confirm', result);
       } catch (error) {}
       this.loading = false;
     },

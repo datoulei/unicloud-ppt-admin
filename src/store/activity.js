@@ -44,16 +44,12 @@ export default {
         return result;
       }
     },
-    async getActivityDetail({ commit }, id) {
-      const activity = await Vue.axios.get(`/activities/${id}`);
-      commit('SET_SELECTED', activity);
-    },
     async createActivity({ rootState, commit }, data) {
       if (rootState.loginType === 'internet') {
         // 互联网模式
       } else {
         // 局域网模式
-        await Vue.axios.post('/activities', data);
+        return Vue.axios.post('/activities', data);
       }
     },
     async updateActivity({ rootState, commit }, data) {
@@ -61,7 +57,7 @@ export default {
         // 互联网模式
       } else {
         // 局域网模式
-        await Vue.axios.put(`/activities/${data.id}`, data);
+        return Vue.axios.put(`/activities/${data.id}`, data);
       }
     },
     async deleteActivity({ rootState, commit }, id) {
@@ -71,6 +67,13 @@ export default {
         // 局域网模式
         await Vue.axios.delete(`/activities/${id}`);
       }
+    },
+    setActivity({ state, commit }, activity) {
+      const list = state.activites;
+      const index = list.findIndex((item) => item.id === activity.id);
+      list[index] = activity;
+      commit('SET_ACTIVITIES', list);
+      commit('SET_SELECTED', activity);
     },
     selectActivity({ commit }, activity) {
       commit('SET_SELECTED', activity);
