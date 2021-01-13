@@ -10,21 +10,21 @@
       >
         <a-form-model-item label="屏幕名称" prop="name">
           <a-input
-            class="w-240"
+            class="w-240 m-l-15"
             v-model="form.name"
             placeholder="请输入屏幕名称"
           />
         </a-form-model-item>
         <a-form-model-item label="展示名称" prop="displayName">
           <a-input
-            class="w-240"
+            class="w-240 m-l-15"
             v-model="form.displayName"
             placeholder="请输入展示名称"
           />
         </a-form-model-item>
         <a-form-model-item label="日期" prop="date">
           <a-date-picker
-            class="w-240"
+            class="w-240 m-l-15"
             v-model="form.date"
             inputReadOnly
             valueFormat="YYYY-MM-DD"
@@ -32,6 +32,7 @@
         </a-form-model-item>
         <a-form-model-item label="屏幕Logo" prop="logo">
           <ImageUpload
+            class="m-l-15"
             v-model="form.logo"
             modalWidth="700px"
             width="240px"
@@ -64,7 +65,6 @@
             <div
               :class="[
                 'style-radio-item',
-                'm-l-16',
                 'red',
                 form.style === 'red' && 'checked',
               ]"
@@ -73,7 +73,6 @@
             <div
               :class="[
                 'style-radio-item',
-                'm-l-16',
                 'light',
                 form.style === 'light' && 'checked',
               ]"
@@ -82,7 +81,12 @@
           </div>
         </a-form-model-item>
         <a-form-model-item :wrapperCol="{ offset: 3 }">
-          <a-button :loading="loading" type="primary" @click="handleSubmit">
+          <a-button
+            class="m-l-15"
+            :loading="loading"
+            type="primary"
+            @click="handleSubmit"
+          >
             保存
           </a-button>
         </a-form-model-item>
@@ -167,7 +171,7 @@ export default {
     height: 16px;
     position: absolute;
     top: 116px;
-    left: 135px;
+    left: 127px;
     background-image: url('/images/checkbox.png');
     background-size: cover;
   }
