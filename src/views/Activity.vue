@@ -5,7 +5,7 @@
         <p class="name text-hidden">
           {{ name }}
         </p>
-        <p v-show="address" class="date m-t-14">
+        <p class="date m-t-14">
           <span class="m-r-16">地</span>址：{{ address }}
         </p>
       </div>
@@ -192,6 +192,12 @@ export default {
   .content {
     min-width: 0;
     height: 80px;
+    & > .date {
+      font-size: 14px;
+      font-weight: 400;
+      color: #666666;
+      line-height: 20px;
+    }
   }
   .name {
     font-size: 24px;
@@ -199,12 +205,6 @@ export default {
     color: #333333;
     padding-right: 39px;
     line-height: 32px;
-  }
-  & > .date {
-    font-size: 14px;
-    font-weight: 400;
-    color: #666666;
-    line-height: 20px;
   }
   .status {
     color: #fcc3c3;
