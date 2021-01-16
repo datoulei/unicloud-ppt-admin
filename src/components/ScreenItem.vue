@@ -1,7 +1,7 @@
 <template>
   <div class="screen-item">
     <div :class="['header', screen.style]">
-      <p class="title">{{ screen.name }}</p>
+      <p class="title text-hidden">{{ screen.name }}</p>
       <div class="sub-title m-t-4">
         <span>主日程数量：{{ screen.mainScheduleCount }}</span>
         <span class="m-l-32">PPT数量：{{ screen.pptCount }}</span>
