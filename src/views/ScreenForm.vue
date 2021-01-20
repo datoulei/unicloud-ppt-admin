@@ -212,4 +212,11 @@ export default {
     line-height: 16px;
   }
 }
+.form {
+  ::v-deep {
+    .ant-form-explain {
+      margin-left: 15px;
+    }
+  }
+}
 </style>
