@@ -2,6 +2,7 @@
   <div class="page">
     <a-card :title="screenId ? '编辑屏幕' : '创建屏幕'">
       <a-form-model
+        class="form"
         ref="form"
         :model="form"
         :rules="rules"
@@ -118,7 +119,7 @@ export default {
           { required: true, message: '屏幕名称不能为空', trigger: 'blur' },
         ],
         displayName: [
-          { required: true, message: '显示名称不能为空', trigger: 'blur' },
+          { required: true, message: '展示名称不能为空', trigger: 'blur' },
         ],
         date: [{ required: true, message: '日期不能为空', trigger: 'change' }],
         // logo: [{ required: true, trigger: 'blur' }],
