@@ -17,7 +17,7 @@
           />
         </a-form-model-item>
         <a-form-model-item label="展示名称" prop="displayName">
-          <a-input
+          <a-textarea
             class="w-240 m-l-15"
             v-model="form.displayName"
             placeholder="请输入展示名称"
